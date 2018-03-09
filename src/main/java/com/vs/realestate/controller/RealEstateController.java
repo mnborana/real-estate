@@ -6,16 +6,57 @@
  */
 package com.vs.realestate.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.vs.realestate.entity.Organization;
+import com.vs.realestate.service.OrgService;
 
 @Controller
 public class RealEstateController {
 
+	@Autowired
+	OrgService theOrgService;
+	
 	@RequestMapping("/hello")
 	public String page()
 	{
 		return "dashboard";
+	}
+	
+	
+	@RequestMapping("/organization")
+	public String organization(Model theModel)
+	{
+		//created modelAttribue to bind the insert form data
+		Organization theOrg = new Organization();
+		theModel.addAttribute("orgnization", theOrg);
+		
+		return "/settings/organization";
+	}
+	
+	@PostMapping("/saveOrganization")
+	public String saveOrg(@ModelAttribute("orgnization") Organization theOrg, RedirectAttributes rda)
+	{
+		theOrgService.saveOrg(theOrg);
+		
+		rda.addFlashAttribute("status", "Save Successfully");
+		
+		return "redirect:/organization";
 	}
 }
