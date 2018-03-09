@@ -57,7 +57,7 @@ public class RealEstateController {
 	
 	@RequestMapping("/organization")
 	public String organization(Model theModel)
-	{
+	{	
 		//created modelAttribue to bind the insert form data
 		Organization theOrg = new Organization();
 		theModel.addAttribute("orgnization", theOrg);
