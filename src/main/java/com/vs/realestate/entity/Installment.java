@@ -19,7 +19,7 @@ public class Installment {
 	@Column(name="mode_name")
 	private String modeName;
 	
-	@Column(name="on_of_installment")
+	@Column(name="no_of_installment")
 	private int noOfInstallment;
 	
 	@Column(name="status")

@@ -4,8 +4,13 @@
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Settings</span> <span class="label label-important">2</span></a>
       <ul>
+<<<<<<< HEAD
+        <li><a href="#">Add Organization</a></li>
+        <li><a href="addInstallments">Add Installments</a></li>
+=======
         <li><a href="organization">Add Organization</a></li>
         <li><a href="#">Add Installments</a></li>
+>>>>>>> refs/remotes/origin/master
       </ul>
     </li>
     
