@@ -8,14 +8,16 @@
 <title>Vertical</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"  type='text/css'/>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-responsive.min.css"  type='text/css'/>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/fullcalendar.css"  type='text/css'/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/uniform.css" type='text/css'/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/select2.css" type='text/css'/>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/matrix-style.css"  type='text/css'/>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/matrix-media.css" type='text/css'/>
 	<link href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" type='text/css'/>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.gritter.css" type='text/css'/>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
 <body onload="myFunction()">
@@ -91,19 +93,32 @@
 		            <table class="table table-bordered data-table">
 		              <thead>
 		                <tr>
-		                  <th>Rendering engine</th>
-		                  <th>Browser</th>
-		                  <th>Platform(s)</th>
-		                  <th>Engine version</th>
+		                  <th>Sr.No.</th>
+		                  <th>Mode Name</th>
+		                  <th>No. Of Installments</th>
+		                  <th>Action</th>
 		                </tr>
 		              </thead>
+		              
 		              <tbody>
+		              	<% int counter=1; %>
+		                <c:forEach var="instaList" items="${installmentsList}">
+		                	<tr>
+		                		<td><%=counter%></td>
+		                		<td id="modeName<%=counter%>">${instaList.modeName}</td>
+		                		<td>${instaList.noOfInstallment}</td>
+		                		<td><a href="" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href=""  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
+		                	</tr>
+		                	
+		                	<%counter++; %>
+		                </c:forEach>
+		                <%counter--; %>
 		                
 		              </tbody>
 		            </table>
+		            
 		          </div>
 		        </div>
-	        	
 	        	
 	      	</div>
 		</div>
@@ -124,7 +139,7 @@
 
 var firstDiv=document.getElementById("installmentsDiv").innerHTML;
 
-function createInstallments(num) {
+function createInstallments(num) { 
 	
 	var div = document.getElementById("installmentsDiv"); 
 	var s = firstDiv;
@@ -150,36 +165,49 @@ function myFunction() {
 	    x.className = "show";
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
 	}
-
-		
-    
+	
+	
+	   $.ajax({
+		  type: "post",
+		  contentType : "application/json",
+		  url: "${pageContext.request.contextPath}/getLastMode",
+		  cache: false,    
+		  data:'getLastMode=' +"1",
+		  success: function(response){
+		  var obj = JSON.parse(response);
+		  alert(obj[0].modeName);
+		  },
+		  error: function(){      
+		   alert('Error while request..');
+		  }
+	 });  
+	  /* 
+	  $.ajax({
+		    type : "POST",
+		    url : "${pageContext.request.contextPath}/getLastMode",
+		    data : {
+		   
+		    },
+		    success: function(data){
+		    //response from controller
+		    }
+		}); */
+	 
+	 
 }
 
 	
 </script>
 
-
-<script src="${pageContext.request.contextPath}/resources/js/excanvas.min.js"></script>  
-<script src="${pageContext.request.contextPath}/resources/js/jquery.flot.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.flot.resize.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.peity.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/matrix.dashboard.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.gritter.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.interface.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.chat.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.validate.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.form_validation.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.wizard.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/matrix.popover.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.ui.custom.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.uniform.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/select2.min.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/jquery.ui.custom.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.uniform.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/select2.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/matrix.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/matrix.tables.js"></script>
+
 
 <script type="text/javascript">
 
