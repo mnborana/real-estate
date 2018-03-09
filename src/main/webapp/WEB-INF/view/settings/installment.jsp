@@ -16,53 +16,7 @@
 	<link href="${pageContext.request.contextPath}/resources/font-awesome/css/font-awesome.css" rel="stylesheet" type='text/css'/>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/jquery.gritter.css" type='text/css'/>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-
-<style type="text/css">
-  
-  #snackbar {
-	    visibility: hidden;
-	    min-width: 250px;
-	    margin-left: -125px;
-	    background-color: #333;
-	    color: #fff;
-	    text-align: center;
-	    border-radius: 50px;
-	    padding: 16px;
-	    position: fixed;
-	    z-index: 1;
-	    left: 50%;
-	    top: 50px;
-	    font-size: 17px;
-	}
-	
-	#snackbar.show {
-	    visibility: visible;
-	    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-	    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-	}
-	
-	@-webkit-keyframes fadein {
-	    from {top: 0; opacity: 0;} 
-	    to {top: 50px; opacity: 1;}
-	}
-	
-	@keyframes fadein {
-	    from {top: 0; opacity: 0;}
-	    to {top: 50px; opacity: 1;}
-	}
-	
-	@-webkit-keyframes fadeout {
-	    from {top: 50px; opacity: 1;} 
-	    to {top: 0; opacity: 0;}
-	}
-	
-	@keyframes fadeout {
-	    from {top: 50px; opacity: 1;}
-	    to {top: 0; opacity: 0;}
-	}
-
-</style>
-
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
 <body onload="myFunction()">
 
@@ -93,8 +47,8 @@
 		<div class="row-fluid">
 			<div class="span12">
 	        	<div class="widget-box">
-		          <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-		            <h5>Form validation</h5>
+		          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+		            <h5>Add Installment</h5>
 		          </div>
 		          <div class="widget-content nopadding">
 		            <form:form modelAttribute="installments" action="saveInstallments"  method="Post" class="form-horizontal">
@@ -127,6 +81,30 @@
 		            </form:form>
 		          </div>
 	        	</div>
+	        	
+	        	
+	        	<div class="widget-box">
+		          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+		            <h5>Data table</h5>
+		          </div>
+		          <div class="widget-content nopadding">
+		            <table class="table table-bordered data-table">
+		              <thead>
+		                <tr>
+		                  <th>Rendering engine</th>
+		                  <th>Browser</th>
+		                  <th>Platform(s)</th>
+		                  <th>Engine version</th>
+		                </tr>
+		              </thead>
+		              <tbody>
+		                
+		              </tbody>
+		            </table>
+		          </div>
+		        </div>
+	        	
+	        	
 	      	</div>
 		</div>
 	</div>
@@ -181,27 +159,27 @@ function myFunction() {
 </script>
 
 
-<script src="${pageContext.request.contextPath}/resources/js/excanvas.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.ui.custom.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/excanvas.min.js"></script>  
 <script src="${pageContext.request.contextPath}/resources/js/jquery.flot.min.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.flot.resize.min.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.peity.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/fullcalendar.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/matrix.dashboard.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.gritter.min.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/matrix.interface.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/matrix.chat.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/matrix.form_validation.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/jquery.wizard.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/jquery.wizard.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/matrix.popover.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/jquery.ui.custom.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.uniform.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/select2.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.popover.js"></script> 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.dataTables.min.js"></script> 
-<script src="${pageContext.request.contextPath}/resources/js/matrix.tables.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/matrix.js"></script> 
+<script src="${pageContext.request.contextPath}/resources/js/matrix.tables.js"></script>
 
 <script type="text/javascript">
 

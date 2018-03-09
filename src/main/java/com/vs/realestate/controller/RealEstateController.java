@@ -49,7 +49,7 @@ public class RealEstateController {
 		ModelAndView mv = new ModelAndView();
 		
 		model.addAttribute("installments", new Installment());
-		redirectAttrs.addFlashAttribute("result", "Save Successfully");
+		redirectAttrs.addFlashAttribute("result", "Mode Saved Successfully");
 		return "redirect:/addInstallments";
 	}
 	
