@@ -6,6 +6,8 @@
  */
 package com.vs.realestate.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +22,19 @@ import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
 import com.vs.realestate.service.OrgService;
 
+import com.vs.realestate.entity.AddSite;
+import com.vs.realestate.service.AddSiteService;
+
+
 @Controller
 public class RealEstateController {
 	
 	@Autowired
 	InstallmentService installmentService;
 
+	@Autowired
+	AddSiteService addSiteService; 
+	
 	@Autowired
 	OrgService theOrgService;
 	
@@ -35,6 +44,31 @@ public class RealEstateController {
 		return "dashboard";
 	}
 	
+
+	@RequestMapping("addSite")
+	public String addSite(Model model) {
+		
+		List<AddSite> theSite = addSiteService.getSites();
+		
+		model.addAttribute("sites", theSite);
+		
+		model.addAttribute("addSite", new AddSite());
+		
+		return "/purchase/addSite";
+	}
+	
+	@PostMapping("/saveSite")
+	public String saveSite(@ModelAttribute("addSite") AddSite addSite) {
+		
+		System.out.println(addSite);
+		
+		addSiteService.saveSite(addSite);
+		
+//		rda.addFlashAttribute("STATUS", "Site Added Successfully");
+		
+		return "redirect: /real-estate/addSite";
+	}
+
 	@RequestMapping("/addInstallments")
 	public String addInstallments(Model model)
 	{	
