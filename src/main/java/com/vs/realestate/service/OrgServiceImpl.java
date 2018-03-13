@@ -25,7 +25,7 @@ public class OrgServiceImpl implements OrgService {
 	@Override
 	public void saveOrg(Organization theOrg) {
 
-		theOrgDAO.saveOrg(theOrg);
+		 theOrgDAO.saveOrg(theOrg);
 	
 	}
 

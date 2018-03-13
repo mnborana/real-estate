@@ -27,6 +27,7 @@ import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
+import com.google.gson.Gson;
 import com.vs.realestate.entity.AddSite;
 import com.vs.realestate.service.AddSiteService;
 
@@ -77,10 +78,18 @@ public class RealEstateController {
 		return "redirect: /real-estate/addSite";
 	}
 
+	
+	//////////////////// INSTALLMENT ///////////////////////
+	
 	@RequestMapping("/addInstallments")
 	public String addInstallments(Model model)
 	{	
 		model.addAttribute("installments", new Installment());
+		
+		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
+		System.out.println(installmentList);
+		model.addAttribute("installmentsList", installmentList);
+		
 		return "/settings/installment";
 	}
 	
@@ -88,13 +97,50 @@ public class RealEstateController {
 	public String saveInstallments(@RequestParam String modeName[], @RequestParam int noOfInstallment[], Model model, RedirectAttributes redirectAttrs){
 		
 		installmentService.saveInstallment(modeName, noOfInstallment);
-		ModelAndView mv = new ModelAndView();
+		
+		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
+		System.out.println(installmentList);
+		model.addAttribute("installmentsList", installmentList);
 		
 		model.addAttribute("installments", new Installment());
-		redirectAttrs.addFlashAttribute("result", "Save Successfully");
+		
+		redirectAttrs.addFlashAttribute("result", "Mode Saved Successfully");
+		
 		return "redirect:/addInstallments";
 	}
 	
+	
+	@PostMapping("/getLastMode")
+	public @ResponseBody String getLastMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		String lastModeStatus = request.getParameter("getLastMode");
+		String lastMode = "";
+		
+		if(lastModeStatus.equals("1")){
+			lastMode = installmentService.getServiceLastMode();
+		}
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(lastMode);
+		return json;
+	}
+	
+	/*
+	@RequestMapping("/check")     
+	@ResponseBody
+	public String check(@RequestParam Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
+	    boolean a = getSomeResult();
+	    if (a == true) {
+	        model.addAttribute("alreadySaved", true);
+	        return view;
+	    } else {
+	        model.addAttribute("alreadySaved", false);
+	        return view;
+	    }
+	}*/
+	
+	
+	////////////////////// INSTALLMENT /////////////////////////
 	
 	@RequestMapping("/organization")
 	public String organization(Model theModel)
