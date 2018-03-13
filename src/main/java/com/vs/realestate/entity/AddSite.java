@@ -144,6 +144,16 @@ public class AddSite {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public AddSite() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public AddSite(int id, String siteName) {
+		super();
+		this.id = id;
+		this.siteName = siteName;
+	}
 
 	@Override
 	public String toString() {
