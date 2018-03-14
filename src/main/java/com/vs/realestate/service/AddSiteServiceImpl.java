@@ -29,4 +29,18 @@ public class AddSiteServiceImpl implements AddSiteService {
 		return addSiteDAO.getSites();
 	}
 
+	@Override
+	@Transactional
+	public void deleteSite(int id) {
+		
+		addSiteDAO.deleteSite(id);
+	}
+
+	@Override
+	@Transactional
+	public List getSiteInfoForUpdate(String siteId) {
+		
+		return addSiteDAO.getSiteInfoForUpdate(siteId);
+	}
+
 }
