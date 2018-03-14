@@ -142,34 +142,20 @@ public class RealEstateController {
 	}
 	
 	
-	@PostMapping("/getLastMode")
+	@RequestMapping(value="/getLastMode.htm", method=RequestMethod.POST)
 	public @ResponseBody String getLastMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String lastModeStatus = request.getParameter("getLastMode");
+		System.out.println(lastModeStatus);
 		String lastMode = "";
 		
-		if(lastModeStatus.equals("1")){
-			lastMode = installmentService.getServiceLastMode();
+		if(lastModeStatus!=null){
+			if( lastModeStatus.equals("1")){
+				lastMode = installmentService.getServiceLastMode();
+			}
+			
 		}
-		
-		response.setContentType("application/json");
-		String json=gson.toJson(lastMode);
-		return json;
+		return lastMode;
 	}
-	
-	/*
-	@RequestMapping("/check")     
-	@ResponseBody
-	public String check(@RequestParam Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
-	    boolean a = getSomeResult();
-	    if (a == true) {
-	        model.addAttribute("alreadySaved", true);
-	        return view;
-	    } else {
-	        model.addAttribute("alreadySaved", false);
-	        return view;
-	    }
-	}*/
-	
 	
 	////////////////////// INSTALLMENT /////////////////////////
 	
