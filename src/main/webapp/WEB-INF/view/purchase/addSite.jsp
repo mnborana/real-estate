@@ -406,14 +406,16 @@
 <script type="text/javascript">
 
 function updateSite(id) {
+	 
 	alert(id);
+	 
 	 $.ajax({
 		  type: "post",
-		  url: "http://localhost:8080/real-estate/site.htm",
+		  url: "${pageContext.request.contextPath}/site.htm",
 		  cache: false,    
 		  data:'siteId='+id,
 		  success: function(response){
-		  var obj = JSON.parse(response);
+		  var obj = response;
 		  alert(obj);
 		  //setInModal(obj);
 		  },
@@ -421,6 +423,7 @@ function updateSite(id) {
 		   alert('Error while request..');
 		  }
 		 });
+	 
 }
 
 function deleteSite(id){	
