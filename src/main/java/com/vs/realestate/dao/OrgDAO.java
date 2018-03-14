@@ -6,10 +6,14 @@
  */
 package com.vs.realestate.dao;
 
+import java.util.List;
+
 import com.vs.realestate.entity.Organization;
 
 public interface OrgDAO {
 	
 	public void saveOrg(Organization theOrg);
+	
+	public List<Organization>getOrgDetails();
 
 }

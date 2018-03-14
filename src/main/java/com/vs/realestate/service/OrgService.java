@@ -6,9 +6,13 @@
  */
 package com.vs.realestate.service;
 
+import java.util.List;
+
 import com.vs.realestate.entity.Organization;
 
 public interface OrgService {
 
 	public void saveOrg(Organization theOrg);
+	
+	public List<Organization> getOrgDetails();
 }

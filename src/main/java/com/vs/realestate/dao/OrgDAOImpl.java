@@ -6,8 +6,11 @@
  */
 package com.vs.realestate.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +34,20 @@ public class OrgDAOImpl implements OrgDAO {
 		//save/update the customer
 		currentSession.saveOrUpdate(theOrg);
 
+	}
+
+
+	@Override
+	public List<Organization> getOrgDetails() {
+
+		//get the current hibernate session
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Organization> theQuery = currentSession.createQuery("from Organization",Organization.class);
+		
+		List<Organization> orgDetails = theQuery.getResultList();
+		
+		return orgDetails;
 	}
 
 }
