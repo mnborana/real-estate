@@ -66,7 +66,7 @@
 			              <div class="control-group">
 			                <label class="control-label">Mode Name :</label>
 			                <div class="controls span3" style="margin-left: 20px;">
-			                  <form:input type="text" value="Mode_1" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
+			                  <form:input type="text" value="" id="modeName" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
 			                </div>
 			              
 			                <label class="control-label">No. Of Installments :</label>
@@ -107,7 +107,7 @@
 		                		<td><%=counter%></td>
 		                		<td id="modeName<%=counter%>">${instaList.modeName}</td>
 		                		<td>${instaList.noOfInstallment}</td>
-		                		<td><a href="" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href=""  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
+		                		<td><a href="" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href="#deleteMode"  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
 		                	</tr>
 		                	
 		                	<%counter++; %>
@@ -135,9 +135,37 @@
 <!--end-Footer-part-->
 
 
+<!-- Delete Modal Start -->
+<div class="modal fade" id="deleteMode" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Delete Mode</h4>
+        </div>
+        <div class="modal-body">
+   		   <div class="alert alert-warning">
+   		   		<input type="hidden" id="ModeDeleteId"/>
+ 				<strong>Warning!</strong> <br> &nbsp;&nbsp;&nbsp; Are you sure you want to delete this record ?
+			</div>   
+  	    </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary"  >Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Delete Modal End -->
+
+
+
 <script type="text/javascript">
 
 var firstDiv=document.getElementById("installmentsDiv").innerHTML;
+var cnt=0;
+var orgcnt = 0;
 
 function createInstallments(num) { 
 	
@@ -146,9 +174,10 @@ function createInstallments(num) {
 	var r="";
 	var i=num;
 	var n=1;
+	cnt = orgcnt;
 	
 	while(i>0){
-		r = r + firstDiv.split("type")[0]+ "value='Mode_"+n+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
+		r = r + firstDiv.split("type")[0]+ "value='Mode_"+(++cnt)+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
 		i--;
 		n++;
 	}
@@ -157,43 +186,10 @@ function createInstallments(num) {
 	
 }
 
-function myFunction() {
+function deleteInsta(id) {
 	
-	if(document.getElementById("snackbar")!=null)
-	{
-		var x = document.getElementById("snackbar");
-	    x.className = "show";
-	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
-	}
+	document.getElementById("ModeDeleteId").value=id;
 	
-	
-	   $.ajax({
-		  type: "post",
-		  contentType : "application/json",
-		  url: "${pageContext.request.contextPath}/getLastMode",
-		  cache: false,    
-		  data:'getLastMode=' +"1",
-		  success: function(response){
-		  var obj = JSON.parse(response);
-		  alert(obj[0].modeName);
-		  },
-		  error: function(){      
-		   alert('Error while request..');
-		  }
-	 });  
-	  /* 
-	  $.ajax({
-		    type : "POST",
-		    url : "${pageContext.request.contextPath}/getLastMode",
-		    data : {
-		   
-		    },
-		    success: function(data){
-		    //response from controller
-		    }
-		}); */
-	 
-	 
 }
 
 	
@@ -211,28 +207,39 @@ function myFunction() {
 
 <script type="text/javascript">
 
-  // This function is called from the pop-up menus to transfer to
-  // a different page. Ignore if the value returned is a null string:
-  function goPage (newURL) {
 
-      // if url is empty, skip the menu dividers and reset the menu selection to default
-      if (newURL != "") {
-      
-          // if url is "-", it is this page -- reset the menu:
-          if (newURL == "-" ) {
-              resetMenu();            
-          } 
-          // else, send page to designated URL            
-          else {  
-            document.location.href = newURL;
-          }
-      }
-  }
-
-// resets the menu selection upon entry to this page:
-function resetMenu() {
-   document.gomenu.selector.selectedIndex = 2;
+function myFunction() {
+	
+	if(document.getElementById("snackbar")!=null)
+	{
+		var x = document.getElementById("snackbar");
+	    x.className = "show";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
+	}
+	
+	
+    $.ajax({
+	  type: "post",
+	  url: "${pageContext.request.contextPath}/getLastMode.htm",
+	  cache: false,    
+	  data:'getLastMode=1',
+	  success: function(response){
+	  var obj = response;
+	  
+	  var s = obj.split("_");
+	  cnt = s[1];
+	  orgcnt = s[1];
+	  
+	  document.getElementById("modeName").value=s[0]+"_"+(++cnt);
+	  },
+	  error: function(){      
+	   alert('Error while request..');
+	  }
+   }); 
+	 
 }
+
+
 </script>
 </body>
 </html>

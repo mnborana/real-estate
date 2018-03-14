@@ -1,5 +1,6 @@
 package com.vs.realestate.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -49,25 +50,31 @@ public class InstallmentImpl implements InstallmentDao {
 		
 		return installmentsList;
 	}
-
+	
+	
+	
 	@Override
 	public String getLastMode() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		DetachedCriteria maxId = DetachedCriteria.forClass(Installment.class)
-			    .setProjection( Projections.max("id") );
-			session.createCriteria(Installment.class)
-			    .add( Property.forName("id").eq(maxId) )
-			    .list();
+		Query maxIdQuery = session.createQuery("select max(id) from Installment");
+		List maxIdList = maxIdQuery.getResultList();
+		List lastModeRecord = new ArrayList<>();
 		
-		Query<Installment> query = session.createQuery("from Installment where id=?", Installment.class);
-	
-		query.setParameter(0, maxId);
+		String s = "";
 		
-		List<Installment> lastModeRecord = query.getResultList();
+		if(!maxIdList.isEmpty()){
+			
+			Query query = session.createQuery("select modeName from Installment where id=?");
+			query.setParameter(0, maxIdList.get(0));
+			
+			lastModeRecord = query.getResultList();
+			s = lastModeRecord.get(0).toString();
+			
+		}
 		
-		return lastModeRecord.get(1).toString();
+		return s;
 	}
 	
 	
