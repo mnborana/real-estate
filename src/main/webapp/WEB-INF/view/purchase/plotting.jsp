@@ -60,23 +60,23 @@
 	          <h5>Plotes & Rates</h5>
 	        </div>
 	        <div class="widget-content nopadding">
-	          <form action="saveOrganization" modelAttribute="orgnization"  method="POST" class="form-horizontal">
+	          <form:form action="savePlotes" modelAttribute="plotes"  method="POST" class="form-horizontal">
     			     <div class="control-group span6">
 			              <label class="control-label">Select input</label>
 			              <div class="controls">
 			              
-			                <select onchange="getSiteInfo(this.id)"  id="sitesInfo">
-			                  <option value="0">Select Site</option>
+			                <form:select onchange="getSiteInfo(this.id)"  id="sitesInfo" path="site_id">
+			                  <form:option value="0" label="Select Site"></form:option>
 			                  	<c:forEach var="site" items="${siteNames}">
-			                  		<option value="${site.id}">${site.siteName}</option>
+			                  		<form:option value="${site.id}" label="${site.siteName}"></form:option>
 			                  	</c:forEach>
-			                </select>
+			                </form:select>
 		              </div>
 		             </div>
 		            <div class="control-group span6">
 		              <label class="control-label">No of Plots :</label>
 		              <div class="controls">
-		                <input id="" class="form-control"  path="plotes" required="required" onblur="generatePlots(this.value)"/>
+		                <input id="totalPlotes" class="form-control"  required="required" onblur="generatePlots(this.value)"/>
 		              </div>
 		            </div>
 		            
@@ -90,42 +90,42 @@
 			          		<div class="control-group span4">
 					              <label class="control-label">Site Address :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Address"  readonly/>
+					                <input type="text" class="span12" id="address" placeholder="Address"  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4" style="margin-left: 0px;">
 					              <label class="control-label">Site Zone :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Zone"  readonly/>
+					                <input type="text" class="span12" id="zone" placeholder="Zone"  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4">
 					              <label class="control-label">Price :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Price" readonly/>
+					                <input type="text" class="span12" id="price" placeholder="Price" readonly/>
 					              </div>
 					         </div>
 					         
 					         <div class="control-group span4" style="margin-left: 0px;"> 
 					              <label class="control-label">Squre Foot :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Sq. Ft."  readonly/>
+					                <input type="text" class="span12" id="sqft" placeholder="Sq. Ft."  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4" style="margin-left: 0px;">
 					              <label class="control-label">Length :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Length"  readonly/>
+					                <input type="text" class="span12" id="len" placeholder="Length"  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4">
 					              <label class="control-label">Width :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" placeholder="Width" readonly/>
+					                <input type="text" class="span12" id="width" placeholder="Width" readonly/>
 					              </div>
 					         </div>
 				            
@@ -168,7 +168,7 @@
 	            <div class="form-actions text-center"">
 	              <button type="submit" class="btn btn-success">Save</button>
 	            </div>
-	            </form>
+				</form:form>
 	        </div>
 	      </div>
 		
@@ -268,11 +268,11 @@ function myFunction() {
 		for(var i=1;i<=val;i++)
 		{
 				tableData+="<tr>"
-				+"<td><input id='' class='form-control span12' value='Plot_"+i+"'  path='plotname' required='required' readonly/></td>"
-				+"<td><input id='' class='form-control span12'  path='length' required='required' placeholder='Plot_"+i+" Length' /></td>"
-				+"<td><input id='' class='form-control span12'  path='width' required='required' placeholder='Plot_"+i+" Width'/></td>"
-				+"<td><input id='' class='form-control span12'  path='sqft' required='required' placeholder='Plot_"+i+" Sq. Ft.' /></td>"
-				+"<td><input id='' class='form-control span12'  path='tamt' required='required' placeholder='Plot_"+i+" Amount' /></td>"
+				+"<td><input id='' class='form-control span12' value='Plot_"+i+"'  name='plot_name' readonly='readonly'/></td>"
+				+"<td><input id='' class='form-control span12'  name='length' required='required' placeholder='Plot_"+i+" Length' /></td>"
+				+"<td><input id='' class='form-control span12'  name='width' required='required' placeholder='Plot_"+i+" Width'/></td>"
+				+"<td><input id='' class='form-control span12'  name='sqft' required='required' placeholder='Plot_"+i+" Sq. Ft.' /></td>"
+				+"<td><input id='' class='form-control span12'  name='amt' required='required' placeholder='Plot_"+i+" Amount' /></td>"
 				+"</tr>" ;
 				
 		}
@@ -282,6 +282,8 @@ function myFunction() {
  
  /*--------------------- for generating plots ends--------------- */
 
+ /*--------------------- AJAX for getting site information starts-------------------- */
+ 
  function getSiteInfo(id)
  {
 	 var e = document.getElementById(id);
@@ -299,9 +301,9 @@ function myFunction() {
 			  cache: false,    
 			  data:'siteid=' +siteVal,
 			  success: function(response){
-			  var obj = response;
-			  //setInTable(obj);
-			  alert(obj);
+			  var obj = JSON.parse(response);
+			  setInTextbox(obj);
+			 // alert(obj[0].address);
 			  },
 			  error: function(){      
 			   alert('Error while request..');
@@ -309,6 +311,19 @@ function myFunction() {
 			 });	 
 	}
  }
+ 
+ function setInTextbox(obj)
+ {
+	document.getElementById("address").value=obj[0].address;
+	document.getElementById("zone").value=obj[0].zone;
+	document.getElementById("price").value=obj[0].price;
+	document.getElementById("sqft").value=obj[0].sqft;
+	document.getElementById("len").value=obj[0].length;
+	document.getElementById("width").value=obj[0].width;
+	
+ }
+ 
+ /*---------------------- AJAX for getting site information Ends ---------------------*/
  
 function deletePlot()
 {

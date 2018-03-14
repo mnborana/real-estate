@@ -35,4 +35,11 @@ public class PlotServiceImpl implements PlotService {
 		return thePlotDAO.getSiteDetails(siteId);
 	}
 
+	@Transactional
+	@Override
+	public void savePlotes(int siteid, String[] plotName, int[] len, int[] width, int[] sqft, int[] amt) {
+
+		thePlotDAO.savePlotes(siteid,plotName,len,width,sqft,amt);
+	}
+
 }

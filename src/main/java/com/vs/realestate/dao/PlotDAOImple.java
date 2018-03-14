@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.vs.realestate.entity.AddSite;
+import com.vs.realestate.entity.Plotting;
 
 @Repository
 public class PlotDAOImple implements PlotDAO {
@@ -66,6 +67,26 @@ public class PlotDAOImple implements PlotDAO {
 		List details = theQuery.getResultList();
 		
 		return details;
+	}
+
+
+	@Override
+	public void savePlotes(int siteid, String[] plotName, int[] len, int[] width, int[] sqft, int[] amt) {
+
+		Session session = sessionFactory.getCurrentSession();
+		
+		for(int i=0;i<plotName.length;i++)
+		{
+			Plotting thePlot = new Plotting();
+			thePlot.setSite_id(siteid);
+			thePlot.setPlot_name(plotName[i]);
+			thePlot.setLength(len[i]);
+			thePlot.setWidth(width[i]);
+			thePlot.setSqft(sqft[i]);
+			thePlot.setAmt(amt[i]);
+			
+			session.save(thePlot);
+		}
 	}
 
 }

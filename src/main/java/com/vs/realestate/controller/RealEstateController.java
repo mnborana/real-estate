@@ -6,6 +6,7 @@
  */
 package com.vs.realestate.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import com.vs.realestate.entity.Installment;
 import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
+import com.vs.realestate.entity.Plotting;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
 import com.google.gson.Gson;
@@ -46,6 +48,9 @@ public class RealEstateController {
 	
 	@Autowired
 	PlotService thePlotService;
+	
+	Gson gson=new Gson();
+	
 	
 	@RequestMapping("/hello")
 	public String page()
@@ -147,7 +152,6 @@ public class RealEstateController {
 		}
 		
 		response.setContentType("application/json");
-		Gson gson=new Gson();
 		String json=gson.toJson(lastMode);
 		return json;
 	}
@@ -200,11 +204,11 @@ public class RealEstateController {
 	{
 		//getting id,site names to show in dropDown
 		List<AddSite> siteNames = thePlotService.getSiteNames();
-		
-		//System.out.println(siteNames.get(0).getSiteName());
-		
-		//adding names into model
 		theModel.addAttribute("siteNames", siteNames);
+		
+		//for inserting data
+		Plotting thePlot = new Plotting();
+		theModel.addAttribute("plotes", thePlot);
 		
 		return "/purchase/plotting";
 	}
@@ -216,8 +220,23 @@ public class RealEstateController {
 		
 		List<AddSite> siteDetails = thePlotService.getSiteDetails(siteId);
 		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(siteDetails);
+		
 		System.out.println(siteDetails.toString());
 		
-		return "working";
+		return json;
+	}
+	
+	@PostMapping("/savePlotes")
+	public String savePlotes(@RequestParam int site_id, @RequestParam String plot_name[], @RequestParam int length[],
+			@RequestParam int width[],@RequestParam int sqft[],@RequestParam int amt[],RedirectAttributes rda)
+	{
+		thePlotService.savePlotes(site_id,plot_name,length,width,sqft,amt);
+		
+		rda.addFlashAttribute("status", "Save Successfully");
+		
+		return "redirect:/plotting";
 	}
 }
