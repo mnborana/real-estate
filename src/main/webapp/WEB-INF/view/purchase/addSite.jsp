@@ -25,12 +25,12 @@
 <body>
 
 <!--Header-part-->
-<jsp:include page="/WEB-INF/view/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 <!--close-Header-part-->
 
 
 <!--sidebar-menu-->
-<jsp:include page="/WEB-INF/view/leftnavbar.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/common/leftnavbar.jsp"></jsp:include>
 <!--sidebar-menu-->
 
 
