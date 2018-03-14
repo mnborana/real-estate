@@ -99,21 +99,15 @@ public class RealEstateController {
 	
 	//AJAX for updating site detail
 	@RequestMapping(value="/site.htm",method = RequestMethod.POST)
-	public String updateSite(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public @ResponseBody String updateSite(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		
 		String siteId = request.getParameter("siteId");
 		
 		List siteDetail = addSiteService.getSiteInfoForUpdate(siteId);
 		
-		response.setContentType("application/json");
+		System.out.println("Ajax -> "+siteId);
 		
-		Gson gson=new Gson();
-		
-		String json=gson.toJson(siteDetail);
-		
-		System.out.println(json);
-		
-		return json;
+		return "working";
 	}
 	
 	
