@@ -10,4 +10,8 @@ public interface AddSiteDAO {
 
 	public List<AddSite> getSites();
 
+	public void deleteSite(int id);
+
+	public List getSiteInfoForUpdate(String siteId);
+
 }
