@@ -6,6 +6,7 @@
  */
 package com.vs.realestate.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,15 +23,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.vs.realestate.entity.Installment;
+import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
+import com.vs.realestate.entity.Plotting;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
 import com.google.gson.Gson;
 import com.vs.realestate.entity.AddSite;
-import com.vs.realestate.service.AddSiteService;
-
 
 @Controller
 public class RealEstateController {
@@ -47,6 +49,9 @@ public class RealEstateController {
 	@Autowired
 	PlotService thePlotService;
 	
+	Gson gson=new Gson();
+	
+	
 	@RequestMapping("/hello")
 	public String page()
 	{
@@ -58,8 +63,11 @@ public class RealEstateController {
 	public String addSite(Model model) {
 		
 		List<AddSite> theSite = addSiteService.getSites();
-		
 		model.addAttribute("sites", theSite);
+		
+		
+		AddSite addSite = new AddSite();
+		model.addAttribute("delete", addSite);
 		
 		model.addAttribute("addSite", new AddSite());
 		
@@ -67,17 +75,41 @@ public class RealEstateController {
 	}
 	
 	@PostMapping("/saveSite")
-	public String saveSite(@ModelAttribute("addSite") AddSite addSite) {
+	public String saveSite(@ModelAttribute("addSite") AddSite addSite, RedirectAttributes rda) {
 		
 		System.out.println(addSite);
 		
 		addSiteService.saveSite(addSite);
 		
-//		rda.addFlashAttribute("STATUS", "Site Added Successfully");
+		rda.addFlashAttribute("status", "Site Save Successfully");
 		
-		return "redirect: /real-estate/addSite";
-	}
+		return "redirect:/addSite";
+	}	
 
+	@RequestMapping("/deleteSite")
+	public String deleteSite(@ModelAttribute("delete") AddSite site,  RedirectAttributes rda) {
+		
+		addSiteService.deleteSite(site.getId());
+
+		rda.addFlashAttribute("status", "Record Deleted");
+		
+		return "redirect:/addSite";
+	}	
+	
+	
+	//AJAX for updating site detail
+	@RequestMapping(value="/site.htm",method = RequestMethod.POST)
+	public @ResponseBody String updateSite(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String siteId = request.getParameter("siteId");
+		
+		List siteDetail = addSiteService.getSiteInfoForUpdate(siteId);
+		
+		System.out.println("Ajax -> "+siteId);
+		
+		return "working";
+	}
+	
 	
 	//////////////////// INSTALLMENT ///////////////////////
 	
@@ -158,11 +190,11 @@ public class RealEstateController {
 	{
 		//getting id,site names to show in dropDown
 		List<AddSite> siteNames = thePlotService.getSiteNames();
-		
-		//System.out.println(siteNames.get(0).getSiteName());
-		
-		//adding names into model
 		theModel.addAttribute("siteNames", siteNames);
+		
+		//for inserting data
+		Plotting thePlot = new Plotting();
+		theModel.addAttribute("plotes", thePlot);
 		
 		return "/purchase/plotting";
 	}
@@ -174,8 +206,23 @@ public class RealEstateController {
 		
 		List<AddSite> siteDetails = thePlotService.getSiteDetails(siteId);
 		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(siteDetails);
+		
 		System.out.println(siteDetails.toString());
 		
-		return "working";
+		return json;
+	}
+	
+	@PostMapping("/savePlotes")
+	public String savePlotes(@RequestParam int site_id, @RequestParam String plot_name[], @RequestParam int length[],
+			@RequestParam int width[],@RequestParam int sqft[],@RequestParam int amt[],RedirectAttributes rda)
+	{
+		thePlotService.savePlotes(site_id,plot_name,length,width,sqft,amt);
+		
+		rda.addFlashAttribute("status", "Save Successfully");
+		
+		return "redirect:/plotting";
 	}
 }

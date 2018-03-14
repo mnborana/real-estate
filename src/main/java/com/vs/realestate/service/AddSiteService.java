@@ -9,4 +9,8 @@ public interface AddSiteService {
 	public void saveSite(AddSite addSite);
 
 	public List<AddSite> getSites();
+
+	public void deleteSite(int id);
+
+	public List getSiteInfoForUpdate(String siteId);
 }

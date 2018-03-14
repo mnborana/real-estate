@@ -15,5 +15,7 @@ public interface PlotDAO {
 	public List<AddSite> getSiteNames();
 	
 	public List<AddSite> getSiteDetails(String siteId);
+	
+	public void savePlotes(int siteid,String plotName[],int len[],int width[],int sqft[],int amt[]);
 
 }

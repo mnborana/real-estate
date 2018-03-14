@@ -178,6 +178,7 @@ function createInstallments(num) {
 	
 	while(i>0){
 		r = r + firstDiv.split("type")[0]+ "value='Mode_"+(++cnt)+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
+
 		i--;
 		n++;
 	}
