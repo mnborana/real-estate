@@ -16,7 +16,7 @@
       </ul>
     </li>
     
-    <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Sale</span> <span class="label label-important">2</span></a>
+    <li class="submenu"> <a href="#"><i class="icon icon-signal"></i> <span>Sale</span> <span class="label label-important">2</span></a>
       <ul>
         <li><a href="#">Add Client</a></li>
         <li><a href="#">Sale Plot</a></li>
