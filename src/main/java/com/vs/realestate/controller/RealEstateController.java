@@ -28,8 +28,10 @@ import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
 import com.vs.realestate.entity.Plotting;
+import com.vs.realestate.entity.SalePlot;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
+import com.vs.realestate.service.SalePlotService;
 import com.google.gson.Gson;
 import com.vs.realestate.entity.AddClient;
 import com.vs.realestate.entity.AddSite;
@@ -50,6 +52,9 @@ public class RealEstateController {
 	PlotService thePlotService;
 	
 	@Autowired
+	SalePlotService salePlotService;
+  
+  @Autowired
 	AddClientService clientService;
 	
 	Gson gson=new Gson();
@@ -60,6 +65,8 @@ public class RealEstateController {
 	{
 		return "dashboard";
 	}
+	
+	//////////////////// ADDSITE ///////////////////////	
 	
 
 	@RequestMapping("addSite")
@@ -116,6 +123,28 @@ public class RealEstateController {
 				
 		return json;
 	}
+	//////////////////// ADDSITE ///////////////////////	
+
+	
+	//////////////////// ADDSITE ///////////////////////	
+	
+	@RequestMapping("salePlot")
+	public String salePlot(Model model) {
+		
+		model.addAttribute("salePlot", new SalePlot());
+		
+		//getting id,site names to show in dropDown
+		List<AddSite> siteNames = thePlotService.getSiteNames();
+		model.addAttribute("siteNames", siteNames);
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames();
+		model.addAttribute("plotNames", plotNames);
+
+		return "/sale/salePlot";
+	}
+	
+	
+	//////////////////// ADDSITE ///////////////////////	
 	
 	
 	//////////////////// INSTALLMENT ///////////////////////
