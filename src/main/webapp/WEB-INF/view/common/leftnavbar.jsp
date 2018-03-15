@@ -18,9 +18,8 @@
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Sale</span> <span class="label label-important">2</span></a>
       <ul>
-        <li><a href="#">Add Client</a></li>
+        <li><a href="addClient">Add Client</a></li>
         <li><a href="salePlot">Sale Plot</a></li>
-      </ul>
     </li>
     
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Payment</span></a> </li>
