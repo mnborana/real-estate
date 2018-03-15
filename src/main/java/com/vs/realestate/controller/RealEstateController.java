@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vs.realestate.entity.Installment;
+import com.vs.realestate.service.AddClientService;
 import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
@@ -30,6 +31,7 @@ import com.vs.realestate.entity.Plotting;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
 import com.google.gson.Gson;
+import com.vs.realestate.entity.AddClient;
 import com.vs.realestate.entity.AddSite;
 
 @Controller
@@ -46,6 +48,9 @@ public class RealEstateController {
 	
 	@Autowired
 	PlotService thePlotService;
+	
+	@Autowired
+	AddClientService clientService;
 	
 	Gson gson=new Gson();
 	
@@ -121,19 +126,19 @@ public class RealEstateController {
 		model.addAttribute("installments", new Installment());
 		
 		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
-		System.out.println(installmentList);
+		
 		model.addAttribute("installmentsList", installmentList);
 		
 		return "/settings/installment";
 	}
 	
+	
 	@PostMapping("/saveInstallments")
-	public String saveInstallments(@RequestParam String modeName[], @RequestParam int noOfInstallment[], Model model, RedirectAttributes redirectAttrs){
+	public String saveInstallments(@ModelAttribute Installment installment, @RequestParam String modeName[], @RequestParam int noOfInstallment[], Model model, RedirectAttributes redirectAttrs){
 		
-		installmentService.saveInstallment(modeName, noOfInstallment);
-		
+		installmentService.saveInstallment(installment, modeName, noOfInstallment);
 		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
-		System.out.println(installmentList);
+		
 		model.addAttribute("installmentsList", installmentList);
 		
 		model.addAttribute("installments", new Installment());
@@ -147,19 +152,82 @@ public class RealEstateController {
 	@RequestMapping(value="/getLastMode.htm", method=RequestMethod.POST)
 	public @ResponseBody String getLastMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String lastModeStatus = request.getParameter("getLastMode");
-		System.out.println(lastModeStatus);
+		
 		String lastMode = "";
 		
 		if(lastModeStatus!=null){
 			if( lastModeStatus.equals("1")){
 				lastMode = installmentService.getServiceLastMode();
 			}
-			
 		}
+		
 		return lastMode;
+		
+	}
+	
+	@PostMapping("deleteMode")
+	public String deleteMode(@RequestParam int modeDeleteId, RedirectAttributes redirectAttrs){
+		
+		installmentService.deleteServiceMode(modeDeleteId);
+		
+		redirectAttrs.addFlashAttribute("result", "Record Deleted Successfully");
+		
+		return "redirect:/addInstallments";
+		
+	}
+	
+	@RequestMapping(value="/updateMode",method = RequestMethod.POST)
+	public @ResponseBody String searchEmployee(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		String updateId = request.getParameter("updateId");
+		
+		List modeDetails = installmentService.getServiceModeUpdate(Integer.parseInt(updateId));
+
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(modeDetails);
+		
+		return json;
 	}
 	
 	////////////////////// INSTALLMENT /////////////////////////
+	
+	
+	
+	////////////////////// ADD CLIENT /////////////////////////
+	
+	@RequestMapping("/addClient")
+	public String addClient(Model model){
+		
+		model.addAttribute("clients", new AddClient());
+		
+		List<AddClient> theClientList = clientService.getClientListDao();
+		
+		model.addAttribute("clientList", theClientList);
+		
+		return "/sale/addClient";
+	}
+	
+	@PostMapping("/saveClient")
+	public String saveClient(@ModelAttribute AddClient addClient){
+		
+		clientService.saveClientService(addClient);
+		
+		return "redirect:/addClient";
+	}
+	
+	@PostMapping("/deleteClient")
+	public String deleteClient(@RequestParam int clientDeleteId, RedirectAttributes redirectAttrs){
+		
+		clientService.deleteClientService(clientDeleteId);
+		
+		redirectAttrs.addFlashAttribute("result", "Record Deleted Successfully");
+		
+		return "redirect:/addClient";
+	}
+	
+	
+	////////////////////// ADD CLIENT /////////////////////////
+	
 	
 	@RequestMapping("/organization")
 	public String organization(Model theModel)

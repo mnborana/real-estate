@@ -20,7 +20,7 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
-<body onload="myFunction()">
+<body onload="">
 
 <!--Header-part-->
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -50,31 +50,57 @@
 			<div class="span12">
 	        	<div class="widget-box">
 		          <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-		            <h5>Add Installment</h5>
+		            <h5>Add Client</h5>
 		          </div>
 		          <div class="widget-content nopadding">
-		            <form:form modelAttribute="installments" action="saveInstallments"  method="Post" class="form-horizontal">
-		              
+		            <form:form modelAttribute="clients" action="saveClient"  method="Post" class="form-horizontal">
+	
 		              <div class="control-group">
-		                <label class="control-label">No. Of Modes :</label>
+		                <label class="control-label">Client Name :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <input type="text" id="noOfModes" value="1" onblur="createInstallments(this.value)" class="span11" placeholder="Enter No. of Modes" required />
+		                  <form:input type="text" value="" id="clientName" path="name" class="span11" placeholder="Enter Client name" required="required"  />
+		                </div>
+		              
+		                <label class="control-label">Contact No. :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:input type="number" path="contactNo" maxlength="10" class="span11" placeholder="Enter Client Contact No." required="required"  />
+		                </div>
+		              </div>
+	              
+		              <div class="control-group">
+		                <label class="control-label">Permanent Address :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:textarea id="permAddress" path="permAddress" class="span11"  required="required"  />
+		                </div>
+		              
+		                <label class="control-label">Current Address :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:textarea path="curAddress"  class="span11" required="required"  />
+		                </div>
+		              </div>
+	              
+	              
+		              <div class="control-group">
+		                <label class="control-label">Nominee Name :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:input type="text" value="" id="nomineeName" path="nomineeName" class="span11" placeholder="Enter Nominee name" required="required"  />
+		                </div>
+		              
+		                <label class="control-label">Nominee Contact No. :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:input type="number" path="nomineeContact" maxlength="10"  class="span11" placeholder="Nominee Contact No." required="required"  />
 		                </div>
 		              </div>
 		              
-		              <div id="installmentsDiv">
-			              <div class="control-group">
-			                <label class="control-label">Mode Name :</label>
-			                <div class="controls span4" style="margin-left: 20px;">
-			                  <form:input type="text" value="" id="modeName" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
-			                </div>
-			              
-			                <label class="control-label">No. Of Installments :</label>
-			                <div class="controls span4" style="margin-left: 20px;">
-			                  <form:input type="text" path="noOfInstallment"  class="span11" placeholder="Enter No. of Installments" required="required"  />
-			                </div>
-			              </div>
+		              <div class="control-group">
+		                <label class="control-label">Nominee Relation :</label>
+		                <div class="controls span4" style="margin-left: 20px;">
+		                  <form:input type="text" value="" id="relation" path="relation" class="span11" placeholder="Nominee's Relation with Client" required="required" />
+		                </div>
 		              </div>
+		            
+		            
+		             
 		              
 		              <div class="form-actions" style="padding-left: 500px;">
 		                <input type="submit" value="Save" class="btn btn-success center">
@@ -94,25 +120,34 @@
 		              <thead>
 		                <tr>
 		                  <th>Sr.No.</th>
-		                  <th>Mode Name</th>
-		                  <th>No. Of Installments</th>
+		                  <th>Client Name</th>
+		                  <th>Contact No.</th>
+		                  <th>Permanent Address</th>
+		                  <th>Current Address</th>
+		                  <th>Nominee Name</th>
+		                  <th>Nominee Contact</th>
+		                  <th>Relation</th>
 		                  <th>Action</th>
 		                </tr>
 		              </thead>
 		              
 		              <tbody>
 		              	<% int counter=1; %>
-		                <c:forEach var="instaList" items="${installmentsList}">
+		                <c:forEach var="clientList" items="${clientList}">
 		                	<tr>
 		                		<td><%=counter%></td>
-		                		<td id="modeName<%=counter%>">${instaList.modeName}</td>
-		                		<td>${instaList.noOfInstallment}</td>
-		                		<td><a href="#updateMode" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href="#deleteMode"  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
+		                		<td>${clientList.name}</td>
+		                		<td>${clientList.contactNo}</td>
+		                		<td>${clientList.permAddress}</td>
+		                		<td>${clientList.curAddress}</td>
+		                		<td>${clientList.nomineeName}</td>
+		                		<td>${clientList.nomineeContact}</td>
+		                		<td>${clientList.relation}</td>
+		                		<td><a href="#updateClient" data-toggle="modal" onclick="updateClient(${clientList.id})">Update</a> | <a href="#deleteClient"  onclick="deleteClient(${clientList.id})" data-toggle="modal">Delete</a></td>
 		                	</tr>
 		                	
 		                	<%counter++; %>
 		                </c:forEach>
-		                <%counter--; %>
 		                
 		              </tbody>
 		            </table>
@@ -136,7 +171,7 @@
 
 
 <!-- Delete Modal Start -->
-<div class="modal fade" id="deleteMode" role="dialog">
+<div class="modal fade" id="deleteClient" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -144,10 +179,10 @@
         <div class="modal-header">
           <h4 class="modal-title">Confirm Delete Mode</h4>
         </div>
-        <form action="deleteMode" method="post">
+        <form action="deleteClient" method="post">
 	        <div class="modal-body">
 	   		   <div class="alert alert-warning">
-	   		   		<input type="hidden"  name="modeDeleteId" id="modeDeleteId"/>
+	   		   		<input type="hidden"  name="clientDeleteId" id="ClientDeleteId"/>
 	 				<strong>Warning!</strong> <br> &nbsp;&nbsp;&nbsp; Are you sure you want to delete this record ?
 				</div>   
 	  	    </div>
@@ -162,8 +197,8 @@
 <!-- Delete Modal End -->
 
 
-<!-- update Modal Start -->
-<div class="modal fade" id="updateMode" style="margin-left: -20%; width: 40%;" role="dialog">
+<%-- <!-- update Modal Start -->
+<div class="modal fade" id="updateClient" style="margin-left: -20%; width: 40%;" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -171,14 +206,14 @@
         <div class="modal-header">
           <h4 class="modal-title">Update Mode</h4>
         </div>
-        <form:form modelAttribute="installments" action="saveInstallments"  method="Post" class="form-horizontal">
+        <form:form modelAttribute="clients" action="saveInstallments"  method="Post" class="form-horizontal">
 	        <div class="modal-body">
 	        
 	              <div class="control-group">
 	                <label class="control-label">Mode Name :</label>
 	                <div class="controls">
 	                  	<form:hidden path="id" id="updateId"/>
-	                  	<form:input type="text" value="" id="updateModeName" path="modeName" class="span3" placeholder="Enter Mode name" required="required" readonly="true" />
+	                  	<form:input type="text" value="" id="updateModeName" path="modeName" class="span3" placeholder="Enter Mode name" required="required"  />
 	                </div>
 	              </div>
 	              
@@ -191,7 +226,7 @@
 		           
 	  	    </div>
 	        <div class="modal-footer">
-	          <button type="submit" class="btn btn-primary">Update</button>
+	          <button type="submit" class="btn btn-primary">Submit</button>
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        </div>
         </form:form>
@@ -199,51 +234,38 @@
     </div>
   </div>
 <!-- update Modal End -->
-
+ --%>
 
 
 <script type="text/javascript">
 
-var firstDiv=document.getElementById("installmentsDiv").innerHTML;
-var cnt=0;
-var orgcnt = 0;
 
-function createInstallments(num) { 
+function myFunction() {
 	
-	var div = document.getElementById("installmentsDiv"); 
-	var s = firstDiv;
-	var r="";
-	var i=num;
-	var n=1;
-	cnt = orgcnt;
-	
-	while(i>0){
-		r = r + firstDiv.split("type")[0]+ "value='Mode_"+(++cnt)+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
-
-		i--;
-		n++;
+	if(document.getElementById("snackbar")!=null)
+	{
+		var x = document.getElementById("snackbar");
+	    x.className = "show";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
 	}
-	
-	div.innerHTML=r; 
-	
 }
 
-function deleteInsta(id) {
+function deleteClient(id) {
 	
-	document.getElementById("modeDeleteId").value=id;
+	document.getElementById("ClientDeleteId").value=id;
 }
 
 
-function updateInsta(id) {
+function updateClient(id) {
 	
-	$.ajax({
+/* 	$.ajax({
 		  type: "post",
 		  url: "${pageContext.request.contextPath}/updateMode",
 		  cache: false,    
 		  data:'updateId='+id,
 		  success: function(response){
 			var obj = JSON.parse(response);
-			//alert(obj[0].noOfInstallment);
+			alert(obj[0].noOfInstallment);
 			
 			document.getElementById("updateId").value=obj[0].id;
 			document.getElementById("updateModeName").value=obj[0].modeName;
@@ -253,7 +275,7 @@ function updateInsta(id) {
 		  error: function(){      
 		   alert('Error while request..');
 		  }
-	   }); 
+	   });  */
 	
 }
 
@@ -273,36 +295,6 @@ function updateInsta(id) {
 <script type="text/javascript">
 
 
-function myFunction() {
-	
-	if(document.getElementById("snackbar")!=null)
-	{
-		var x = document.getElementById("snackbar");
-	    x.className = "show";
-	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
-	}
-	
-	
-    $.ajax({
-	  type: "post",
-	  url: "${pageContext.request.contextPath}/getLastMode.htm",
-	  cache: false,    
-	  data:'getLastMode=1',
-	  success: function(response){
-	  var obj = response;
-	  
-	  var s = obj.split("_");
-	  cnt = s[1];
-	  orgcnt = s[1];
-	  
-	  document.getElementById("modeName").value=s[0]+"_"+(++cnt);
-	  },
-	  error: function(){      
-	   alert('Error while request..');
-	  }
-   }); 
-	 
-}
 
 
 </script>
