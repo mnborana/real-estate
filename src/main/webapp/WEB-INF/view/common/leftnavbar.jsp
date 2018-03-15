@@ -12,14 +12,14 @@
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Purchase</span> <span class="label label-important">2</span></a>
       <ul>
         <li><a href="addSite">Add Site</a></li>
-        <li><a href="#">Plotting & Rate</a></li>
+        <li><a href="plotting">Plotting & Rate</a></li>
       </ul>
     </li>
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Sale</span> <span class="label label-important">2</span></a>
       <ul>
         <li><a href="#">Add Client</a></li>
-        <li><a href="#">Sale Plot</a></li>
+        <li><a href="salePlot">Sale Plot</a></li>
       </ul>
     </li>
     

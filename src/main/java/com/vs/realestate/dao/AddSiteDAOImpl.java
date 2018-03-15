@@ -49,7 +49,7 @@ public class AddSiteDAOImpl implements AddSiteDAO {
 		theQuery.setParameter("siteId", id);
 		
 		theQuery.executeUpdate();
-	}
+	}	
 
 	@Override
 	public List getSiteInfoForUpdate(String siteId) {
