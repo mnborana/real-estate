@@ -20,6 +20,7 @@
       <ul>
         <li><a href="addClient">Add Client</a></li>
         <li><a href="salePlot">Sale Plot</a></li>
+      </ul>
     </li>
     
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Payment</span></a> </li>

@@ -53,12 +53,11 @@ public class RealEstateController {
 	
 	@Autowired
 	SalePlotService salePlotService;
-  
-  @Autowired
+
+	@Autowired
 	AddClientService clientService;
 	
 	Gson gson=new Gson();
-	
 	
 	@RequestMapping("/hello")
 	public String page()
@@ -126,7 +125,7 @@ public class RealEstateController {
 	//////////////////// ADDSITE ///////////////////////	
 
 	
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// SALEPLOT ///////////////////////	
 	
 	@RequestMapping("salePlot")
 	public String salePlot(Model model) {
@@ -144,7 +143,7 @@ public class RealEstateController {
 	}
 	
 	
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// SALEPLOT ///////////////////////	
 	
 	
 	//////////////////// INSTALLMENT ///////////////////////
