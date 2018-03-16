@@ -7,7 +7,8 @@ import com.vs.realestate.entity.AddClient;
 public interface AddClientService {
 
 	public void saveClientService(AddClient theClient);
-	public List<AddClient> getClientListDao();
+	public List<AddClient> getClientListService();
 	public void deleteClientService(int clientDeleteId);
+	public List getclientDetailsService(int clientId);
 	
 }

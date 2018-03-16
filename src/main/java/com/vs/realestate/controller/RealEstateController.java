@@ -205,7 +205,7 @@ public class RealEstateController {
 	}
 	
 	@RequestMapping(value="/updateMode",method = RequestMethod.POST)
-	public @ResponseBody String searchEmployee(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public @ResponseBody String getUpdateMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String updateId = request.getParameter("updateId");
 		
 		List modeDetails = installmentService.getServiceModeUpdate(Integer.parseInt(updateId));
@@ -228,7 +228,7 @@ public class RealEstateController {
 		
 		model.addAttribute("clients", new AddClient());
 		
-		List<AddClient> theClientList = clientService.getClientListDao();
+		List<AddClient> theClientList = clientService.getClientListService();
 		
 		model.addAttribute("clientList", theClientList);
 		
@@ -236,10 +236,11 @@ public class RealEstateController {
 	}
 	
 	@PostMapping("/saveClient")
-	public String saveClient(@ModelAttribute AddClient addClient){
+	public String saveClient(@ModelAttribute AddClient addClient, RedirectAttributes redirectAttrs){
 		
 		clientService.saveClientService(addClient);
 		
+		redirectAttrs.addFlashAttribute("result", "Client saved successfully");
 		return "redirect:/addClient";
 	}
 	
@@ -251,6 +252,21 @@ public class RealEstateController {
 		redirectAttrs.addFlashAttribute("result", "Record Deleted Successfully");
 		
 		return "redirect:/addClient";
+	}
+	
+	
+	@RequestMapping(value="/updateClient", method=RequestMethod.POST)
+	public @ResponseBody String getpdateClientData(HttpServletRequest request, HttpServletResponse response){
+		
+		String clientId = request.getParameter("clientId");
+		System.out.println("clientId  "+clientId);
+		List clientDetails = clientService.getclientDetailsService(Integer.parseInt(clientId));
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(clientDetails);
+		
+		return json;
 	}
 	
 	

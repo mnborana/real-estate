@@ -153,7 +153,7 @@
 	  	    </div>
 	        <div class="modal-footer">
 	          <button type="submit" class="btn btn-primary"  >Yes</button>
-	          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	          <button type="button" class="btn btn-default" style="background-color: #f64c4c; color: white;" data-dismiss="modal">No</button>
 	        </div>
         </form>
       </div>
@@ -192,7 +192,7 @@
 	  	    </div>
 	        <div class="modal-footer">
 	          <button type="submit" class="btn btn-primary">Update</button>
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	          <button type="button" class="btn btn-default" style="background-color: #f64c4c; color: white;" data-dismiss="modal">Close</button>
 	        </div>
         </form:form>
       </div>

@@ -26,8 +26,8 @@ public class AddClientServiceImpl implements AddClientService {
 
 	@Override
 	@Transactional
-	public List<AddClient> getClientListDao() {
-		return theClientDao.getClientListService();
+	public List<AddClient> getClientListService() {
+		return theClientDao.getClientListDao();
 	}
 
 	@Override
@@ -36,6 +36,12 @@ public class AddClientServiceImpl implements AddClientService {
 		
 		theClientDao.deleteClientDao(clientDeleteId);
 		
+	}
+
+	@Override
+	@Transactional
+	public List getclientDetailsService(int clientId) {
+		return theClientDao.getclientDetailsDao(clientId);
 	}
 	
 	

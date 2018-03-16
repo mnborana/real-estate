@@ -20,12 +20,12 @@ public class AddClientImpl implements AddClientDAO {
 	public void saveClientDao(AddClient theClient) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		session.save(theClient);
+		session.saveOrUpdate(theClient);
 		
 	}
 
 	@Override
-	public List<AddClient> getClientListService() {
+	public List<AddClient> getClientListDao() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -35,7 +35,7 @@ public class AddClientImpl implements AddClientDAO {
 		
 		return clientList;
 	}
-
+	
 	@Override
 	public void deleteClientDao(int clientDeleteId) {
 		
@@ -46,6 +46,17 @@ public class AddClientImpl implements AddClientDAO {
 		
 		query.executeUpdate();
 		
+	}
+
+	@Override
+	public List getclientDetailsDao(int clientId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery("from AddClient where id=?");
+		query.setParameter(0, clientId);
+		
+		return  query.getResultList();
 	}
 	
 	
