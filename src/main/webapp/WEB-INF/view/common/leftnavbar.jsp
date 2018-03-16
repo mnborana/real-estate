@@ -20,7 +20,6 @@
       <ul>
         <li><a href="addClient">Add Client</a></li>
         <li><a href="salePlot">Sale Plot</a></li>
-
       </ul>
     </li>
     
