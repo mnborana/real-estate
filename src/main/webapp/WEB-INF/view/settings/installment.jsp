@@ -41,7 +41,7 @@
 
 <!--breadcrumbs-->
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+    <div id="breadcrumb"> <a href="/real-estate/hello" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
   </div>
 <!--End-breadcrumbs-->
 	
@@ -57,7 +57,7 @@
 		              
 		              <div class="control-group">
 		                <label class="control-label">No. Of Modes :</label>
-		                <div class="controls span3" style="margin-left: 20px;">
+		                <div class="controls span4" style="margin-left: 20px;">
 		                  <input type="text" id="noOfModes" value="1" onblur="createInstallments(this.value)" class="span11" placeholder="Enter No. of Modes" required />
 		                </div>
 		              </div>
@@ -65,12 +65,12 @@
 		              <div id="installmentsDiv">
 			              <div class="control-group">
 			                <label class="control-label">Mode Name :</label>
-			                <div class="controls span3" style="margin-left: 20px;">
-			                  <form:input type="text" value="Mode_1" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
+			                <div class="controls span4" style="margin-left: 20px;">
+			                  <form:input type="text" value="" id="modeName" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
 			                </div>
 			              
 			                <label class="control-label">No. Of Installments :</label>
-			                <div class="controls span3" style="margin-left: 20px;">
+			                <div class="controls span4" style="margin-left: 20px;">
 			                  <form:input type="text" path="noOfInstallment"  class="span11" placeholder="Enter No. of Installments" required="required"  />
 			                </div>
 			              </div>
@@ -107,7 +107,7 @@
 		                		<td><%=counter%></td>
 		                		<td id="modeName<%=counter%>">${instaList.modeName}</td>
 		                		<td>${instaList.noOfInstallment}</td>
-		                		<td><a href="" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href=""  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
+		                		<td><a href="#updateMode" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href="#deleteMode"  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
 		                	</tr>
 		                	
 		                	<%counter++; %>
@@ -135,9 +135,78 @@
 <!--end-Footer-part-->
 
 
+<!-- Delete Modal Start -->
+<div class="modal fade" id="deleteMode" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm Delete Mode</h4>
+        </div>
+        <form action="deleteMode" method="post">
+	        <div class="modal-body">
+	   		   <div class="alert alert-warning">
+	   		   		<input type="hidden"  name="modeDeleteId" id="modeDeleteId"/>
+	 				<strong>Warning!</strong> <br> &nbsp;&nbsp;&nbsp; Are you sure you want to delete this record ?
+				</div>   
+	  	    </div>
+	        <div class="modal-footer">
+	          <button type="submit" class="btn btn-primary"  >Yes</button>
+	          <button type="button" class="btn btn-default" style="background-color: #f64c4c; color: white;" data-dismiss="modal">No</button>
+	        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- Delete Modal End -->
+
+
+<!-- update Modal Start -->
+<div class="modal fade" id="updateMode" style="margin-left: -20%; width: 40%;" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Update Mode</h4>
+        </div>
+        <form:form modelAttribute="installments" action="saveInstallments"  method="Post" class="form-horizontal">
+	        <div class="modal-body">
+	        
+	              <div class="control-group">
+	                <label class="control-label">Mode Name :</label>
+	                <div class="controls">
+	                  	<form:hidden path="id" id="updateId"/>
+	                  	<form:input type="text" value="" id="updateModeName" path="modeName" class="span3" placeholder="Enter Mode name" required="required" readonly="true" />
+	                </div>
+	              </div>
+	              
+	              <div class="control-group">
+	                <label class="control-label">No. Of Installments :</label>
+	                <div class="controls">
+	                  <form:input type="text" id="updateNoOfInstallments" path="noOfInstallment"  class="span3" placeholder="Enter No. of Installments" required="required"  />
+	                </div>
+	              </div>
+		           
+	  	    </div>
+	        <div class="modal-footer">
+	          <button type="submit" class="btn btn-primary">Update</button>
+	          <button type="button" class="btn btn-default" style="background-color: #f64c4c; color: white;" data-dismiss="modal">Close</button>
+	        </div>
+        </form:form>
+      </div>
+    </div>
+  </div>
+<!-- update Modal End -->
+
+
+
 <script type="text/javascript">
 
 var firstDiv=document.getElementById("installmentsDiv").innerHTML;
+var cnt=0;
+var orgcnt = 0;
 
 function createInstallments(num) { 
 	
@@ -146,10 +215,11 @@ function createInstallments(num) {
 	var r="";
 	var i=num;
 	var n=1;
+	cnt = orgcnt;
 	
 	while(i>0){
-		r = r + firstDiv.split("type")[0]+ "value='Mode_"+n+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
-		alert(r);
+		r = r + firstDiv.split("type")[0]+ "value='Mode_"+(++cnt)+"' type" + firstDiv.split("type")[1]+ " type"+firstDiv.split("type")[2];
+
 		i--;
 		n++;
 	}
@@ -158,43 +228,33 @@ function createInstallments(num) {
 	
 }
 
-function myFunction() {
+function deleteInsta(id) {
 	
-	if(document.getElementById("snackbar")!=null)
-	{
-		var x = document.getElementById("snackbar");
-	    x.className = "show";
-	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
-	}
+	document.getElementById("modeDeleteId").value=id;
+}
+
+
+function updateInsta(id) {
 	
-	
-	   $.ajax({
+	$.ajax({
 		  type: "post",
-		  contentType : "application/json",
-		  url: "${pageContext.request.contextPath}/getLastMode",
+		  url: "${pageContext.request.contextPath}/updateMode",
 		  cache: false,    
-		  data:'getLastMode=' +"1",
+		  data:'updateId='+id,
 		  success: function(response){
-		  var obj = JSON.parse(response);
-		  alert(obj[0].modeName);
+			var obj = JSON.parse(response);
+			//alert(obj[0].noOfInstallment);
+			
+			document.getElementById("updateId").value=obj[0].id;
+			document.getElementById("updateModeName").value=obj[0].modeName;
+			document.getElementById("updateNoOfInstallments").value=obj[0].noOfInstallment;
+			
 		  },
 		  error: function(){      
 		   alert('Error while request..');
 		  }
-	 });  
-	  /* 
-	  $.ajax({
-		    type : "POST",
-		    url : "${pageContext.request.contextPath}/getLastMode",
-		    data : {
-		   
-		    },
-		    success: function(data){
-		    //response from controller
-		    }
-		}); */
-	 
-	 
+	   }); 
+	
 }
 
 	
@@ -212,28 +272,39 @@ function myFunction() {
 
 <script type="text/javascript">
 
-  // This function is called from the pop-up menus to transfer to
-  // a different page. Ignore if the value returned is a null string:
-  function goPage (newURL) {
 
-      // if url is empty, skip the menu dividers and reset the menu selection to default
-      if (newURL != "") {
-      
-          // if url is "-", it is this page -- reset the menu:
-          if (newURL == "-" ) {
-              resetMenu();            
-          } 
-          // else, send page to designated URL            
-          else {  
-            document.location.href = newURL;
-          }
-      }
-  }
-
-// resets the menu selection upon entry to this page:
-function resetMenu() {
-   document.gomenu.selector.selectedIndex = 2;
+function myFunction() {
+	
+	if(document.getElementById("snackbar")!=null)
+	{
+		var x = document.getElementById("snackbar");
+	    x.className = "show";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
+	}
+	
+	
+    $.ajax({
+	  type: "post",
+	  url: "${pageContext.request.contextPath}/getLastMode.htm",
+	  cache: false,    
+	  data:'getLastMode=1',
+	  success: function(response){
+	  var obj = response;
+	  
+	  var s = obj.split("_");
+	  cnt = s[1];
+	  orgcnt = s[1];
+	  
+	  document.getElementById("modeName").value=s[0]+"_"+(++cnt);
+	  },
+	  error: function(){      
+	   alert('Error while request..');
+	  }
+   }); 
+	 
 }
+
+
 </script>
 </body>
 </html>

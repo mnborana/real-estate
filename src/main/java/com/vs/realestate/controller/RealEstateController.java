@@ -6,7 +6,6 @@
  */
 package com.vs.realestate.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +20,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.vs.realestate.entity.Installment;
+import com.vs.realestate.service.AddClientService;
 import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
 import com.vs.realestate.entity.Plotting;
+import com.vs.realestate.entity.SalePlot;
 import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PlotService;
+import com.vs.realestate.service.SalePlotService;
 import com.google.gson.Gson;
+import com.vs.realestate.entity.AddClient;
 import com.vs.realestate.entity.AddSite;
 
 @Controller
@@ -49,14 +51,21 @@ public class RealEstateController {
 	@Autowired
 	PlotService thePlotService;
 	
-	Gson gson=new Gson();
+	@Autowired
+	SalePlotService salePlotService;
+
+	@Autowired
+	AddClientService clientService;
 	
+	Gson gson=new Gson();
 	
 	@RequestMapping("/hello")
 	public String page()
 	{
 		return "dashboard";
 	}
+	
+	//////////////////// ADDSITE ///////////////////////	
 	
 
 	@RequestMapping("addSite")
@@ -99,22 +108,42 @@ public class RealEstateController {
 	
 	//AJAX for updating site detail
 	@RequestMapping(value="/site.htm",method = RequestMethod.POST)
-	public String updateSite(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public @ResponseBody String updateSite(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		
 		String siteId = request.getParameter("siteId");
 		
 		List siteDetail = addSiteService.getSiteInfoForUpdate(siteId);
 		
+		System.out.println("Ajax -> "+siteId);
+		
 		response.setContentType("application/json");
 		
-		Gson gson=new Gson();
-		
 		String json=gson.toJson(siteDetail);
-		
-		System.out.println(json);
-		
+				
 		return json;
 	}
+	//////////////////// ADDSITE ///////////////////////	
+
+	
+	//////////////////// SALEPLOT ///////////////////////	
+	
+	@RequestMapping("salePlot")
+	public String salePlot(Model model) {
+		
+		model.addAttribute("salePlot", new SalePlot());
+		
+		//getting id,site names to show in dropDown
+		List<AddSite> siteNames = thePlotService.getSiteNames();
+		model.addAttribute("siteNames", siteNames);
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames();
+		model.addAttribute("plotNames", plotNames);
+
+		return "/sale/salePlot";
+	}
+	
+	
+	//////////////////// SALEPLOT ///////////////////////	
 	
 	
 	//////////////////// INSTALLMENT ///////////////////////
@@ -125,19 +154,19 @@ public class RealEstateController {
 		model.addAttribute("installments", new Installment());
 		
 		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
-		System.out.println(installmentList);
+		
 		model.addAttribute("installmentsList", installmentList);
 		
 		return "/settings/installment";
 	}
 	
+	
 	@PostMapping("/saveInstallments")
-	public String saveInstallments(@RequestParam String modeName[], @RequestParam int noOfInstallment[], Model model, RedirectAttributes redirectAttrs){
+	public String saveInstallments(@ModelAttribute Installment installment, @RequestParam String modeName[], @RequestParam int noOfInstallment[], Model model, RedirectAttributes redirectAttrs){
 		
-		installmentService.saveInstallment(modeName, noOfInstallment);
-		
+		installmentService.saveInstallment(installment, modeName, noOfInstallment);
 		List<Installment> installmentList = installmentService.getServiceInstallmentsList();
-		System.out.println(installmentList);
+		
 		model.addAttribute("installmentsList", installmentList);
 		
 		model.addAttribute("installments", new Installment());
@@ -148,36 +177,101 @@ public class RealEstateController {
 	}
 	
 	
-	@PostMapping("/getLastMode")
+	@RequestMapping(value="/getLastMode.htm", method=RequestMethod.POST)
 	public @ResponseBody String getLastMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		String lastModeStatus = request.getParameter("getLastMode");
+		
 		String lastMode = "";
 		
-		if(lastModeStatus.equals("1")){
-			lastMode = installmentService.getServiceLastMode();
+		if(lastModeStatus!=null){
+			if( lastModeStatus.equals("1")){
+				lastMode = installmentService.getServiceLastMode();
+			}
 		}
 		
+		return lastMode;
+		
+	}
+	
+	@PostMapping("deleteMode")
+	public String deleteMode(@RequestParam int modeDeleteId, RedirectAttributes redirectAttrs){
+		
+		installmentService.deleteServiceMode(modeDeleteId);
+		
+		redirectAttrs.addFlashAttribute("result", "Record Deleted Successfully");
+		
+		return "redirect:/addInstallments";
+		
+	}
+	
+	@RequestMapping(value="/updateMode",method = RequestMethod.POST)
+	public @ResponseBody String getUpdateMode(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		String updateId = request.getParameter("updateId");
+		
+		List modeDetails = installmentService.getServiceModeUpdate(Integer.parseInt(updateId));
+
 		response.setContentType("application/json");
-		String json=gson.toJson(lastMode);
+		Gson gson=new Gson();
+		String json=gson.toJson(modeDetails);
+		
 		return json;
 	}
 	
-	/*
-	@RequestMapping("/check")     
-	@ResponseBody
-	public String check(@RequestParam Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
-	    boolean a = getSomeResult();
-	    if (a == true) {
-	        model.addAttribute("alreadySaved", true);
-	        return view;
-	    } else {
-	        model.addAttribute("alreadySaved", false);
-	        return view;
-	    }
-	}*/
-	
-	
 	////////////////////// INSTALLMENT /////////////////////////
+	
+	
+	
+	////////////////////// ADD CLIENT /////////////////////////
+	
+	@RequestMapping("/addClient")
+	public String addClient(Model model){
+		
+		model.addAttribute("clients", new AddClient());
+		
+		List<AddClient> theClientList = clientService.getClientListService();
+		
+		model.addAttribute("clientList", theClientList);
+		
+		return "/sale/addClient";
+	}
+	
+	@PostMapping("/saveClient")
+	public String saveClient(@ModelAttribute AddClient addClient, RedirectAttributes redirectAttrs){
+		
+		clientService.saveClientService(addClient);
+		
+		redirectAttrs.addFlashAttribute("result", "Client saved successfully");
+		return "redirect:/addClient";
+	}
+	
+	@PostMapping("/deleteClient")
+	public String deleteClient(@RequestParam int clientDeleteId, RedirectAttributes redirectAttrs){
+		
+		clientService.deleteClientService(clientDeleteId);
+		
+		redirectAttrs.addFlashAttribute("result", "Record Deleted Successfully");
+		
+		return "redirect:/addClient";
+	}
+	
+	
+	@RequestMapping(value="/updateClient", method=RequestMethod.POST)
+	public @ResponseBody String getpdateClientData(HttpServletRequest request, HttpServletResponse response){
+		
+		String clientId = request.getParameter("clientId");
+		System.out.println("clientId  "+clientId);
+		List clientDetails = clientService.getclientDetailsService(Integer.parseInt(clientId));
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(clientDetails);
+		
+		return json;
+	}
+	
+	
+	////////////////////// ADD CLIENT /////////////////////////
+	
 	
 	@RequestMapping("/organization")
 	public String organization(Model theModel)

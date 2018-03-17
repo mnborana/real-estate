@@ -1,5 +1,6 @@
 package com.vs.realestate.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -20,19 +21,23 @@ public class InstallmentImpl implements InstallmentDao {
 	SessionFactory sessionFactory;
 	
 	@Override
-	public void saveInstallment(String[] modeName, int[] noOfInstallment) {
+	public void saveInstallment(Installment installment, String[] modeName, int[] noOfInstallment) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		
-		System.out.println(modeName.length);
+		System.out.println("theInstallment   "+installment);
 		
 		for(int i=0; i<modeName.length; i++){
 			
 			Installment theInstallment = new Installment();
+			
+			if(installment.getId()!=0){
+				theInstallment.setId(installment.getId());
+			}
+			
 			theInstallment.setModeName(modeName[i]);
 			theInstallment.setNoOfInstallment(noOfInstallment[i]);
 			
-			session.save(theInstallment);
+			session.saveOrUpdate(theInstallment);
 			
 		}
 		
@@ -49,27 +54,60 @@ public class InstallmentImpl implements InstallmentDao {
 		
 		return installmentsList;
 	}
-
+	
+	
+	
 	@Override
 	public String getLastMode() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		DetachedCriteria maxId = DetachedCriteria.forClass(Installment.class)
-			    .setProjection( Projections.max("id") );
-			session.createCriteria(Installment.class)
-			    .add( Property.forName("id").eq(maxId) )
-			    .list();
+		Query maxIdQuery = session.createQuery("select max(id) from Installment");
+		List maxIdList = maxIdQuery.getResultList();
+		List lastModeRecord = new ArrayList<>();
 		
-		Query<Installment> query = session.createQuery("from Installment where id=?", Installment.class);
-	
-		query.setParameter(0, maxId);
+		String s = "";
 		
-		List<Installment> lastModeRecord = query.getResultList();
+		if(!maxIdList.isEmpty()){
+			
+			Query query = session.createQuery("select modeName from Installment where id=?");
+			query.setParameter(0, maxIdList.get(0));
+			
+			lastModeRecord = query.getResultList();
+			
+			if(lastModeRecord.isEmpty()){
+				s = "Mode_0";
+			}
+			else{
+				s = lastModeRecord.get(0).toString();
+			}
+		}
 		
-		return lastModeRecord.get(1).toString();
+		return s;
 	}
-	
+
+	@Override
+	public void deleteMode(int id) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery("delete from Installment where id=?");
+		query.setParameter(0, id);
+		query.executeUpdate();
+	}
+
+	@Override
+	public List<Installment> getServiceModeUpdate(int updateId) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query query = session.createQuery("from Installment where id=?");
+		query.setParameter(0, updateId);
+		
+		List list = query.getResultList();
+		System.out.println("List  "+list);
+		return list;
+	}
 	
 	
 }

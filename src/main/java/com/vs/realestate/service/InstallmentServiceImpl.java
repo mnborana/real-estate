@@ -17,9 +17,9 @@ public class InstallmentServiceImpl implements InstallmentService {
 	
 	@Override
 	@Transactional
-	public void saveInstallment(String[] modeName, int[] noOfInstallment) {
+	public void saveInstallment(Installment installment, String[] modeName, int[] noOfInstallment) {
 		
-		installmentDao.saveInstallment(modeName, noOfInstallment);
+		installmentDao.saveInstallment(installment, modeName, noOfInstallment);
 		
 	}
 
@@ -37,6 +37,18 @@ public class InstallmentServiceImpl implements InstallmentService {
 		
 		return installmentDao.getLastMode();
 		
+	}
+
+	@Override
+	@Transactional
+	public void deleteServiceMode(int id) {
+		installmentDao.deleteMode(id);
+	}
+
+	@Override
+	@Transactional
+	public List<Installment> getServiceModeUpdate(int updateId) {
+		return installmentDao.getServiceModeUpdate(updateId);
 	}
 	
 	

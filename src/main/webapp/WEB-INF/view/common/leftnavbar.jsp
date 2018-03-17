@@ -1,6 +1,6 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
   <ul>
-    <li class="active"><a href="#"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+    <li class="active"><a href="/real-estate/hello"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Settings</span> <span class="label label-important">2</span></a>
       <ul>
@@ -18,8 +18,8 @@
     
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Sale</span> <span class="label label-important">2</span></a>
       <ul>
-        <li><a href="#">Add Client</a></li>
-        <li><a href="#">Sale Plot</a></li>
+        <li><a href="addClient">Add Client</a></li>
+        <li><a href="salePlot">Sale Plot</a></li>
       </ul>
     </li>
     

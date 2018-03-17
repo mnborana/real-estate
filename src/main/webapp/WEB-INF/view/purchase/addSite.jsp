@@ -108,7 +108,7 @@
 					            <div class="control-group span6">
 					              <label class="control-label">Site Name :</label>
 					              <div class="controls">
-					                <form:input type="text" path="siteName" class="span11" placeholder="Site Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z]*" required="required"/>
+					                <form:input type="text" path="siteName" class="span11" placeholder="Site Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z\s]*" required="required"/>
 					              </div>
 					            </div>
 					            
@@ -139,7 +139,7 @@
 					            <div class="control-group span6">
 					              <label class="control-label">Seller Name :</label>
 					              <div class="controls">
-					                <form:input type="text" path="sellerName" class="span11" placeholder="Seller Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z]*" required="required"/>
+					                <form:input type="text" path="sellerName" class="span11" placeholder="Seller Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z\s]*" required="required"/>
 					              </div>
 					            </div>
 					             
@@ -270,14 +270,15 @@
 						<div class="span4" style="margin-left: -75px;">
 						<label class="control-label">Site Name :</label>
 						<div class="controls">
-							<input	type="text" class="span3" placeholder="Site Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z]*" required />
+							<form:hidden path="id" id="sId"/>
+							<form:input	type="text" path="siteName" id="siteName1" class="span3" placeholder="Site Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z\s]*" required="required" />
 						</div>
 						</div>
 
 						<div class="span4">
 						<label class="control-label">Date :</label>
 						<div class="controls">
-							<input type="date" class="span3" required />
+							<form:input type="date" path="date" id="date1" class="span3" required="required" />
 						</div>
 						</div>
 					</div>
@@ -286,14 +287,14 @@
 						<div class="span4" style="margin-left: -75px;">
 						<label class="control-label">Site Address :</label>
 						<div class="controls">
-							<input	type="text" class="span3" placeholder="Site Address" onkeyup="this.value=this.value.toUpperCase()" required />
+							<form:input	type="text" path="address" id="address1" class="span3" placeholder="Site Address" onkeyup="this.value=this.value.toUpperCase()" required="required" />
 						</div>
 						</div>
 
 						<div class="span4">
 						<label class="control-label">Sq Ft :</label>
 						<div class="controls">
-							<input type="text" class="span3" placeholder="Sq Ft" required />
+							<form:input type="text" path="sqft" id="sqft1" class="span3" placeholder="Sq Ft" required="required"/>
 						</div>
 						</div>
 					</div>
@@ -302,14 +303,14 @@
 						<div class="span4" style="margin-left: -75px;">
 						<label class="control-label">Seller Name :</label>
 						<div class="controls">
-							<input	type="text" class="span3" placeholder="Seller Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z]*" required />
+							<form:input type="text" path="sellerName" id="sellerName1" class="span3" placeholder="Seller Name" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z\s]*" required="required" />
 						</div>
 						</div>
 
 						<div class="span4">
 						<label class="control-label">Contact No :</label>
 						<div class="controls">
-							<input type="numbers" class="span3" maxlength="10" pattern="[0-9]*" placeholder="Contact No" required />
+							<form:input type="numbers" path="contactNo" id="contactNo1" class="span3" maxlength="10" pattern="[0-9]*" placeholder="Contact No" required="required" />
 						</div>
 						</div>
 					</div>
@@ -318,14 +319,14 @@
 						<div class="span4" style="margin-left: -75px;">
 						<label class="control-label">Price :</label>
 						<div class="controls">
-							<input	type="text" class="span3" placeholder="Price" pattern="[0-9]*" required />
+							<form:input	type="text" path="price" id="price1" class="span3" placeholder="Price" pattern="[0-9]*" required="required" />
 						</div>
 						</div>
 
 						<div class="span4">
 						<label class="control-label">Site Zone :</label>
 						<div class="controls">
-							<input type="text" class="span3" placeholder="Site Zone" onkeyup="this.value=this.value.toUpperCase()" required />
+							<form:input type="text" path="zone" id="zone1" class="span3" placeholder="Site Zone" onkeyup="this.value=this.value.toUpperCase()" required="required" />
 						</div>
 						</div>
 					</div>					
@@ -334,14 +335,14 @@
 						<div class="span4" style="margin-left: -75px;">
 						<label class="control-label">Length :</label>
 						<div class="controls">
-							<input	type="text" class="span3" placeholder="Length" pattern="[0-9]*" required />
+							<form:input	type="text" path="length" id="length1" class="span3" placeholder="Length" pattern="[0-9]*" required="required" />
 						</div>
 						</div>
 
 						<div class="span4">
 						<label class="control-label">Width :</label>
 						<div class="controls">
-							<input type="text" class="span3" placeholder="Width" pattern="[0-9]*" required />
+							<form:input type="text" path="width" id="width1" class="span3" placeholder="Width" pattern="[0-9]*" required="required" />
 						</div>
 						</div>
 					</div>					
@@ -405,28 +406,9 @@
 
 <script type="text/javascript">
 
-function updateSite(id) {
-	alert(id);
-	 $.ajax({
-		  type: "post",
-		  url: "http://localhost:8080/real-estate/site.htm",
-		  cache: false,    
-		  data:'siteId='+id,
-		  success: function(response){
-		  var obj = JSON.parse(response);
-		  alert(obj);
-		  //setInModal(obj);
-		  },
-		  error: function(){      
-		   alert('Error while request..');
-		  }
-		 });
-}
-
 function deleteSite(id){	
 	document.getElementById("siteDeleteId").value=id;
 }
-
 
 function myFunction() {
 	
@@ -437,6 +419,41 @@ function myFunction() {
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
 	}    
 }
+
+function updateSite(id) {
+	 
+	 $.ajax({
+		  type: "post",
+		  url: "${pageContext.request.contextPath}/site.htm",
+		  cache: false,    
+		  data:'siteId='+id,
+		  success: function(response){
+		  var obj = JSON.parse(response);
+		  setInModal(obj);
+		  },
+		  error: function(){      
+		   alert('Error while request..');
+		  }
+		 });
+	 
+}
+
+function setInModal(obj) {
+
+	document.getElementById("sId").value		=obj[0].id;
+	document.getElementById("siteName1").value	=obj[0].siteName;
+	document.getElementById("sellerName1").value=obj[0].sellerName;
+	document.getElementById("date1").value		=obj[0].date;
+	document.getElementById("contactNo1").value	=obj[0].contactNo;
+	document.getElementById("sqft1").value		=obj[0].sqft;
+	document.getElementById("address1").value	=obj[0].address;
+	document.getElementById("price1").value		=obj[0].price;
+	document.getElementById("length1").value		=obj[0].length;
+	document.getElementById("width1").value		=obj[0].width;
+	document.getElementById("zone1").value		=obj[0].zone;
+
+}
+
 
 </script>
 
