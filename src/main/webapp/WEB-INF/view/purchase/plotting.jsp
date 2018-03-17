@@ -60,7 +60,7 @@
 	          <h5>Plotes & Rates</h5>
 	        </div>
 	        <div class="widget-content nopadding">
-	          <form:form action="savePlotes" modelAttribute="plotes"  method="POST" class="form-horizontal">
+	          <form:form id="plotForm"  action="savePlotes" modelAttribute="plotes"  method="POST" class="form-horizontal">
     			     <div class="control-group span6">
 			              <label class="control-label">Select input</label>
 			              <div class="controls">
@@ -76,7 +76,7 @@
 		            <div class="control-group span6">
 		              <label class="control-label">No of Plots :</label>
 		              <div class="controls">
-		                <input id="totalPlotes" class="form-control"  required="required" onblur="generatePlots(this.value)"/>
+		                <input id="totalPlotes" type="number" class="form-control"  required="required" onblur="generatePlots(this.value)"/>
 		              </div>
 		            </div>
 		            
@@ -166,7 +166,7 @@
 		        </div>
 	            
 	            <div class="form-actions text-center"">
-	              <button type="submit" class="btn btn-success">Save</button>
+	              <button type="button" class="btn btn-success"  onclick="submitForm()">Save</button>
 	            </div>
 				</form:form>
 	        </div>
@@ -251,6 +251,8 @@
 <script src="${pageContext.request.contextPath}/resources/js/matrix.tables.js"></script> 
 
 <script type="text/javascript">
+
+var totalSqft = 0;
 function myFunction() {
 	if(document.getElementById("snackbar")!=null)
 	{
@@ -269,10 +271,10 @@ function myFunction() {
 		{
 				tableData+="<tr>"
 				+"<td><input id='' class='form-control span12' value='Plot_"+i+"'  name='plot_name' readonly='readonly'/></td>"
-				+"<td><input id='' class='form-control span12'  name='length' required='required' placeholder='Plot_"+i+" Length' /></td>"
-				+"<td><input id='' class='form-control span12'  name='width' required='required' placeholder='Plot_"+i+" Width'/></td>"
-				+"<td><input id='' class='form-control span12'  name='sqft' required='required' placeholder='Plot_"+i+" Sq. Ft.' /></td>"
-				+"<td><input id='' class='form-control span12'  name='amt' required='required' placeholder='Plot_"+i+" Amount' /></td>"
+				+"<td><input id='len"+i+"' type='number' class='form-control span12'  name='length'  placeholder='Plot_"+i+" Length' /></td>"
+				+"<td><input id='wid"+i+"' type='number' class='form-control span12'  name='width'  placeholder='Plot_"+i+" Width'/></td>"
+				+"<td><input id='sqft"+i+"' type='number' class='form-control span12'  name='sqft' required='required' placeholder='Plot_"+i+" Sq. Ft.' /></td>"
+				+"<td><input id='tamt"+i+"' type='number' class='form-control span12'  name='amt' required='required' placeholder='Plot_"+i+" Amount' /></td>"
 				+"</tr>" ;
 				
 		}
@@ -321,9 +323,254 @@ function myFunction() {
 	document.getElementById("len").value=obj[0].length;
 	document.getElementById("width").value=obj[0].width;
 	
+	totalSqft = obj[0].sqft
  }
  
  /*---------------------- AJAX for getting site information Ends ---------------------*/
+ 
+ function submitForm()
+ {
+	 var enteredSqft = 0;
+	 
+	 var noOfPlotes = parseInt(document.getElementById("totalPlotes").value);
+	 
+	 if(totalSqft!=0 && noOfPlotes && noOfPlotes!=0)
+	{
+		 for(var i=1;i<=noOfPlotes;i++)
+		{
+			 if(document.getElementById("sqft"+i+"").value)
+			{
+				 enteredSqft += parseInt(document.getElementById("sqft"+i+"").value);	 
+			}
+				 
+		}
+		//alert(enteredSqft); 
+		if(parseInt(totalSqft)<enteredSqft)
+		{
+			alert('Addition of you entered sqft in Plot Information is greater than all site Sq.Ft.');
+			document.getElementById("sqft"+noOfPlotes+"").focus();
+		}
+		else if(parseInt(totalSqft)>enteredSqft)
+		{
+			var remainSqft = parseInt(totalSqft) - enteredSqft;
+			var addPlotRow = confirm(remainSqft+" Sq.Ft still free on this site Do you want to add new Plot");
+		    if (addPlotRow) {
+		        //txt = "You pressed OK!";
+		    	var noOfRows = $('#genPlot tr').length;
+		    	
+		    	var table = document.getElementById("genPlot");
+		    	
+		    	var row = table.insertRow(noOfRows);
+		    	
+		    	var cell1 = row.insertCell(0);
+		    	
+		    	var cell2 = row.insertCell(1);
+		    	
+		    	var cell3 = row.insertCell(2);
+		    	
+		    	var cell4 = row.insertCell(3);
+		    	
+		    	var cell5 = row.insertCell(4);
+		    	
+		    	var nextPlot = parseInt(noOfRows)+1;
+		    	
+		    	cell1.innerHTML = "<input id='' class='form-control span12' value='Plot_"+nextPlot+"'  name='plot_name' readonly='readonly'/>";
+		    	
+		    	cell2.innerHTML = "<input id='len"+nextPlot+"' type='number' class='form-control span12'  name='length' placeholder='Plot_"+nextPlot+" Length' />";
+		    	
+		    	cell3.innerHTML = "<input id='wid"+nextPlot+"' type='number' class='form-control span12'  name='width' placeholder='Plot_"+nextPlot+" Width'/>";
+		    	
+		    	cell4.innerHTML = "<input id='sqft"+nextPlot+"' type='number' class='form-control span12'  name='sqft' required='required' placeholder='Plot_"+nextPlot+" Sq. Ft.' />";
+		    	
+		    	cell5.innerHTML = "<input id='tamt"+nextPlot+"' type='number' class='form-control span12'  name='amt' required='required' placeholder='Plot_"+nextPlot+" Amount' />";
+		    	
+		    	document.getElementById("sqft"+nextPlot+"").focus();
+		    	
+		    	document.getElementById("totalPlotes").value = parseInt(noOfPlotes)+1;
+		    	
+		    } 
+		    else
+		    {
+		    	var noOfRows = $('#genPlot tr').length;
+		    	document.getElementById("sqft"+noOfRows+"").focus();
+		    }
+		        
+		}
+		else
+		{
+			//entered sqft and available sqft is equal
+			var noOfRows = $('#genPlot tr').length;
+			
+			var sqftArr = [];
+			for(var i=1;i<=noOfRows;i++)
+			{
+				//setting default value to len and width
+				var len = document.getElementById("len"+i+"").value;
+				var wid = document.getElementById("wid"+i+"").value;
+				
+				if(len==="")
+				{
+					document.getElementById("len"+i+"").value=0;
+				}
+				if(wid==="")
+				{
+					document.getElementById("wid"+i+"").value=0;
+				}
+				
+				sqftArr.push(document.getElementById("sqft"+i).value);
+				
+			}
+			
+			var noOfPlotes = parseInt(document.getElementById("totalPlotes").value);
+			if(noOfPlotes>1)
+			{
+				var totalArr=0;
+				//addition of array element
+				for(var i=0 ;i<sqftArr.length;i++) {
+			 			if(sqftArr[i])
+						{
+			 				totalArr += parseInt(sqftArr[i]);		
+						}
+				}
+				//checking empty element in array
+				var empties = sqftArr.length - sqftArr.filter(String).length;
+				
+				var tempSqft = 0;
+				for(var i=0;i<sqftArr.length;i++)
+				{
+					if(sqftArr[i]==totalSqft)
+					{
+						var remove = confirm('All Sq.Ft. filled with plotes.Do you want to remove remaining plotes?');
+						if(remove)
+						{
+							//removing all rows below the one
+							var noOfRows = $('#genPlot tr').length;
+							for(var i=noOfRows-1;i>=1;i--)
+							{
+								document.getElementById("genPlot").deleteRow(i);	
+								document.getElementById("totalPlotes").value = 1;
+							}
+							//checking amount field empty or not
+							var tAmt = document.getElementById("tamt1").value;
+							if(!tAmt)
+							{
+								document.getElementById("tamt1").focus();
+							}
+							else
+							{
+								//submit the form
+								document.getElementById("plotForm").submit();
+								//alert('first success');
+							}
+							break;
+						}
+						else
+						{
+							//focus on next empty text	
+						}
+						
+						
+					}
+					else if(parseInt(totalArr)==parseInt(totalSqft))
+					{
+						//check empty elements	
+						if(empties>0)
+						{
+							var deleteEmptyPlotes = confirm("You dont have Sq.Ft space for "+empties+" Plotes. Do you want to delete it? It will delete last rows.");
+
+							if(deleteEmptyPlotes)
+							{
+								var noOfRows = $('#genPlot tr').length;
+								
+								for(var i=noOfRows-1;i>=noOfRows-empties;i--)
+								{
+									document.getElementById("genPlot").deleteRow(i);
+									document.getElementById("totalPlotes").value = i;
+								} 
+								
+								for(var i =1;i<=noOfRows;i++)
+								{
+									//checking amount input empty or not
+									var tAmt = document.getElementById("tamt"+i).value;
+									if(!tAmt)
+									{
+										document.getElementById("tamt"+i).focus();
+										//break;
+									}
+									
+									if(i==noOfRows)
+									{
+										//submit the form	
+										document.getElementById("plotForm").submit();
+										//alert('second success');		
+									}
+									
+								}
+								
+							}
+							else
+							{
+								//focus on next empty plote	
+							}
+							break;
+							//removing last no. of(empties) rows from table
+						}
+						else
+						{
+							var noOfRows = $('#genPlot tr').length;
+							for(var i =1;i<=noOfRows;i++)
+							{
+								//checking amount input empty or not
+									var tAmt = document.getElementById("tamt"+i).value;
+									if(!tAmt)
+									{
+										document.getElementById("tamt"+i).focus();
+										break;
+									}
+									
+									if(i==noOfRows)
+									{
+										//submit the form	
+										document.getElementById("plotForm").submit();
+										//alert('third success');		
+									}
+							}
+							break;
+
+						}
+						
+					}
+					
+				}
+				
+			}
+			else
+			{
+				//checking amount field empty or not
+				var tAmt = document.getElementById("tamt1").value;
+				if(!tAmt)
+				{
+					document.getElementById("tamt1").focus();
+				}
+				else
+				{
+					//alert('final success');
+					//submit the form
+					document.getElementById("plotForm").submit();		
+				}
+				
+			}
+			
+		}
+		 
+	}
+	 else
+	{
+		 document.getElementById("totalPlotes").focus();
+		
+	}
+		 
+ }
  
 function deletePlot()
 {
