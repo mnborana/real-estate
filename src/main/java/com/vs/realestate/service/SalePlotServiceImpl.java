@@ -17,9 +17,9 @@ public class SalePlotServiceImpl implements SalePlotService {
 	
 	@Override
 	@Transactional
-	public List<Plotting> getPlotNames() {
+	public List<Plotting> getPlotNames(String siteId) {
 		
-		return salePlotDAO.getPlotNames();
+		return salePlotDAO.getPlotNames(siteId);
 	}
 
 }

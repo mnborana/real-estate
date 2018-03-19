@@ -448,7 +448,7 @@ function setInModal(obj) {
 	document.getElementById("sqft1").value		=obj[0].sqft;
 	document.getElementById("address1").value	=obj[0].address;
 	document.getElementById("price1").value		=obj[0].price;
-	document.getElementById("length1").value		=obj[0].length;
+	document.getElementById("length1").value	=obj[0].length;
 	document.getElementById("width1").value		=obj[0].width;
 	document.getElementById("zone1").value		=obj[0].zone;
 
