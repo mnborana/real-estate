@@ -20,7 +20,7 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
-<body onload="">
+<body onload="myFunction()">
 
 <!--Header-part-->
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -58,24 +58,24 @@
 		              <div class="control-group">
 		                <label class="control-label">Client Name :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:input type="text" value="" id="clientName" path="name" class="span11" placeholder="Enter Client name" required="required"  />
+		                  <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="clientName" path="name" class="span11" placeholder="Enter Client name" required="required"  />
 		                </div>
 		              
 		                <label class="control-label">Contact No. :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:input type="number" path="contactNo" maxlength="10" class="span11" placeholder="Enter Client Contact No." required="required"  />
+		                  <form:input type="number" path="contactNo" max="9999999999"  class="span11" placeholder="Enter Client Contact No." required="required"  />
 		                </div>
 		              </div>
-	              
+	              	 
 		              <div class="control-group">
 		                <label class="control-label">Permanent Address :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:textarea id="permAddress" path="permAddress" class="span11"  required="required"  />
+		                  <form:textarea id="permAddress" onkeyup="this.value=this.value.toUpperCase()" path="permAddress" class="span11"  required="required"  />
 		                </div>
 		              
 		                <label class="control-label">Current Address :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:textarea path="curAddress"  class="span11" required="required"  />
+		                  <form:textarea path="curAddress" onkeyup="this.value=this.value.toUpperCase()" class="span11" required="required"  />
 		                </div>
 		              </div>
 	              
@@ -83,25 +83,22 @@
 		              <div class="control-group">
 		                <label class="control-label">Nominee Name :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:input type="text" value="" id="nomineeName" path="nomineeName" class="span11" placeholder="Enter Nominee name" required="required"  />
+		                  <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="nomineeName" path="nomineeName" class="span11" placeholder="Enter Nominee name" required="required"  />
 		                </div>
 		              
 		                <label class="control-label">Nominee Contact No. :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:input type="number" path="nomineeContact" maxlength="10"  class="span11" placeholder="Nominee Contact No." required="required"  />
+		                  <form:input type="number" path="nomineeContact" max="9999999999"   class="span11" placeholder="Nominee Contact No." required="required"  />
 		                </div>
 		              </div>
 		              
 		              <div class="control-group">
 		                <label class="control-label">Nominee Relation :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
-		                  <form:input type="text" value="" id="relation" path="relation" class="span11" placeholder="Nominee's Relation with Client" required="required" />
+		                  <form:input type="text" value="" id="relation" pattern="[a-zA-Z]*" onkeyup="this.value=this.value.toUpperCase()" path="relation" class="span11" placeholder="Nominee's Relation with Client" required="required" />
 		                </div>
 		              </div>
 		            
-		            
-		             
-		              
 		              <div class="form-actions" style="padding-left: 500px;">
 		                <input type="submit" value="Save" class="btn btn-success center">
 		              </div>
@@ -177,7 +174,7 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Confirm Delete Mode</h4>
+          <h4 class="modal-title">Confirm Delete Client</h4>
         </div>
         <form action="deleteClient" method="post">
 	        <div class="modal-body">
@@ -188,7 +185,7 @@
 	  	    </div>
 	        <div class="modal-footer">
 	          <button type="submit" class="btn btn-primary"  >Yes</button>
-	          <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	          <button type="button" style="background-color: #f64c4c; color: white;" class="btn btn-default" data-dismiss="modal">No</button>
 	        </div>
         </form>
       </div>
@@ -197,44 +194,74 @@
 <!-- Delete Modal End -->
 
 
-<%-- <!-- update Modal Start -->
-<div class="modal fade" id="updateClient" style="margin-left: -20%; width: 40%;" role="dialog">
+<!-- update Modal Start -->
+<div class="modal fade" id="updateClient" style="margin-left: -35%; width: 70%;" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Update Mode</h4>
+          <h4 class="modal-title">Update Client Details</h4>
         </div>
-        <form:form modelAttribute="clients" action="saveInstallments"  method="Post" class="form-horizontal">
-	        <div class="modal-body">
-	        
-	              <div class="control-group">
-	                <label class="control-label">Mode Name :</label>
-	                <div class="controls">
-	                  	<form:hidden path="id" id="updateId"/>
-	                  	<form:input type="text" value="" id="updateModeName" path="modeName" class="span3" placeholder="Enter Mode name" required="required"  />
-	                </div>
-	              </div>
-	              
-	              <div class="control-group">
-	                <label class="control-label">No. Of Installments :</label>
-	                <div class="controls">
-	                  <form:input type="text" id="updateNoOfInstallments" path="noOfInstallment"  class="span3" placeholder="Enter No. of Installments" required="required"  />
-	                </div>
-	              </div>
-		           
-	  	    </div>
-	        <div class="modal-footer">
-	          <button type="submit" class="btn btn-primary">Submit</button>
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        </div>
-        </form:form>
+        <div class="widget-content nopadding">
+        <form:form modelAttribute="clients" action="saveClient"  method="Post" class="form-horizontal">
+             <div class="control-group">
+               <label class="control-label">Client Name :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%; ">
+               	 <form:hidden path="id" id="updateId"/>
+                 <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="updateClientName" path="name" class="span3" placeholder="Enter Client name" required="required"  />
+               </div>
+             
+               <label class="control-label">Contact No. :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%;">
+                 <form:input type="number" id="updateContactNo" max="9999999999" path="contactNo" maxlength="10" class="span3" placeholder="Enter Client Contact No." required="required"  />
+               </div>
+             </div>
+            	 
+             <div class="control-group">
+               <label class="control-label">Permanent Address :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%; ">
+                  <form:textarea id="updatePermAddress" onkeyup="this.value=this.value.toUpperCase()" path="permAddress" class="span3"  required="required"  />
+               </div>
+             
+               <label class="control-label">Current Address :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%;">
+                 <form:textarea id="updateCurAddress" onkeyup="this.value=this.value.toUpperCase()"  path="curAddress" class="span3" required="required"  />
+               </div>
+             </div>
+            
+            
+             <div class="control-group">
+               <label class="control-label">Nominee Name :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%; ">
+                 <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="updateNomineeName" path="nomineeName" class="span3" placeholder="Enter Nominee name" required="required"  />
+               </div>
+             
+               <label class="control-label">Nominee Contact No. :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%;">
+                 <form:input type="number" path="nomineeContact" max="9999999999" id="updateNomineeContact" maxlength="10"  class="span3" placeholder="Nominee Contact No." required="required"  />
+               </div>
+             </div>
+             
+             <div class="control-group">
+               <label class="control-label">Nominee Relation :</label>
+               <div class="controls span4" style="margin-left: 20px; width:25%; ">
+                 <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" pattern="[a-zA-Z]*" id="updateRelation" path="relation" class="span3" placeholder="Nominee's Relation with Client" required="required" />
+               </div>
+             </div>
+           
+             <div class="form-actions" style="padding-left: 780px;">
+               <input type="submit" value="Update" class="btn btn-success center">
+               <button type="button" style="background-color: #f64c4c; color: white;" class="btn btn-default" data-dismiss="modal">Close</button>
+             </div>
+             
+           </form:form>
+           </div>
       </div>
     </div>
   </div>
 <!-- update Modal End -->
- --%>
+
 
 
 <script type="text/javascript">
@@ -258,24 +285,29 @@ function deleteClient(id) {
 
 function updateClient(id) {
 	
-/* 	$.ajax({
+ 	$.ajax({
 		  type: "post",
-		  url: "${pageContext.request.contextPath}/updateMode",
+		  url: "${pageContext.request.contextPath}/updateClient",
 		  cache: false,    
-		  data:'updateId='+id,
+		  data:'clientId='+id,
 		  success: function(response){
 			var obj = JSON.parse(response);
-			alert(obj[0].noOfInstallment);
-			
+			//alert(obj[0].name);
+		
 			document.getElementById("updateId").value=obj[0].id;
-			document.getElementById("updateModeName").value=obj[0].modeName;
-			document.getElementById("updateNoOfInstallments").value=obj[0].noOfInstallment;
+			document.getElementById("updateClientName").value=obj[0].name;
+			document.getElementById("updateContactNo").value=obj[0].contactNo;
+			document.getElementById("updatePermAddress").value=obj[0].permAddress;
+			document.getElementById("updateCurAddress").value=obj[0].curAddress;
+			document.getElementById("updateNomineeName").value=obj[0].nomineeName;
+			document.getElementById("updateNomineeContact").value=obj[0].nomineeContact;
+			document.getElementById("updateRelation").value=obj[0].relation;
 			
 		  },
 		  error: function(){      
 		   alert('Error while request..');
 		  }
-	   });  */
+	   });  
 	
 }
 
