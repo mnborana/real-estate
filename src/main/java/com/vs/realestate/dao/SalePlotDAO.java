@@ -6,6 +6,6 @@ import com.vs.realestate.entity.Plotting;
 
 public interface SalePlotDAO {
 
-	List<Plotting> getPlotNames();
+	List<Plotting> getPlotNames(String siteId);
 
 }

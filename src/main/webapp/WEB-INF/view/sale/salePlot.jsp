@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
-<title>Vertical</title>
+<title>Real Estate</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
@@ -20,7 +20,8 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
-<body onload="myFunction()">
+
+<body>
 
 <!--Header-part-->
 <jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
@@ -62,7 +63,7 @@
 					              <label class="control-label">Select Site</label>
 					              <div class="controls">
 					              
-					                <form:select id="sitesInfo" path="site_id">
+					                <form:select onchange="getSiteInfo(this.value)" id="sitesInfo" path="site_id">
 					                  <form:option value="0" label="Select Site"></form:option>
 					                  	<c:forEach items="${siteNames}" var="site">
 					                  		<form:option value="${site.id}" label="${site.siteName}"></form:option>
@@ -71,16 +72,14 @@
 				              	</div>
 				             </div>
 				             
-	 		    			     <div class="control-group span6" style="margin-left: -10px;">
+ 	 		    			     <div class="control-group span6" style="margin-left: -10px;">
 					              <label class="control-label">Select Plot</label>
 					              <div class="controls">
 					              
-					                <form:select id="plotInfo" path="plot_id">
-					                  <form:option value="0" label="Select Plot"></form:option>
-					                  	<c:forEach items="${plotNames}" var="plot">
-					                  		<form:option value="${plot.id}" label="${plot.plot_name}"></form:option>
-					                  	</c:forEach>
-					                </form:select>
+					                <select id="plotInfo_1" path="plot_id">
+					                  
+
+					                </select>
 				              	</div>
 				             </div> 				             
 			              
@@ -103,7 +102,7 @@
 <!--Footer-part-->
 
 <div class="row-fluid">
-  <div id="footer" class="span12"> 2013 &copy; Matrix Admin. Brought to you by <a href="http://themedesigner.in">Themedesigner.in</a> </div>
+  <div id="footer" class="span12"> 2018 &copy; Brought to you by <a href="http://pustakosh.com">pustakosh.com</a> </div>
 </div>
 
 <!--end-Footer-part-->
@@ -120,6 +119,40 @@
 
 
 <script type="text/javascript">
+
+function getSiteInfo(id)
+{
+	$.ajax({
+
+		type: "post",
+		url: "${pageContext.request.contextPath}/plot.htm",
+		cache: false,    
+		data:'siteId=' +id,
+		success: function(response){
+			
+			var obj = JSON.parse(response);			
+			setInOption(obj);
+		},
+		error: function(){      
+		   alert('Error while request..');
+		}
+	});	 
+}
+
+function setInOption(obj) {
+
+/* 	$('#plotInfo_1').html('');
+	$("#plotInfo_1").trigger('chosen:updated'); */
+	var optionData = "";
+	optionData = "<option value='Select Plot' selected='selected'>Select Plot</option>";
+	for (var i = 0; i < obj.length; i++)
+		optionData +="<option value='"+obj[i].id+"' >"+obj[i].plot_name+"</option>";
+	document.getElementById("plotInfo_1").innerHTML=optionData; 
+	
+	//$("#plotInfo_1").trigger('chosen:updated');
+	$('#plotInfo_1').empty();
+} 
+
 
 </script>
 

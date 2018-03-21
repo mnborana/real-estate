@@ -136,12 +136,35 @@ public class RealEstateController {
 		List<AddSite> siteNames = thePlotService.getSiteNames();
 		model.addAttribute("siteNames", siteNames);
 		
-		List<Plotting> plotNames = salePlotService.getPlotNames();
-		model.addAttribute("plotNames", plotNames);
+		/*List<Plotting> plotNames = salePlotService.getPlotNames();
+		model.addAttribute("plotNames", plotNames);*/
 
 		return "/sale/salePlot";
 	}
 	
+	//AJAX for getting site detail
+	@RequestMapping(value="/plot.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlots(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String siteId = request.getParameter("siteId");
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(plotNames);
+		
+		return json;
+		
+/*		List siteDetail = addSiteService.getSiteInfoForUpdate(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(siteDetail);
+				
+		return json;*/
+		
+	}
 	
 	//////////////////// SALEPLOT ///////////////////////	
 	
