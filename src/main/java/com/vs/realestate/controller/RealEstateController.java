@@ -333,6 +333,7 @@ public class RealEstateController {
 	public String savePlotes(@RequestParam int site_id, @RequestParam String plot_name[], @RequestParam int length[],
 			@RequestParam int width[],@RequestParam int sqft[],@RequestParam int amt[],RedirectAttributes rda)
 	{
+	
 		thePlotService.savePlotes(site_id,plot_name,length,width,sqft,amt);
 		
 		rda.addFlashAttribute("status", "Save Successfully");
