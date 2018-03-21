@@ -256,7 +256,7 @@ public class RealEstateController {
 	
 	
 	@RequestMapping(value="/updateClient", method=RequestMethod.POST)
-	public @ResponseBody String getpdateClientData(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody String getUpdateClientData(HttpServletRequest request, HttpServletResponse response){
 		
 		String clientId = request.getParameter("clientId");
 		System.out.println("clientId  "+clientId);
