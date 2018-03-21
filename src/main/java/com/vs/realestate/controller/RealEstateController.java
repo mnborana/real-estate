@@ -156,13 +156,24 @@ public class RealEstateController {
 		
 		return json;
 		
-/*		List siteDetail = addSiteService.getSiteInfoForUpdate(siteId);
+	}
+	
+	//AJAX for getting plot Info
+	@RequestMapping(value="/plotInfo.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String plotId = request.getParameter("plotId");
+		
+		System.out.println(plotId);
+		
+/*		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
 		
 		response.setContentType("application/json");
 		
-		String json=gson.toJson(siteDetail);
-				
+		String json=gson.toJson(plotNames);
+		
 		return json;*/
+		return "";
 		
 	}
 	

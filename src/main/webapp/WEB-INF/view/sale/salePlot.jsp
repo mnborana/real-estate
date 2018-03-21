@@ -76,7 +76,7 @@
 					              <label class="control-label">Select Plot</label>
 					              <div class="controls">
 					              
-					                <select id="plotInfo_1" path="plot_id">
+					                <select id="plotInfo_1" path="plot_id" onchange="getPlotInfo(this.value)">
 					                  
 
 					                </select>
@@ -86,9 +86,64 @@
 			              </div>
 		              </div>		              
 
+	             <div class="span12" style="margin: 0;">
+		            <div class="widget-box">
+		            	<div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+			            	<h5>Plot Information</h5>
+			          	</div>
+			          	<div class="widget-content nopadding">
+			          		<div class="control-group span4">
+					              <label class="control-label">Site Address :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="address" placeholder="Address"  readonly/>
+					              </div>
+					         </div>
+
+			          		<div class="control-group span4" style="margin-left: 0px;">
+					              <label class="control-label">Site Zone :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="zone" placeholder="Zone"  readonly/>
+					              </div>
+					         </div>
+
+			          		<div class="control-group span4">
+					              <label class="control-label">Price :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="price" placeholder="Price" readonly/>
+					              </div>
+					         </div>
+					         
+					         <div class="control-group span4" style="margin-left: 0px;"> 
+					              <label class="control-label">Squre Foot :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="sqft" placeholder="Sq. Ft."  readonly/>
+					              </div>
+					         </div>
+
+			          		<div class="control-group span4" style="margin-left: 0px;">
+					              <label class="control-label">Length :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="len" placeholder="Length"  readonly/>
+					              </div>
+					         </div>
+
+			          		<div class="control-group span4">
+					              <label class="control-label">Width :</label>
+					              <div class="controls">
+					                <input type="text" class="span12" id="width" placeholder="Width" readonly/>
+					              </div>
+					         </div>
+				            
+				            
+			          	</div>
+			        </div>	
+		            
+		         </div>
+
+
 		              
 		              <div class="form-actions" style="padding-left: 500px;">
-		                <input type="submit" value="Save" class="btn btn-success center">
+		                <input type="submit" value="Save" class="btn btn-success center" style="margin-bottom: 20px; margin-top: 25px;">
 		              </div>
 		             </form:form> 
 		          </div>
@@ -120,8 +175,11 @@
 
 <script type="text/javascript">
 
+/*--------------------- AJAX for getting drop down -------------------- */
+
 function getSiteInfo(id)
 {
+	
 	$.ajax({
 
 		type: "post",
@@ -130,7 +188,7 @@ function getSiteInfo(id)
 		data:'siteId=' +id,
 		success: function(response){
 			
-			var obj = JSON.parse(response);			
+			var obj = JSON.parse(response);
 			setInOption(obj);
 		},
 		error: function(){      
@@ -141,18 +199,45 @@ function getSiteInfo(id)
 
 function setInOption(obj) {
 
-/* 	$('#plotInfo_1').html('');
-	$("#plotInfo_1").trigger('chosen:updated'); */
-	var optionData = "";
-	optionData = "<option value='Select Plot' selected='selected'>Select Plot</option>";
-	for (var i = 0; i < obj.length; i++)
-		optionData +="<option value='"+obj[i].id+"' >"+obj[i].plot_name+"</option>";
-	document.getElementById("plotInfo_1").innerHTML=optionData; 
-	
-	//$("#plotInfo_1").trigger('chosen:updated');
+	//document.getElementById("plotInfo_1").innerHTML="<option value='Select Plot' selected='selected'> Select Plot </option>";
+	//$('#plotInfo_1 :selected').remove(); 
 	$('#plotInfo_1').empty();
+
+	//var optionData = "";
+	
+	$("#plotInfo_1").append("<option selected='selected'> Select Plot </option>");
+	for (var i = 0; i < obj.length; i++){
+		$("#plotInfo_1").append("<option value='"+obj[i].id+"'>"+obj[i].plot_name+"</option>");
+		//optionData +="<option value='"+obj[i].id+"' >"+obj[i].plot_name+"</option>";
+	}
+		
+	/* document.getElementById("plotInfo_1").innerHTML="<option selected='selected'> Select Plot </option>"+optionData; 
+	
+	$("#plotInfo_1").trigger('chosen:updated'); */
 } 
 
+/*--------------------- AJAX for getting plot information -------------------- */
+/* 
+function getPlotInfo(val) {
+	alert(val);
+	
+	$.ajax({
+
+		type: "post",
+		url: "${pageContext.request.contextPath}/plotInfo.htm",
+		cache: false,    
+		data:'plotId=' +val,
+		success: function(response){
+			
+			var obj = JSON.parse(response);
+			alert(obj);
+			//setInOption(obj);
+		},
+		error: function(){      
+		   alert('Error while request..');
+		}
+	});
+} */
 
 </script>
 
