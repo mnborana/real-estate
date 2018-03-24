@@ -136,12 +136,46 @@ public class RealEstateController {
 		List<AddSite> siteNames = thePlotService.getSiteNames();
 		model.addAttribute("siteNames", siteNames);
 		
-		List<Plotting> plotNames = salePlotService.getPlotNames();
-		model.addAttribute("plotNames", plotNames);
+		/*List<Plotting> plotNames = salePlotService.getPlotNames();
+		model.addAttribute("plotNames", plotNames);*/
 
 		return "/sale/salePlot";
 	}
 	
+	//AJAX for getting site detail
+	@RequestMapping(value="/plot.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlots(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String siteId = request.getParameter("siteId");
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(plotNames);
+		
+		return json;
+		
+	}
+	
+	//AJAX for getting plot Info
+	@RequestMapping(value="/plotInfo.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String plotId = request.getParameter("plotId");
+		
+		System.out.println(plotId);
+		
+/*		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(plotNames);
+		
+		return json;*/
+		return "";
+		
+	}
 	
 	//////////////////// SALEPLOT ///////////////////////	
 	
@@ -256,7 +290,7 @@ public class RealEstateController {
 	
 	
 	@RequestMapping(value="/updateClient", method=RequestMethod.POST)
-	public @ResponseBody String getpdateClientData(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody String getUpdateClientData(HttpServletRequest request, HttpServletResponse response){
 		
 		String clientId = request.getParameter("clientId");
 		System.out.println("clientId  "+clientId);
