@@ -286,6 +286,8 @@ public class RealEstateController {
 		Organization theOrg = new Organization();
 		theModel.addAttribute("orgnization", theOrg);
 		
+		theModel.addAttribute("delete", theOrg);
+		
 		return "/settings/organization";
 	}
 	
@@ -306,6 +308,9 @@ public class RealEstateController {
 		List<AddSite> siteNames = thePlotService.getSiteNames();
 		theModel.addAttribute("siteNames", siteNames);
 		
+		//getting details to show in datatable
+		//theModel.addAttribute("plotDetails", plotDetails);
+		
 		//for inserting data
 		Plotting thePlot = new Plotting();
 		theModel.addAttribute("plotes", thePlot);
@@ -320,14 +325,63 @@ public class RealEstateController {
 		
 		List<AddSite> siteDetails = thePlotService.getSiteDetails(siteId);
 		
+		List plotDetails = thePlotService.getPlotDetatils(siteId);
+		
 		response.setContentType("application/json");
 		
 		String json=gson.toJson(siteDetails);
 		
-		System.out.println(siteDetails.toString());
+		/*String newJson = gson.toJson(plotDetails);
+		
+		String finalJson=json.concat(newJson);
+		*/
+		//json+=gson.toJson(plotDetails);
+		
+		System.out.println(json);
 		
 		return json;
 	}
+	
+	@RequestMapping(value="/plotDetails.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception
+	{
+		String siteId = request.getParameter("siteid");
+		
+		List<Plotting> plotDetails = thePlotService.getPlotDetatils(siteId);
+		
+		//System.out.println("contr ---- "+plotDetails.toString());
+		
+		response.setContentType("application/json");
+		
+		String newJson = gson.toJson(plotDetails);
+		
+		return newJson;
+	}
+	
+	@RequestMapping(value="/org.htm",method = RequestMethod.POST)
+	public @ResponseBody String getOrgInfo(HttpServletRequest request,HttpServletResponse response) throws Exception
+	{
+		String orgId = request.getParameter("orgId");
+		
+		List<Organization> orgDetails = theOrgService.getOrgDetails(orgId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(orgDetails);
+		
+		return json;
+	}
+	
+	@PostMapping("/deleteOrg")
+	public String deleteOrg(@RequestParam int id, RedirectAttributes redirectAttrs)
+	{
+		theOrgService.deleteOrg(id);
+		
+		redirectAttrs.addFlashAttribute("status", "Record Deleted Successfully");
+		
+		return "redirect:/organization";
+	}
+	
 	
 	@PostMapping("/savePlotes")
 	public String savePlotes(@RequestParam int site_id, @RequestParam String plot_name[], @RequestParam int length[],

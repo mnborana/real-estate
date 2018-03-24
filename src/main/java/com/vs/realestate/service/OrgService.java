@@ -15,4 +15,8 @@ public interface OrgService {
 	public void saveOrg(Organization theOrg);
 	
 	public List<Organization> getOrgDetails();
+	
+	public List<Organization> getOrgDetails(String orgId);
+	
+	public void deleteOrg(int orgId);
 }

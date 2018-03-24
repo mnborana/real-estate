@@ -139,8 +139,8 @@
 	                  <td>${org.contact }</td>
 	                  <td>${org.email }</td>
 	                  <td class="center">
-	                  		Update || 
-	                  		<a href="#deleteOrg"  onclick="deleteOrg()" data-toggle="modal">Delete</a>
+	                  		<a href="#updateOrg"  onclick="updateOrg(${org.id})" data-toggle="modal">Update </a>|| 
+	                  		<a href="#deleteOrg"  onclick="deleteOrg(${org.id})" data-toggle="modal">Delete</a>
 	                  </td>
 	                </tr>
 	                </c:forEach>
@@ -153,6 +153,86 @@
 </div>
 </div>
 
+
+<!-- Update Modal Start -->
+<div id="updateOrg" class="modal hide fade" role="dialog" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Update Organization Details</h4>
+			</div>
+			<div class="modal-body">
+				<form:form action="saveOrganization" modelAttribute="orgnization"  method="POST" class="form-horizontal">
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Date :</label>
+						<div class="controls">
+							<form:hidden path="id" id="oId"/>
+							 <form:input id="date" type="date" class="form-control"  path="date" required="required"/>
+						</div>
+						</div>
+					</div>
+						
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Orgnization Name :</label>
+						<div class="controls">
+							 <form:input id="orgName" class="form-control"  path="orgname" required="required"/>
+						</div>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Owner Name :</label>
+						<div class="controls">
+							 <form:input id="name" class="form-control"  path="name" required="required"/>
+						</div>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Address :</label>
+						<div class="controls">
+							<form:input id="address" class="form-control"  path="address" required="required"/>
+						</div>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Contact No :</label>
+						<div class="controls">
+							<form:input id="contact" type="number" class="form-control"  path="contact" required="required"/>
+						</div>
+						</div>
+					</div>
+					
+
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Email :</label>
+						<div class="controls">
+							<form:input id="email" class="form-control"  path="email" required="required"/>
+						</div>
+						</div>
+					</div>
+
+								
+					<div class="form-actions" style="padding-left: 345px;">
+						<button type="submit" name="save" id="submitbtn" class="btn btn-success">Update</button>
+						<button type="button" class="btn btn-danger" style="margin-left: 10px;" data-dismiss="modal">Close</button>
+					</div>
+				</form:form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<!-- Update Modal End -->
+
 <!-- Delete Modal Start -->
 <div class="modal fade" id="deleteOrg" role="dialog">
     <div class="modal-dialog">
@@ -162,9 +242,9 @@
         <div class="modal-header">
           <h4 class="modal-title">Delete Organization</h4>
         </div>
+        <form:form action="deleteOrg" modelAttribute="delete"  class="form-horizontal">
         <div class="modal-body">
-        
-        		<%-- <form:hidden path="id" id="emplDeleteId"/> --%>		
+			<form:hidden path="id" id="orgId"/> 		
     		   <div class="alert alert-warning">
   					<strong>Warning!</strong> Are you sure you want to delete this record ?
 				</div>   
@@ -173,6 +253,7 @@
           <button type="submit" class="btn btn-primary"  >Yes</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
         </div>
+        </form:form>
       </div>
     </div>
   </div>
@@ -208,9 +289,38 @@ function myFunction() {
 	}
 }
 
-function deleteOrg()
+function updateOrg(id)
 {
-	
+	 $.ajax({
+		  type: "post",
+		  url: "${pageContext.request.contextPath}/org.htm",
+		  cache: false,    
+		  data:'orgId='+id,
+		  success: function(response){
+		   var obj = JSON.parse(response);
+		  setInModal(obj);
+		  },
+		  error: function(){      
+		   alert('Error while request..');
+		  }
+		 });
+}
+
+function setInModal(obj)
+{
+	document.getElementById("oId").value = obj[0].id;
+	document.getElementById("date").value = obj[0].date;
+	document.getElementById("orgName").value = obj[0].orgname;
+	document.getElementById("name").value = obj[0].name;
+	document.getElementById("address").value = obj[0].address;
+	document.getElementById("contact").value = obj[0].contact;
+	document.getElementById("email").value = obj[0].email;
+}
+
+function deleteOrg(id)
+{
+	//alert(id);
+	document.getElementById("orgId").value=id;
 }
 
 </script>

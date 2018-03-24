@@ -184,16 +184,16 @@
               <thead>
                 <tr>
                   <th>Sr No.</th>
-                  <th>Date</th>
-                  <th>Org Name</th>
-                  <th>Owner Name</th>
-                  <th>Address</th>
-                  <th>Contact No</th>
-                  <th>Email</th>
-				  <th>Action</th>                  
+                  <th>SiteName</th>
+                  <th>Plot Name</th>
+                  <th>Length</th>
+                  <th>Width</th>
+                  <th>Square Foot(Sq.Ft)</th>
+				  <th>Total Amount</th>
+				  <th style="width: 103px;">Action</th>                  
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="plotInfo">
               	
               
               </tbody>
@@ -229,6 +229,87 @@
     </div>
   </div>
 <!-- Delete Modal End -->
+
+
+<!-- Update Modal Start -->
+<div id="updatePlot" class="modal hide fade" role="dialog" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Update Organization Details</h4>
+			</div>
+			<div class="modal-body">
+				<form:form action="updatePlot" modelAttribute="plotes"  method="POST" class="form-horizontal">
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Site Name :</label>
+						<div class="controls">
+							<form:hidden path="id" id="pid"/>
+							<form:hidden path="site_id" id="sid"/>
+							 <input id="usiteName" type="text" class="form-control"  readonly required="required"/>
+						</div>
+						</div>
+					</div>
+						
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Plot Name :</label>
+						<div class="controls">
+							 <form:input id="uplotName" class="form-control"  path="plot_name" required="required"/>
+						</div>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Length :</label>
+						<div class="controls">
+							 <form:input id="ulen" class="form-control"  path="length" required="required"/>
+						</div>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Width :</label>
+						<div class="controls">
+							<form:input id="uwid" class="form-control"  path="width" required="required"/>
+						</div>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="span4" >
+						<label class="control-label">Square Foot :</label>
+						<div class="controls">
+							<form:input id="usqft" type="number" class="form-control"  path="sqft" required="required"/>
+						</div>
+						</div>
+					</div>
+					
+
+					<div class="control-group">
+						<div class="span4">
+						<label class="control-label">Total Amount :</label>
+						<div class="controls">
+							<form:input id="uamt" class="form-control"  path="amt" required="required"/>
+						</div>
+						</div>
+					</div>
+
+								
+					<div class="form-actions" style="padding-left: 345px;">
+						<button type="submit" name="save" id="submitbtn" class="btn btn-success">Update</button>
+						<button type="button" class="btn btn-danger" style="margin-left: 10px;" data-dismiss="modal">Close</button>
+					</div>
+				</form:form>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<!-- Update Modal End -->
 
 
 <!--end-main-container-part-->
@@ -297,6 +378,7 @@ function myFunction() {
 	 }
 	 else
 	{
+		 //getting site info
 		 $.ajax({
 			  type: "post",
 			  url: "http://localhost:8080/real-estate/siteinfo.htm",
@@ -305,25 +387,66 @@ function myFunction() {
 			  success: function(response){
 			  var obj = JSON.parse(response);
 			  setInTextbox(obj);
-			 // alert(obj[0].address);
 			  },
 			  error: function(){      
 			   alert('Error while request..');
 			  }
 			 });	 
+		 
+		 //getting plot info for dataTable
+		 $.ajax({
+			  type: "post",
+			  url: "http://localhost:8080/real-estate/plotDetails.htm",
+			  cache: false,    
+			  data:'siteid=' +siteVal,
+			  success: function(response){
+			  var obj = JSON.parse(response);
+			  setInTable(obj);
+			  },
+			  error: function(){      
+			   alert('Error while request..');
+			  }
+			 });	
 	}
  }
  
  function setInTextbox(obj)
  {
-	document.getElementById("address").value=obj[0].address;
+	 document.getElementById("address").value=obj[0].address;
 	document.getElementById("zone").value=obj[0].zone;
 	document.getElementById("price").value=obj[0].price;
 	document.getElementById("sqft").value=obj[0].sqft;
 	document.getElementById("len").value=obj[0].length;
 	document.getElementById("width").value=obj[0].width;
 	
-	totalSqft = obj[0].sqft
+	totalSqft = obj[0].sqft 
+ }
+ 
+ function setInTable(obj)
+ {
+	 var tableData="";
+	  for(var i=0;i<obj.length;)
+	{
+		
+		tableData+="<tr>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td>"+obj[i++]+"</td>"
+		+"<td><a href='#updatePlot'  onclick='updatePlot(this.parentNode.parentNode.rowIndex)' data-toggle='modal'>Update</a> || Delete</td>"
+		+"</tr>";
+	} 
+	 document.getElementById("plotInfo").innerHTML=tableData;
+	 
+ }
+
+	
+ function updatePlot(id)
+ {
+	 alert(id);
  }
  
  /*---------------------- AJAX for getting site information Ends ---------------------*/
@@ -344,7 +467,6 @@ function myFunction() {
 			}
 				 
 		}
-		//alert(enteredSqft); 
 		if(parseInt(totalSqft)<enteredSqft)
 		{
 			alert('Addition of you entered sqft in Plot Information is greater than all site Sq.Ft.');
