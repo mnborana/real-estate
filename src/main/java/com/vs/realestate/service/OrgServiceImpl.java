@@ -36,4 +36,18 @@ public class OrgServiceImpl implements OrgService {
 		return theOrgDAO.getOrgDetails();
 	}
 
+	@Transactional
+	@Override
+	public List<Organization> getOrgDetails(String orgId) {
+		
+		return theOrgDAO.getOrgDetails(orgId);
+	}
+
+	@Transactional
+	@Override
+	public void deleteOrg(int orgId) {
+		
+		theOrgDAO.deleteOrg(orgId);
+	}
+
 }

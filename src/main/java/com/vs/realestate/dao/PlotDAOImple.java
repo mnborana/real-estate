@@ -92,4 +92,50 @@ public class PlotDAOImple implements PlotDAO {
 		}
 	}
 
+
+	@Override
+	public List<Plotting> getPlotDetatils(String siteId) {
+	
+		Session session = sessionFactory.getCurrentSession();
+		
+		Query theQuery = session.createQuery("SELECT p.id,s.siteName,p.plot_name,p.length,p.width,p.sqft,p.amt FROM Plotting AS p LEFT JOIN AddSite AS s ON p.site_id=s.id WHERE s.id=:siteId"); 
+		
+		theQuery.setParameter("siteId", Integer.parseInt(siteId));
+		
+		List <Object[]>details = theQuery.getResultList();
+		
+		List plotDetails = new ArrayList<>();
+		
+		for(Object[] temp : details)
+		{
+			plotDetails.add(temp[0]);
+			plotDetails.add(temp[1]);
+			plotDetails.add(temp[2]);
+			plotDetails.add(temp[3]);
+			plotDetails.add(temp[4]);
+			plotDetails.add(temp[5]);
+			plotDetails.add(temp[6]);
+		}
+		
+		System.out.println(plotDetails.toString());
+		
+		return plotDetails;
+	}
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
