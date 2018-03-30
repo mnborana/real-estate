@@ -130,9 +130,7 @@
 			                				  <input type="text" readonly path="installamentNo" class="span11" value="${installmentsNo.installmentNo +1}" placeholder="Installments" />
 			               				  </div>
 			               				  </c:forEach>
-			              				  
-			               		</div>		  
-		            		   		
+			               			</div>		  
 		              		
 		              <div class="form-actions" style="padding-left: 500px;">
 		                <input type="submit" value="Save" class="btn btn-success center">
@@ -168,7 +166,6 @@
 		                <% int counter=1; %>
 		                <c:forEach var="paymentList" items="${listOfPayments}">
 		                	<tr>
-		                	
 		                		<td style="align:center" id="${paymentList.id}"><%=counter%></td>
 		                		<td style="align:center">${paymentList.clientId}</td>
 		                		<td style="align:center">${paymentList.plotId}</td>
