@@ -33,7 +33,10 @@ public class PlotDAOImple implements PlotDAO {
 		
 		Query theQuery = session.createQuery("select id, siteName from AddSite");
 		
+		
 		List<Object[]> details = theQuery.getResultList();
+		
+		//System.out.println("Add sites:"+details);
 		
 		List<AddSite> siteDetails = new ArrayList<>();
 		
