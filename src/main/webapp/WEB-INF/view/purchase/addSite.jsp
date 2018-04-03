@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"  %>
+   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -448,7 +449,7 @@ function setInModal(obj) {
 	document.getElementById("sqft1").value		=obj[0].sqft;
 	document.getElementById("address1").value	=obj[0].address;
 	document.getElementById("price1").value		=obj[0].price;
-	document.getElementById("length1").value		=obj[0].length;
+	document.getElementById("length1").value	=obj[0].length;
 	document.getElementById("width1").value		=obj[0].width;
 	document.getElementById("zone1").value		=obj[0].zone;
 

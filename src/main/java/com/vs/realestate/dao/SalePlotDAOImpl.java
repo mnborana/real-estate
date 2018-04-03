@@ -18,11 +18,13 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 	SessionFactory sessionFactory;
 	
 	@Override
-	public List<Plotting> getPlotNames() {
+	public List<Plotting> getPlotNames(String siteId) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query query = currentSession.createQuery("select id, plot_name from Plotting where site_id=1");
+		Query query = currentSession.createQuery("select id, plot_name from Plotting where site_id=:site_id");
+		
+		query.setParameter("site_id",Integer.parseInt(siteId));
 		
 		List<Object[]> plotList = query.getResultList();
 		
@@ -40,3 +42,11 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 	}
 
 }
+
+/*
+
+		Query theQuery = currentSession.createQuery("delete from AddSite where id=:siteId");
+		
+		theQuery.setParameter("siteId", id);
+
+*/

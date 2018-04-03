@@ -10,10 +10,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vs.realestate.dao.PlotDAO;
 import com.vs.realestate.entity.AddSite;
+import com.vs.realestate.entity.Plotting;
 
 @Service
 public class PlotServiceImpl implements PlotService {
@@ -40,6 +42,13 @@ public class PlotServiceImpl implements PlotService {
 	public void savePlotes(int siteid, String[] plotName, int[] len, int[] width, int[] sqft, int[] amt) {
 
 		thePlotDAO.savePlotes(siteid,plotName,len,width,sqft,amt);
+	}
+
+	@Transactional/*(propagation=Propagation.REQUIRED,readOnly=true, noRollbackFor=Exception.class)*/
+	@Override
+	public List<Plotting> getPlotDetatils(String siteId) {
+
+		return thePlotDAO.getPlotDetatils(siteId);
 	}
 
 }

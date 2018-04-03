@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +28,11 @@ import com.vs.realestate.service.AddClientService;
 import com.vs.realestate.service.AddSiteService;
 import com.vs.realestate.service.InstallmentService;
 import com.vs.realestate.entity.Organization;
+import com.vs.realestate.entity.Payment;
 import com.vs.realestate.entity.Plotting;
 import com.vs.realestate.entity.SalePlot;
 import com.vs.realestate.service.OrgService;
+import com.vs.realestate.service.PaymentService;
 import com.vs.realestate.service.PlotService;
 import com.vs.realestate.service.SalePlotService;
 import com.google.gson.Gson;
@@ -38,6 +41,7 @@ import com.vs.realestate.entity.AddSite;
 
 @Controller
 public class RealEstateController {
+	
 	
 	@Autowired
 	InstallmentService installmentService;
@@ -56,6 +60,9 @@ public class RealEstateController {
 
 	@Autowired
 	AddClientService clientService;
+	
+	@Autowired
+	PaymentService thepaymentservice;
 	
 	Gson gson=new Gson();
 	
@@ -134,17 +141,102 @@ public class RealEstateController {
 		
 		//getting id,site names to show in dropDown
 		List<AddSite> siteNames = thePlotService.getSiteNames();
+		
 		model.addAttribute("siteNames", siteNames);
 		
-		List<Plotting> plotNames = salePlotService.getPlotNames();
-		model.addAttribute("plotNames", plotNames);
+		/*List<Plotting> plotNames = salePlotService.getPlotNames();
+		model.addAttribute("plotNames", plotNames);*/
 
 		return "/sale/salePlot";
 	}
 	
+	//AJAX for getting site detail
+	@RequestMapping(value="/plot.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlots(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String siteId = request.getParameter("siteId");
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(plotNames);
+		
+		return json;
+		
+	}
 	
+	//AJAX for getting plot Info
+	/*@RequestMapping(value="/plotInfo.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String plotId = request.getParameter("plotId");
+		
+		System.out.println(plotId);
+		
+		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(plotNames);
+		
+		return json;
+		//return "";
+
+	}*/
+
 	//////////////////// SALEPLOT ///////////////////////	
 	
+	///////////////////PAYMENT  /////////////////////////
+	@RequestMapping("/listPayment")
+	public String listOfPaymentDetails(Model theModel)
+	{
+		
+		theModel.addAttribute("payment",new Payment());
+		
+		//Fetch Payment Details
+		List<Payment> thepaymentlist=thepaymentservice.getPaymentDetails();
+		theModel.addAttribute("listOfPayments",thepaymentlist);
+		
+		//select Client 
+		List<AddClient> selectClientList=thepaymentservice.selectClientsList();
+		theModel.addAttribute("listOfClientsList",selectClientList);
+		
+		//select Plots
+		List<Plotting> selectPlotting=thepaymentservice.selectPlots();
+		theModel.addAttribute("selectPlotting",selectPlotting);
+		
+		//remaining Amount
+		List<Payment> listRemAmt=thepaymentservice.selectRemainingAmt();
+		theModel.addAttribute("listRemAmt",listRemAmt);
+		
+		//set Mode and its Values
+		List<Installment> getMode=thepaymentservice.getModes();
+		theModel.addAttribute("theModes",getMode);
+		
+		//set installments number
+		List<Payment> theInstallmentNo=thepaymentservice.getInstallmentNo();
+		theModel.addAttribute("installmentNo",theInstallmentNo);
+		
+		return "/payment/addPayment";
+	}
+	
+	@PostMapping("/addPayment")
+	public String savePaymentDetails(@ModelAttribute("payment") Payment thePayment)
+	{
+		thepaymentservice.savePayments(thePayment);
+		
+		return "redirect:/listPayment";
+		
+	}
+	
+	/*@RequestMapping("/addPayment")
+	public String selectClientName(Model theModel)
+	{
+		theModel.addAttribute("payment",new Payment());
+		return "/payment/addPayment";
+	}*/
+	///////////////////PAYMENT  /////////////////////////
 	
 	//////////////////// INSTALLMENT ///////////////////////
 	
@@ -286,6 +378,8 @@ public class RealEstateController {
 		Organization theOrg = new Organization();
 		theModel.addAttribute("orgnization", theOrg);
 		
+		theModel.addAttribute("delete", theOrg);
+		
 		return "/settings/organization";
 	}
 	
@@ -306,6 +400,9 @@ public class RealEstateController {
 		List<AddSite> siteNames = thePlotService.getSiteNames();
 		theModel.addAttribute("siteNames", siteNames);
 		
+		//getting details to show in datatable
+		//theModel.addAttribute("plotDetails", plotDetails);
+		
 		//for inserting data
 		Plotting thePlot = new Plotting();
 		theModel.addAttribute("plotes", thePlot);
@@ -320,14 +417,63 @@ public class RealEstateController {
 		
 		List<AddSite> siteDetails = thePlotService.getSiteDetails(siteId);
 		
+		List plotDetails = thePlotService.getPlotDetatils(siteId);
+		
 		response.setContentType("application/json");
 		
 		String json=gson.toJson(siteDetails);
 		
-		System.out.println(siteDetails.toString());
+		/*String newJson = gson.toJson(plotDetails);
+		
+		String finalJson=json.concat(newJson);
+		*/
+		//json+=gson.toJson(plotDetails);
+		
+		System.out.println(json);
 		
 		return json;
 	}
+	
+	@RequestMapping(value="/plotDetails.htm",method = RequestMethod.POST)
+	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception
+	{
+		String siteId = request.getParameter("siteid");
+		
+		List<Plotting> plotDetails = thePlotService.getPlotDetatils(siteId);
+		
+		//System.out.println("contr ---- "+plotDetails.toString());
+		
+		response.setContentType("application/json");
+		
+		String newJson = gson.toJson(plotDetails);
+		
+		return newJson;
+	}
+	
+	@RequestMapping(value="/org.htm",method = RequestMethod.POST)
+	public @ResponseBody String getOrgInfo(HttpServletRequest request,HttpServletResponse response) throws Exception
+	{
+		String orgId = request.getParameter("orgId");
+		
+		List<Organization> orgDetails = theOrgService.getOrgDetails(orgId);
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(orgDetails);
+		
+		return json;
+	}
+	
+	@PostMapping("/deleteOrg")
+	public String deleteOrg(@RequestParam int id, RedirectAttributes redirectAttrs)
+	{
+		theOrgService.deleteOrg(id);
+		
+		redirectAttrs.addFlashAttribute("status", "Record Deleted Successfully");
+		
+		return "redirect:/organization";
+	}
+	
 	
 	@PostMapping("/savePlotes")
 	public String savePlotes(@RequestParam int site_id, @RequestParam String plot_name[], @RequestParam int length[],
