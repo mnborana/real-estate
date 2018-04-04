@@ -429,6 +429,7 @@ function updateSite(id) {
 		  data:'siteId='+id,
 		  success: function(response){
 		  var obj = JSON.parse(response);
+		  alert(obj);
 		  setInModal(obj);
 		  },
 		  error: function(){      

@@ -49,6 +49,7 @@ public class AddSite {
 	@Column(name="status")
 	private int status;
 
+	
 	public int getId() {
 		return id;
 	}
@@ -146,7 +147,7 @@ public class AddSite {
 	}
 	
 	public AddSite() {
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public AddSite(int id, String siteName) {
