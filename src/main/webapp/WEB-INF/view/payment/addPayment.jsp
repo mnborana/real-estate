@@ -115,7 +115,7 @@
 		               				  </div>
 		               				  
 		            		    </div>
-			            		 <div class="control-group">
+			            		 <%-- <div class="control-group">
 			                			<label class="control-label">Mode :</label>
 			                			<c:forEach items="${theModes}" var="theModes">
 				              				  <div class="controls span4" style="margin-left: 20px;">
@@ -130,7 +130,7 @@
 			                				  <input type="text" readonly path="installamentNo" class="span11" value="${installmentsNo.installmentNo +1}" placeholder="Installments" />
 			               				  </div>
 			               				  </c:forEach>
-			               			</div>		  
+			               			</div> --%>		  
 		              		
 		              <div class="form-actions" style="padding-left: 500px;">
 		                <input type="submit" value="Save" class="btn btn-success center">
