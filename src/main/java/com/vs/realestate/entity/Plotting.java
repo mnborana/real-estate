@@ -40,6 +40,10 @@ public class Plotting {
 	@Column(name="total_amount")
 	private int amt;
 	
+	public Plotting() {
+	
+	}
+	
 	public int getId() {
 		return id;
 	}

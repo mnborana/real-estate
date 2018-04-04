@@ -180,6 +180,13 @@
 function getSiteInfo(id)
 {
 	
+ 	document.getElementById("address").value	="";
+	document.getElementById("zone").value		="";
+	document.getElementById("price").value		="";
+	document.getElementById("sqft").value		="";
+	document.getElementById("len").value		="";
+	document.getElementById("width").value		="";
+	
 	$.ajax({
   
 		type: "post",
@@ -202,24 +209,30 @@ function setInOption(obj) {
 	//document.getElementById("plotInfo_1").innerHTML="<option value='Select Plot' selected='selected'> Select Plot </option>";
 	//$('#plotInfo_1 :selected').remove(); 
 	$('#plotInfo_1').empty();
-
+	//$('#plotInfo_1').find('option:not(:first)').remove();
 	//var optionData = "";
 	
-	$("#plotInfo_1").append("<option selected='selected'> Select Plot </option>");
+	$("#plotInfo_1").append("<option selected='selected' value='0'> Select Plot </option>");
 	for (var i = 0; i < obj.length; i++){
 		$("#plotInfo_1").append("<option value='"+obj[i].id+"'>"+obj[i].plot_name+"</option>");
 		//optionData +="<option value='"+obj[i].id+"' >"+obj[i].plot_name+"</option>";
 	}
-		
-	/* document.getElementById("plotInfo_1").innerHTML="<option selected='selected'> Select Plot </option>"+optionData; 
-	
+
+	$('#plotInfo_1').select2();
+	//document.getElementById('plotInfo_1').selectedIndex = 0;
+	//$('#plotInfo_1 option:first').attr('selected',true);
+	//$('#plotInfo_1').val($(this).find('option:first').val());
+	//$('#plotInfo_1').prop('selectedIndex',0);
+	//$.uniform.update('#plotInfo_1');
+
+	/* document.getElementById("plotInfo_1").innerHTML="<option selected='selected'> Select Plot </option>"+optionData;
 	$("#plotInfo_1").trigger('chosen:updated'); */
-} 
+	
+}
 
 /*--------------------- AJAX for getting plot information -------------------- */
-/* 
+
 function getPlotInfo(val) {
-	alert(val);
 	
 	$.ajax({
 
@@ -230,14 +243,24 @@ function getPlotInfo(val) {
 		success: function(response){
 			
 			var obj = JSON.parse(response);
-			alert(obj);
-			//setInOption(obj);
+			setInTextField(obj);
 		},
 		error: function(){      
 		   alert('Error while request..');
 		}
 	});
-} */
+}
+
+function setInTextField(obj) {
+			
+ 	document.getElementById("address").value	=obj[0].address;
+	document.getElementById("zone").value		=obj[0].zone;
+	document.getElementById("price").value		=obj[1].amt;
+	document.getElementById("sqft").value		=obj[1].sqft;
+	document.getElementById("len").value		=obj[1].width;
+	document.getElementById("width").value		=obj[1].length;
+	
+}
 
 </script>
 

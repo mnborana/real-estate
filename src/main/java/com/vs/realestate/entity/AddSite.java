@@ -55,6 +55,7 @@ public class AddSite {
 	
 	@Column(name="status")
 	private int status;
+
 	
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinColumn(name="site_id")
@@ -158,7 +159,7 @@ public class AddSite {
 	}
 	
 	public AddSite() {
-		// TODO Auto-generated constructor stub
+	
 	}
 
 	public AddSite(int id, String siteName) {
