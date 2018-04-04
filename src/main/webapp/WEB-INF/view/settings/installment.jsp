@@ -69,7 +69,7 @@
 			                  <form:input type="text" value="" id="modeName" path="modeName" class="span11" placeholder="Enter Mode name" required="required" readonly="true" />
 			                </div>
 			              
-			                <label class="control-label">No. Of Installments :</label>
+			                <label class="control-label" style = "margin-left: -4%;">No. Of Installments :</label>
 			                <div class="controls span4" style="margin-left: 20px;">
 			                  <form:input type="text" path="noOfInstallment"  class="span11" placeholder="Enter No. of Installments" required="required"  />
 			                </div>
