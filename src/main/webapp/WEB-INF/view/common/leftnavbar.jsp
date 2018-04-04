@@ -23,7 +23,7 @@
       </ul>
     </li>
     
-    <li> <a href="listPayment"><i class="icon icon-inbox"></i> <span>Payment</span></a> </li>
+    <li> <a href="payment"><i class="icon icon-inbox"></i> <span>Payment</span></a> </li>
     <li> <a href="#"><i class="icon icon-inbox"></i> <span>Report</span></a> </li>
     
   </ul>

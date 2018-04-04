@@ -198,25 +198,25 @@ public class RealEstateController {
 	//////////////////// SALEPLOT ///////////////////////	
 	
 	///////////////////PAYMENT  /////////////////////////
-	@RequestMapping("/listPayment")
+	@RequestMapping("/payment")
 	public String listOfPaymentDetails(Model theModel)
 	{
 		
 		theModel.addAttribute("payment",new Payment());
 		
-		//Fetch Payment Details
+		/*//Fetch Payment Details
 		List<Payment> thepaymentlist=thepaymentservice.getPaymentDetails();
-		theModel.addAttribute("listOfPayments",thepaymentlist);
+		theModel.addAttribute("listOfPayments",thepaymentlist);*/
 		
 		//select Client 
 		List<AddClient> selectClientList=thepaymentservice.selectClientsList();
 		theModel.addAttribute("listOfClientsList",selectClientList);
 		
-		//select Plots
+		/*//select Plots
 		List<Plotting> selectPlotting=thepaymentservice.selectPlots();
-		theModel.addAttribute("selectPlotting",selectPlotting);
+		theModel.addAttribute("selectPlotting",selectPlotting);*/
 		
-		//remaining Amount
+		/*//remaining Amount
 		List<Payment> listRemAmt=thepaymentservice.selectRemainingAmt();
 		theModel.addAttribute("listRemAmt",listRemAmt);
 		
@@ -226,12 +226,13 @@ public class RealEstateController {
 		
 		//set installments number
 		List<Payment> theInstallmentNo=thepaymentservice.getInstallmentNo();
-		theModel.addAttribute("installmentNo",theInstallmentNo);
+		theModel.addAttribute("installmentNo",theInstallmentNo);*/
 		
 		return "/payment/addPayment";
 	}
 	
-	@PostMapping("/addPayment")
+	
+	@PostMapping("/savePayment")
 	public String savePaymentDetails(@ModelAttribute("payment") Payment thePayment)
 	{
 		thepaymentservice.savePayments(thePayment);
@@ -240,12 +241,8 @@ public class RealEstateController {
 		
 	}
 	
-	/*@RequestMapping("/addPayment")
-	public String selectClientName(Model theModel)
-	{
-		theModel.addAttribute("payment",new Payment());
-		return "/payment/addPayment";
-	}*/
+	
+	
 	///////////////////PAYMENT  /////////////////////////
 	
 	//////////////////// INSTALLMENT ///////////////////////
@@ -292,7 +289,6 @@ public class RealEstateController {
 		}
 		
 		return lastMode;
-		
 	}
 	
 	@PostMapping("deleteMode")

@@ -36,8 +36,6 @@ public class Payment {
 	@Column(name="pay_amount")
 	private int payAmount;
 	
-	//@Column(name="mode")
-	//private int mode;
 	
 	@Column(name="installment_no")
 	private int installmentNo;
@@ -97,14 +95,6 @@ public class Payment {
 	public void setPayAmount(int payAmount) {
 		this.payAmount = payAmount;
 	}
-
-	/*public int getMode() {
-		return mode;
-	}
-
-	public void setMode(int mode) {
-		this.mode = mode;
-	}*/
 
 	public int getInstallmentNo() {
 		return installmentNo;

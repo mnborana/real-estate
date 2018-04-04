@@ -76,14 +76,7 @@
 		                			
 		                			<label class="control-label">Select Plot :</label>
 					                <div class="controls span4" style="margin-left: 20px;">
-					                	<form:select path="plotId">
-					                	 <form:option value="0" label="Select Plot"></form:option>
-					                		<c:forEach items="${selectPlotting}" var="plotList">
-					                		
-					                		<form:option value="${plotList.id }" label="${plotList.plot_name }"></form:option>
 					                	
-					                	</c:forEach>
-					                	</form:select>
 		                			</div>
 		                			
 		            			  </div>
@@ -103,9 +96,7 @@
 		              			<div class="control-group">
 		                			<label class="control-label">Rem.Amount :</label>
 		              				  <div class="controls span4" style="margin-left: 20px;">
-		              				  <c:forEach items="${listRemAmt}" var="listRem">
-		                				  <input type="text" path="remAmount" readonly value="${listRem.remAmount}" class="span11" placeholder="Rem Amount"  />
-		               				  </c:forEach>
+		                				  <input type="text" path="remAmount" readonly  class="span11" placeholder="Rem Amount"  />
 		               				  </div>
 		               				  
 		               				  
@@ -115,22 +106,18 @@
 		               				  </div>
 		               				  
 		            		    </div>
-			            		 <%-- <div class="control-group">
-			                			<label class="control-label">Mode :</label>
-			                			<c:forEach items="${theModes}" var="theModes">
-				              				  <div class="controls span4" style="margin-left: 20px;">
-				              				 	 <form:hidden path="mode" value="${theModes.id}" />
-				                				  <input type="text" value="${theModes.modeName}" readonly  class="span11" placeholder="Mode" />
-				               				  </div>
-			               				  </c:forEach>
-			               				  <label class="control-label">Installments No :</label>
-			               				  <c:forEach items="${installmentNo}" var="installmentsNo">
-			               				  	<div class="controls span4" style="margin-left: 20px;">
-			               				  	
-			                				  <input type="text" readonly path="installamentNo" class="span11" value="${installmentsNo.installmentNo +1}" placeholder="Installments" />
-			               				  </div>
-			               				  </c:forEach>
-			               			</div> --%>		  
+		            		    
+			            		<div class="control-group">
+		                			<label class="control-label">Mode :</label>
+		              				  <div class="controls span4" style="margin-left: 20px;">
+		                				  <input type="text" readonly  class="span11" placeholder="Mode" />
+		               				  </div>
+		               				  
+		               				<label class="control-label">Installments No :</label>
+		               				  	<div class="controls span4" style="margin-left: 20px;">
+		                				  <input type="text" readonly path="installamentNo" class="span11"  placeholder="Installments" />
+		               				  	</div>
+			               		</div> 	  
 		              		
 		              <div class="form-actions" style="padding-left: 500px;">
 		                <input type="submit" value="Save" class="btn btn-success center">
