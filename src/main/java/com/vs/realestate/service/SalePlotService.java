@@ -8,4 +8,6 @@ public interface SalePlotService {
 
 	List<Plotting> getPlotNames(String siteId);
 
+	List<Plotting> getPlotInfo(String plotId);
+
 }

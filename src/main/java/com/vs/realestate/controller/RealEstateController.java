@@ -162,6 +162,8 @@ public class RealEstateController {
 		
 		String json=gson.toJson(plotNames);
 		
+		System.out.println("json1 "+json);
+		
 		return json;
 		
 	}
@@ -172,14 +174,22 @@ public class RealEstateController {
 		
 		String plotId = request.getParameter("plotId");
 		
+<<<<<<< HEAD
+		List<Plotting> plotInfo = salePlotService.getPlotInfo(plotId);
+=======
 		System.out.println(plotId);
 		
 		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
+>>>>>>> refs/remotes/origin/master
 		
 		response.setContentType("application/json");
 		
-		String json=gson.toJson(plotNames);
+		String json=gson.toJson(plotInfo);
+		System.out.println("json2 "+json);
 		
+<<<<<<< HEAD
+		return json;		
+=======
 		return json;
 		//return "";
 

@@ -22,4 +22,10 @@ public class SalePlotServiceImpl implements SalePlotService {
 		return salePlotDAO.getPlotNames(siteId);
 	}
 
+	@Override
+	@Transactional
+	public List<Plotting> getPlotInfo(String plotId) {
+		return salePlotDAO.getPlotInfo(plotId);
+	}
+
 }

@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.vs.realestate.entity.AddSite;
 import com.vs.realestate.entity.Plotting;
 
 @Repository
@@ -37,16 +38,41 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 			plotting.setPlot_name((String)temp[1]);
 			plotDetsils.add(plotting);
 		}
-		System.out.println(plotDetsils);
 		return plotDetsils;
 	}
 
-}
-
-/*
-
-		Query theQuery = currentSession.createQuery("delete from AddSite where id=:siteId");
+	@Override
+	public List<Plotting> getPlotInfo(String plotId) {
 		
-		theQuery.setParameter("siteId", id);
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query query = currentSession.createQuery("SELECT A.address, A.zone, P.amt, P.sqft, P.width, P.length FROM "
+				+ " AddSite A INNER JOIN Plotting P ON P.site_id=A.id AND P.id=:plot_id");
+		
+		query.setParameter("plot_id",Integer.parseInt(plotId));
+		
+		List<Object[]> plotDetailList = query.getResultList();
+		
+		List plotInfo = new ArrayList<>();
+		
+		for (Object[] temp : plotDetailList) {
+			Plotting plotting = new Plotting();
+			AddSite addSite = new AddSite();
+			
+			addSite.setAddress((String)temp[0]);
+			addSite.setZone((String)temp[1]);
+			plotInfo.add(addSite);
+			
+			plotting.setAmt((Integer)temp[2]);
+			plotting.setSqft((Integer)temp[3]);
+			plotting.setWidth((Integer)temp[4]);
+			plotting.setLength((Integer)temp[5]);
+			plotInfo.add(plotting);
+		}
+		
+		System.out.println(plotInfo);
+		
+		return plotInfo;
+	}
 
-*/
+}

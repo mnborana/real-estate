@@ -8,4 +8,6 @@ public interface SalePlotDAO {
 
 	List<Plotting> getPlotNames(String siteId);
 
+	List<Plotting> getPlotInfo(String plotId);
+
 }
