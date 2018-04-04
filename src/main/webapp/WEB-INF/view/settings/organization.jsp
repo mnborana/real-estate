@@ -139,8 +139,8 @@
 	                  <td>${org.contact }</td>
 	                  <td>${org.email }</td>
 	                  <td class="center">
-	                  		<a href="#updateOrg"  onclick="updateOrg(${org.id})" data-toggle="modal">Update </a>|| 
-	                  		<a href="#deleteOrg"  onclick="deleteOrg(${org.id})" data-toggle="modal">Delete</a>
+	                  		<a href="#updateOrg"  onclick="updateOrg(${org.id})" data-toggle="modal"><i class="icon-pencil"></i> </a>|
+	                  		<a href="#deleteOrg"  onclick="deleteOrg(${org.id})" data-toggle="modal"><i class="icon-remove"></i></a>
 	                  </td>
 	                </tr>
 	                </c:forEach>

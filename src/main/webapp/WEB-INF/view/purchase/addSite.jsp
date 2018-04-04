@@ -226,8 +226,8 @@
 	                  <td>${ print.contactNo}</td>
 	                  <td class="center"> &nbsp;&nbsp;
 	                  		<a href="#updateSite" onclick="updateSite(${print.id})" data-toggle="modal" title="Update">
-	                  			<i class="icon-eye-open"></i>
-	                  		</a> &nbsp;&nbsp;
+	                  			<i class="icon-pencil"></i>
+	                  		</a>  | 
 	                  		<a href="#deleteSite"  onclick="deleteSite(${print.id})" data-toggle="modal" title="Delete">
 	                  			<i class="icon-remove"></i>
 	                  		</a>
