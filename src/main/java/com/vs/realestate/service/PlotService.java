@@ -9,6 +9,7 @@ package com.vs.realestate.service;
 import java.util.List;
 
 import com.vs.realestate.entity.AddSite;
+import com.vs.realestate.entity.Plotting;
 
 public interface PlotService {
 
@@ -17,4 +18,6 @@ public interface PlotService {
 	public List<AddSite> getSiteDetails(String siteId);
 	
 	public void savePlotes(int siteid,String plotName[],int len[],int width[],int sqft[],int amt[]);
+	
+	public List<Plotting> getPlotDetatils(String siteId);
 }

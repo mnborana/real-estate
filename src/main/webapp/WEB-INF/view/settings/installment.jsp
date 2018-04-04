@@ -107,7 +107,10 @@
 		                		<td><%=counter%></td>
 		                		<td id="modeName<%=counter%>">${instaList.modeName}</td>
 		                		<td>${instaList.noOfInstallment}</td>
-		                		<td><a href="#updateMode" data-toggle="modal" onclick="updateInsta(${instaList.id})">Update</a> | <a href="#deleteMode"  onclick="deleteInsta(${instaList.id})" data-toggle="modal">Delete</a></td>
+		                		<td>
+		                			<a href="#updateMode" data-toggle="modal" onclick="updateInsta(${instaList.id})"><i class="icon-pencil"></i></a> | 
+		                			<a href="#deleteMode"  onclick="deleteInsta(${instaList.id})" data-toggle="modal"><i class="icon-remove"></i></a>
+		                		</td>
 		                	</tr>
 		                	
 		                	<%counter++; %>

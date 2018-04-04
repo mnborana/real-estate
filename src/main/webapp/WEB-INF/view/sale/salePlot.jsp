@@ -188,7 +188,7 @@ function getSiteInfo(id)
 	document.getElementById("width").value		="";
 	
 	$.ajax({
-
+  
 		type: "post",
 		url: "${pageContext.request.contextPath}/plot.htm",
 		cache: false,    

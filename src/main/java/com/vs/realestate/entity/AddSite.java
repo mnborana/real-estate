@@ -1,11 +1,18 @@
 package com.vs.realestate.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import com.vs.realestate.entity.*;
 
 @Entity
 @Table(name="site_info")
@@ -49,6 +56,11 @@ public class AddSite {
 	@Column(name="status")
 	private int status;
 
+	
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinColumn(name="site_id")
+	private List<Plotting>plotes;
+	
 	
 	public int getId() {
 		return id;

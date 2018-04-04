@@ -14,6 +14,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.vs.realestate.entity.AddSite;
 import com.vs.realestate.entity.Organization;
 import com.vs.realestate.service.OrgService;
 
@@ -48,6 +49,35 @@ public class OrgDAOImpl implements OrgDAO {
 		List<Organization> orgDetails = theQuery.getResultList();
 		
 		return orgDetails;
+	}
+
+
+	@Override
+	public List<Organization> getOrgDetails(String orgId) {
+
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query<Organization> theQuery = currentSession.createQuery("from Organization where id=:orgId", Organization.class);
+		
+		theQuery.setParameter("orgId", Integer.parseInt(orgId));
+		
+		List orgDetails = theQuery.getResultList();
+		
+		return orgDetails;
+	}
+
+
+	@Override
+	public void deleteOrg(int orgId) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		Query theQuery = currentSession.createQuery("delete from Organization where id=:orgId");
+		
+		theQuery.setParameter("orgId", orgId);
+		
+		theQuery.executeUpdate();
+		
 	}
 
 }

@@ -140,7 +140,10 @@
 		                		<td>${clientList.nomineeName}</td>
 		                		<td>${clientList.nomineeContact}</td>
 		                		<td>${clientList.relation}</td>
-		                		<td><a href="#updateClient" data-toggle="modal" onclick="updateClient(${clientList.id})">Update</a> | <a href="#deleteClient"  onclick="deleteClient(${clientList.id})" data-toggle="modal">Delete</a></td>
+		                		<td>
+		                			<a href="#updateClient" data-toggle="modal" onclick="updateClient(${clientList.id})"><i class="icon-pencil"></i></a> | 
+		                			<a href="#deleteClient"  onclick="deleteClient(${clientList.id})" data-toggle="modal"><i class="icon-remove"></i></a>
+		                		</td>
 		                	</tr>
 		                	
 		                	<%counter++; %>
