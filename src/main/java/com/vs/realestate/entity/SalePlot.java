@@ -24,8 +24,8 @@ public class SalePlot {
 	@Column(name="client_id")
 	private int client_id;	
 
-	@Column(name="installment_id")
-	private int installment_id;
+	@Column(name="modes_id")
+	private int mode_id;
 
 	@Column(name="token_amt")
 	private int token_amt;
@@ -37,7 +37,7 @@ public class SalePlot {
 		
 	}
 
-	public SalePlot(int id, String date, int site_id, int plot_id, int client_id, int installment_id, int token_amt,
+	public SalePlot(int id, String date, int site_id, int plot_id, int client_id, int mode_id, int token_amt,
 			int status) {
 		super();
 		this.id = id;
@@ -45,7 +45,7 @@ public class SalePlot {
 		this.site_id = site_id;
 		this.plot_id = plot_id;
 		this.client_id = client_id;
-		this.installment_id = installment_id;
+		this.mode_id = mode_id;
 		this.token_amt = token_amt;
 		this.status = status;
 	}
@@ -90,12 +90,12 @@ public class SalePlot {
 		this.client_id = client_id;
 	}
 
-	public int getInstallment_id() {
-		return installment_id;
+	public int getMode_id() {
+		return mode_id;
 	}
 
-	public void setInstallment_id(int installment_id) {
-		this.installment_id = installment_id;
+	public void setMode_id(int mode_id) {
+		this.mode_id = mode_id;
 	}
 
 	public int getToken_amt() {

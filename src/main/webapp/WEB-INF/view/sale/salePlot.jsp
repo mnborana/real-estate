@@ -86,7 +86,7 @@
 			              </div>
 		              </div>		              
 
-	             <div class="span12" style="margin: 0;">
+	             <div class="span11" style="margin-left: 44px;">
 		            <div class="widget-box">
 		            	<div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
 			            	<h5>Plot Information</h5>
@@ -140,6 +140,67 @@
 		            
 		         </div>
 
+					  <br>
+		              <div>
+			              <div class="control-group">
+		    			     <div class="control-group span6">
+					              <label class="control-label">Select Client</label>
+					              <div class="controls">            
+					                <form:select path="client_id" id="client_id" multiple="true" onchange="getPlotInfo()">
+					                	<c:forEach items="${listOfClientsList}" var="clientList">
+					                		
+					                		<form:option value="${clientList.id }" label="${clientList.name }"></form:option>
+					                	
+					                	</c:forEach>
+					                </form:select>
+				              	</div>
+				             </div>
+				             
+  	 		    			 <div class="control-group span6" style="margin-left: -10px;">
+					              <label class="control-label">Date</label>
+					              <div class="controls">
+					                	<form:input type="date" path="date" class="span11" required="required"/>
+				              	  </div>
+				             </div>			             
+			              
+			              </div>
+		              </div>
+
+		            <div class="span12" style="margin: 0;">
+						<div class="widget-box">
+				          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+				            <h5>Client & Plot Information</h5>
+				          </div>
+				          <div class="widget-content nopadding">
+				            <table class="table table-bordered table-striped">
+				              <thead>
+				                <tr>
+				                  <th>Client Name</th>
+				                  <th>Plot</th>
+				                  <th>Length</th>
+				                  <th>Width</th>
+				                  <th>Sq Ft</th>
+				                  <th>Total Amount</th>
+				                  <th>Mode</th>
+				                  <th>Token Amount</th>
+				                </tr>
+				              </thead>
+				              <tbody id="genPlot">
+				                <tr align="center">
+				                  <td style="text-align: center;">Trident</td>
+				                  <td style="text-align: center;">Internet</td>
+				                  <td style="text-align: center;">Win 95+</td>
+				                  <td style="text-align: center;"> 4</td>
+				                  <td style="text-align: center;">X</td>
+				                  <td style="text-align: center;">Win 95+</td>
+				                  <td style="text-align: center;"> 4</td>
+				                  <td style="text-align: center;">X</td>
+				                </tr>
+				              </tbody>
+				            </table>
+				          </div>
+	        			</div>
+			        </div>
 
 		              
 		              <div class="form-actions" style="padding-left: 500px;">
@@ -257,8 +318,43 @@ function setInTextField(obj) {
 	document.getElementById("zone").value		=obj[0].zone;
 	document.getElementById("price").value		=obj[1].amt;
 	document.getElementById("sqft").value		=obj[1].sqft;
-	document.getElementById("len").value		=obj[1].width;
-	document.getElementById("width").value		=obj[1].length;
+	document.getElementById("width").value		=obj[1].width;
+	document.getElementById("len").value		=obj[1].length;
+	
+}
+
+function getPlotInfo() {
+	
+//	alert(value+" "+label);
+	//alert(document.getElementsByTagName("client_id")[0].getAttribute("value"));
+	/* alert(document.getElementById("client_id").value);
+	alert(document.getElementById("client_id").id);
+	alert(document.getElementById("client_id").option); */
+	
+/* 	var el = document.getElementById('client_id');
+	var text = el.options[el.selectedIndex].innerHTML;
+	alert(text); */
+	
+/* 	$('#client_id').change(function(){
+	    var selected = $(this).find('option:selected');
+	    alert(selected.val() + ' ' + selected.text());
+	}); */
+
+	//alert($('#client_id').multiSelect());
+/* 	alert($("#client_id option:selected").text());
+	var multiselect = $('#client_id').val();
+	alert(multiselect) */
+
+/*     var selectedText = "";
+    var selectedValue = "";
+    $(function () {
+	    selectedText = $("#client_id").find("option:selected").text();
+	    selectedValue = $("#client_id").val();
+        alert("Selected Text: " + selectedText + " Value: " + selectedValue);
+    }); */
+    
+/*     var x = document.getElementById("client_id").selectedIndex;
+    alert(document.getElementsByTagName("options")[x].label); */
 	
 }
 
