@@ -279,6 +279,7 @@ public class RealEstateController {
 		return lastMode;
 	}
 	
+	
 	@PostMapping("deleteMode")
 	public String deleteMode(@RequestParam int modeDeleteId, RedirectAttributes redirectAttrs){
 		

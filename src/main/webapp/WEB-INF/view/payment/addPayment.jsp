@@ -74,7 +74,7 @@
 					                	
 		                			</div>
 		                			
-		                			<label class="control-label">Select Plot :</label>
+		                			<label class="control-label" style="margin-left: -8%;">Select Plot :</label>
 					                <div class="controls span4" style="margin-left: 20px;">
 					                	
 		                			</div>
@@ -86,7 +86,7 @@
 		                				  <form:input type="date" path="requiredDate" class="span11" required="required"/>
 		               				  </div>
 		               				  
-		               				  <label class="control-label">Toten Amount :</label>
+		               				  <label class="control-label" style="margin-left: -8%;">Toten Amount :</label>
 		              				  <div class="controls span4" style="margin-left: 20px;">
 		                				  <input type="text"  path="tokenAmount" class="span11" placeholder="Toten Amount" required />
 		               				  </div>
@@ -100,7 +100,7 @@
 		               				  </div>
 		               				  
 		               				  
-		               				  <label class="control-label">Pay Amount :</label>
+		               				  <label class="control-label" style="margin-left: -8%;">Pay Amount :</label>
 		              				  <div class="controls span4" style="margin-left: 20px;">
 		                				  <input type="text"  path="payAmount" class="span11" placeholder="Pay Amount" required />
 		               				  </div>
@@ -113,7 +113,7 @@
 		                				  <input type="text" readonly  class="span11" placeholder="Mode" />
 		               				  </div>
 		               				  
-		               				<label class="control-label">Installments No :</label>
+		               				<label class="control-label" style="margin-left: -8%;">Installments No :</label>
 		               				  	<div class="controls span4" style="margin-left: 20px;">
 		                				  <input type="text" readonly path="installamentNo" class="span11"  placeholder="Installments" />
 		               				  	</div>

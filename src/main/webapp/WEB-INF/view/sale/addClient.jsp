@@ -61,7 +61,7 @@
 		                  <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="clientName" path="name" class="span11" placeholder="Enter Client name" required="required"  />
 		                </div>
 		              
-		                <label class="control-label">Contact No. :</label>
+		                <label class="control-label" style="margin-left: -4%;">Contact No. :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
 		                  <form:input type="number" path="contactNo" max="9999999999"  class="span11" placeholder="Enter Client Contact No." required="required"  />
 		                </div>
@@ -73,7 +73,7 @@
 		                  <form:textarea id="permAddress" onkeyup="this.value=this.value.toUpperCase()" path="permAddress" class="span11"  required="required"  />
 		                </div>
 		              
-		                <label class="control-label">Current Address :</label>
+		                <label class="control-label" style="margin-left: -4%;">Current Address :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
 		                  <form:textarea path="curAddress" onkeyup="this.value=this.value.toUpperCase()" class="span11" required="required"  />
 		                </div>
@@ -86,7 +86,7 @@
 		                  <form:input type="text" value="" onkeyup="this.value=this.value.toUpperCase()" id="nomineeName" path="nomineeName" class="span11" placeholder="Enter Nominee name" required="required"  />
 		                </div>
 		              
-		                <label class="control-label">Nominee Contact No. :</label>
+		                <label class="control-label" style="margin-left: -4%;">Nominee Contact No. :</label>
 		                <div class="controls span4" style="margin-left: 20px;">
 		                  <form:input type="number" path="nomineeContact" max="9999999999"   class="span11" placeholder="Nominee Contact No." required="required"  />
 		                </div>
@@ -198,7 +198,7 @@
 
 
 <!-- update Modal Start -->
-<div class="modal fade" id="updateClient" style="margin-left: -35%; width: 70%;" role="dialog">
+<div class="modal fade hide" id="updateClient" style="margin-left: -35%; width: 70%;" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
