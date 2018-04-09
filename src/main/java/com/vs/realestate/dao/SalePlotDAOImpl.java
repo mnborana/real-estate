@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.vs.realestate.entity.AddSite;
+import com.vs.realestate.entity.Installment;
 import com.vs.realestate.entity.Plotting;
 
 @Repository
@@ -43,6 +44,8 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 
 	@Override
 	public List<Plotting> getPlotInfo(String plotId) {
+		
+		System.out.println("plotId"+plotId);
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
