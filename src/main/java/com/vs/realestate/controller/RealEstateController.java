@@ -65,9 +65,6 @@ public class RealEstateController {
 	@Autowired
 	PaymentService thepaymentservice;
 	
-	@Autowired
-	Installment installment;
-	
 	Gson gson=new Gson();
 	
 	@RequestMapping("/hello")
