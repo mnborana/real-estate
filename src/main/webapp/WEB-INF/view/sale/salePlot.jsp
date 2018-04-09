@@ -361,6 +361,23 @@ function getPlotInfo1() {
     var width = document.getElementById("width").value;
     var sqft = document.getElementById("sqft").value;
     var price = document.getElementById("price").value;
+
+	$.ajax({
+
+		type: "post",
+		url: "${pageContext.request.contextPath}/modeInfo.htm",
+		cache: false,    
+		data:'modeId=1',
+		success: function(response){
+			
+			var obj = JSON.parse(response);
+			alert(obj);
+		},
+		error: function(){      
+		   alert('Error while request..');
+		}
+	});
+    
     
     var data="";
     

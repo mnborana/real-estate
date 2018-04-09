@@ -65,6 +65,9 @@ public class RealEstateController {
 	@Autowired
 	PaymentService thepaymentservice;
 	
+	@Autowired
+	Installment installment;
+	
 	Gson gson=new Gson();
 	
 	@RequestMapping("/hello")
@@ -184,6 +187,26 @@ public class RealEstateController {
 		return json;
 	}
 
+	//AJAX for getting mode Info
+	@RequestMapping(value="/modeInfo.htm",method = RequestMethod.POST)
+	public @ResponseBody String getModeInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		String modeId = request.getParameter("modeId");
+		
+		System.out.println("modeId : " +modeId);
+		
+/*		List<Installment> installment = salePlotService.getModeInfo();
+		
+		response.setContentType("application/json");
+		
+		String json=gson.toJson(installment);
+		
+		return json;*/
+		
+		return "1";
+		
+	}
+	
 	//////////////////// SALEPLOT END ///////////////////////	
 	
 	/////////////////// PAYMENT  /////////////////////////
