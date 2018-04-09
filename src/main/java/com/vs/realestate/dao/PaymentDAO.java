@@ -9,18 +9,16 @@ import com.vs.realestate.entity.Plotting;
 
 public interface PaymentDAO {
 
-	List<Payment> getPaymentDetails();
 
 	void savePayments(Payment thePayment);
 
+	public List getPaymentList();
 	List<AddClient> selectClientNameList();
 
-	List<Plotting> selectPlots();
+	List<Plotting> selectPlots(String clintId);
 
-	List<Payment> selectRemAmt();
 
-	List<Installment> getModes();
+	List<Installment> getModes(String payId);
 
-	List<Payment> getInstallmentNo();
 
 }
