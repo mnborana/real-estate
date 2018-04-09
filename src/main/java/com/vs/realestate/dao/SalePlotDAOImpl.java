@@ -70,8 +70,6 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 			plotInfo.add(plotting);
 		}
 		
-		System.out.println(plotInfo);
-		
 		return plotInfo;
 	}
 
