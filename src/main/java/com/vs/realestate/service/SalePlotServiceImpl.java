@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vs.realestate.dao.SalePlotDAO;
+import com.vs.realestate.entity.Installment;
 import com.vs.realestate.entity.Plotting;
 
 @Service
