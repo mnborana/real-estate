@@ -73,7 +73,7 @@ public class RealEstateController {
 		return "dashboard";
 	}
 	
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// ADDSITE  START ///////////////////////	
 	
 
 	@RequestMapping("addSite")
@@ -130,10 +130,10 @@ public class RealEstateController {
 				
 		return json;
 	}
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// ADDSITE END ///////////////////////	
 
 	
-	//////////////////// SALEPLOT ///////////////////////	
+	//////////////////// SALEPLOT  START ///////////////////////	
 	
 	@RequestMapping("salePlot")
 	public String salePlot(Model model) {
@@ -147,6 +147,9 @@ public class RealEstateController {
 		
 		/*List<Plotting> plotNames = salePlotService.getPlotNames();
 		model.addAttribute("plotNames", plotNames);*/
+		
+		List<AddClient> selectClientList=thepaymentservice.selectClientsList();
+		model.addAttribute("listOfClientsList",selectClientList);
 
 		return "/sale/salePlot";
 	}
@@ -163,40 +166,25 @@ public class RealEstateController {
 		
 		String json=gson.toJson(plotNames);
 		
-		System.out.println("json1 "+json);
-		
 		return json;
-		
 	}
 	
 	//AJAX for getting plot Info
-	/*@RequestMapping(value="/plotInfo.htm",method = RequestMethod.POST)
+	@RequestMapping(value="/plotInfo.htm",method = RequestMethod.POST)
 	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		
 		String plotId = request.getParameter("plotId");
 		
-<<<<<<< HEAD
 		List<Plotting> plotInfo = salePlotService.getPlotInfo(plotId);
-=======
-		System.out.println(plotId);
-		
-		List<Plotting> plotNames = salePlotService.getPlotNames(siteId);
->>>>>>> refs/remotes/origin/master
 		
 		response.setContentType("application/json");
 		
 		String json=gson.toJson(plotInfo);
-		System.out.println("json2 "+json);
 		
-<<<<<<< HEAD
-		return json;		
-=======
 		return json;
-		//return "";
+	}
 
-	}*/
-
-	//////////////////// SALEPLOT ///////////////////////	
+	//////////////////// SALEPLOT END ///////////////////////	
 	
 	/////////////////// PAYMENT  /////////////////////////
 	@RequestMapping("/payment")
@@ -377,7 +365,7 @@ public class RealEstateController {
 	public @ResponseBody String getUpdateClientData(HttpServletRequest request, HttpServletResponse response){
 		
 		String clientId = request.getParameter("clientId");
-		System.out.println("clientId  "+clientId);
+
 		List clientDetails = clientService.getclientDetailsService(Integer.parseInt(clientId));
 		
 		response.setContentType("application/json");
@@ -461,7 +449,7 @@ public class RealEstateController {
 	}
 	
 	@RequestMapping(value="/plotDetails.htm",method = RequestMethod.POST)
-	public @ResponseBody String getPlotInfo(HttpServletRequest request,HttpServletResponse response) throws Exception
+	public @ResponseBody String getPlotInfo1(HttpServletRequest request,HttpServletResponse response) throws Exception
 	{
 		String siteId = request.getParameter("siteid");
 		
