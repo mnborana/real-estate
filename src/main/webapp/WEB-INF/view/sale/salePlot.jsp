@@ -141,12 +141,12 @@
 		         </div>
 
 					  <br>
-		              <div>
+		              <div id="selectClientDiv">
 			              <div class="control-group">
 		    			     <div class="control-group span6">
 					              <label class="control-label">Select Client</label>
-					              <div class="controls">            
-					                <form:select path="client_id" id="client_id" multiple="true" onchange="getPlotInfo()">
+					              <div class="controls">
+					                <form:select path="client_id" id="client_id" multiple="true" onchange="getPlotInfo1()">
 					                	<c:forEach items="${listOfClientsList}" var="clientList">
 					                		
 					                		<form:option value="${clientList.id }" label="${clientList.name }"></form:option>
@@ -186,7 +186,7 @@
 				                </tr>
 				              </thead>
 				              <tbody id="genPlot">
-				                <tr align="center">
+<!-- 				                <tr align="center">
 				                  <td style="text-align: center;">Trident</td>
 				                  <td style="text-align: center;">Internet</td>
 				                  <td style="text-align: center;">Win 95+</td>
@@ -195,7 +195,7 @@
 				                  <td style="text-align: center;">Win 95+</td>
 				                  <td style="text-align: center;"> 4</td>
 				                  <td style="text-align: center;">X</td>
-				                </tr>
+				                </tr> -->
 				              </tbody>
 				            </table>
 				          </div>
@@ -295,6 +295,8 @@ function setInOption(obj) {
 
 function getPlotInfo(val) {
 	
+	showDiv();
+	
 	$.ajax({
 
 		type: "post",
@@ -323,7 +325,7 @@ function setInTextField(obj) {
 	
 }
 
-function getPlotInfo() {
+function getPlotInfo1() {
 	
 //	alert(value+" "+label);
 	//alert(document.getElementsByTagName("client_id")[0].getAttribute("value"));
@@ -345,19 +347,59 @@ function getPlotInfo() {
 	var multiselect = $('#client_id').val();
 	alert(multiselect) */
 
-/*     var selectedText = "";
+    var selectedText = "";
     var selectedValue = "";
     $(function () {
-	    selectedText = $("#client_id").find("option:selected").text();
-	    selectedValue = $("#client_id").val();
-        alert("Selected Text: " + selectedText + " Value: " + selectedValue);
-    }); */
+    	plotName = $("#plotInfo_1").find("option:selected").text();
+    	plotValue = $("#plotInfo_1").val();
+    });
     
 /*     var x = document.getElementById("client_id").selectedIndex;
     alert(document.getElementsByTagName("options")[x].label); */
-	
+
+    var len = document.getElementById("len").value;
+    var width = document.getElementById("width").value;
+    var sqft = document.getElementById("sqft").value;
+    var price = document.getElementById("price").value;
+    
+    var data="";
+    
+	$("#client_id option:selected").each(function () {
+		   var $this = $(this);
+		   if ($this.length) {
+		    var selText = $this.text();
+		    
+		    
+    data+="<tr align='center'>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+selText+"' readonly='readonly'/></td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+plotName+"' readonly='readonly'/></td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+len+"' /></td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+width+"' /></td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+sqft+"' /></td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+price+"' /></td>"+
+            "<td style='text-align: center;'>"+
+            
+		         "<select style='width: 150px;'>"+
+		         	"<option> 1 </option>"+
+		         	"<option> 2 </option>"+
+		         	"<option> 3 </option>"+
+		         	"<option> 4 </option>"+
+		         "</select>"+
+            
+            " </td>"+
+            "<td style='text-align: center;'><input id='' class='form-control span12'  /></td>"+
+          "</tr>";
+		    
+		   }
+		});
+	document.getElementById("genPlot").innerHTML=data;
 }
 
+$("#selectClientDiv").hide();
+
+function showDiv() {
+	$("#selectClientDiv").show();	
+}
 </script>
 
 </body>

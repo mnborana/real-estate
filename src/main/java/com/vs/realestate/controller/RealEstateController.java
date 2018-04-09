@@ -72,7 +72,7 @@ public class RealEstateController {
 		return "dashboard";
 	}
 	
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// ADDSITE  START ///////////////////////	
 	
 
 	@RequestMapping("addSite")
@@ -129,10 +129,10 @@ public class RealEstateController {
 				
 		return json;
 	}
-	//////////////////// ADDSITE ///////////////////////	
+	//////////////////// ADDSITE END ///////////////////////	
 
 	
-	//////////////////// SALEPLOT ///////////////////////	
+	//////////////////// SALEPLOT  START ///////////////////////	
 	
 	@RequestMapping("salePlot")
 	public String salePlot(Model model) {
@@ -183,7 +183,7 @@ public class RealEstateController {
 		return json;
 	}
 
-	//////////////////// SALEPLOT ///////////////////////	
+	//////////////////// SALEPLOT END ///////////////////////	
 	
 	///////////////////PAYMENT  /////////////////////////
 	@RequestMapping("/payment")
@@ -346,7 +346,7 @@ public class RealEstateController {
 	public @ResponseBody String getUpdateClientData(HttpServletRequest request, HttpServletResponse response){
 		
 		String clientId = request.getParameter("clientId");
-		System.out.println("clientId  "+clientId);
+
 		List clientDetails = clientService.getclientDetailsService(Integer.parseInt(clientId));
 		
 		response.setContentType("application/json");
