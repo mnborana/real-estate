@@ -58,7 +58,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 	public List<Installment> getModes(String payId) {
 		Session currentHibernateSession=sessionFactory.getCurrentSession();
 
-		Query theModeQuery=currentHibernateSession.createQuery("SELECT PY.remAmount,PY.installmentNo,INS.modeName,PY.plotId FROM Payment PY,Installment INS,SalePlot SP WHERE SP.plot_id=PY.plotId AND SP.client_id=PY.clientId AND INS.id=SP.installment_id AND PY.id=:pay_id");
+		Query theModeQuery=currentHibernateSession.createQuery("SELECT PY.remAmount,PY.installmentNo,INS.modeName,PY.plotId FROM Payment PY,Installment INS,SalePlot SP WHERE SP.plot_id=PY.plotId AND SP.client_id=PY.clientId AND INS.id=SP.mode_id AND PY.id=:pay_id");
 		theModeQuery.setParameter("pay_id",Integer.parseInt(payId));
 		return theModeQuery.getResultList();
 	}
