@@ -6,6 +6,7 @@
  */
 package com.vs.realestate.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -197,36 +198,16 @@ public class RealEstateController {
 
 	//////////////////// SALEPLOT ///////////////////////	
 	
-	///////////////////PAYMENT  /////////////////////////
+	/////////////////// PAYMENT  /////////////////////////
 	@RequestMapping("/payment")
 	public String listOfPaymentDetails(Model theModel)
 	{
 		
 		theModel.addAttribute("payment",new Payment());
 		
-		/*//Fetch Payment Details
-		List<Payment> thepaymentlist=thepaymentservice.getPaymentDetails();
-		theModel.addAttribute("listOfPayments",thepaymentlist);*/
-		
 		//select Client 
 		List<AddClient> selectClientList=thepaymentservice.selectClientsList();
 		theModel.addAttribute("listOfClientsList",selectClientList);
-		
-		/*//select Plots
-		List<Plotting> selectPlotting=thepaymentservice.selectPlots();
-		theModel.addAttribute("selectPlotting",selectPlotting);*/
-		
-		/*//remaining Amount
-		List<Payment> listRemAmt=thepaymentservice.selectRemainingAmt();
-		theModel.addAttribute("listRemAmt",listRemAmt);
-		
-		//set Mode and its Values
-		List<Installment> getMode=thepaymentservice.getModes();
-		theModel.addAttribute("theModes",getMode);
-		
-		//set installments number
-		List<Payment> theInstallmentNo=thepaymentservice.getInstallmentNo();
-		theModel.addAttribute("installmentNo",theInstallmentNo);*/
 		
 		return "/payment/addPayment";
 	}
@@ -237,11 +218,49 @@ public class RealEstateController {
 	{
 		thepaymentservice.savePayments(thePayment);
 		
-		return "redirect:/listPayment";
+		return "redirect:/payment";
 		
 	}
 	
+	@RequestMapping(value="/getPaymentList", method=RequestMethod.POST)
+	public @ResponseBody String getPaymentList(HttpServletRequest request, HttpServletResponse response){
+		
+		//Payment List
+		List getPaymentList=thepaymentservice.getServicePaymentList();
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(getPaymentList);
+		
+		return json;
+	}
 	
+	@RequestMapping(value="/getClintInfo", method=RequestMethod.POST)
+	public @ResponseBody String getClientInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		String clientId = request.getParameter("clientId");
+		System.out.println("clientId  "+clientId);
+		List clientDetails = thepaymentservice.selectPlots(clientId);
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(clientDetails);
+		
+		return json;
+	}
+	@RequestMapping(value="/getAmountInfo", method=RequestMethod.POST)
+	public @ResponseBody String getAmountInfo(HttpServletRequest request, HttpServletResponse response){
+		
+		String payId = request.getParameter("plotId");
+		System.out.println("plotId  "+payId);
+		List clientDetails = thepaymentservice.getModes(payId);
+		
+		response.setContentType("application/json");
+		Gson gson=new Gson();
+		String json=gson.toJson(clientDetails);
+		
+		return json;
+	}
 	
 	///////////////////PAYMENT  /////////////////////////
 	

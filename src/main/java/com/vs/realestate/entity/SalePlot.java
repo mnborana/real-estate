@@ -1,10 +1,14 @@
 package com.vs.realestate.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="sale_plot")
 public class SalePlot {
 
 	@Id
@@ -24,7 +28,7 @@ public class SalePlot {
 	@Column(name="client_id")
 	private int client_id;	
 
-	@Column(name="installment_id")
+	@Column(name="modes_id")
 	private int installment_id;
 
 	@Column(name="token_amt")

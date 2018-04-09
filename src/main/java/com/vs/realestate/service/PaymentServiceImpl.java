@@ -18,12 +18,6 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	PaymentDAO thePaymentdao;
 
-	@Override
-	@Transactional
-	public List<Payment> getPaymentDetails() {
-		// TODO Auto-generated method stub
-		return thePaymentdao.getPaymentDetails();
-	}
 
 	@Override
 	@Transactional
@@ -43,33 +37,29 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	@Transactional
-	public List<Plotting> selectPlots() {
+	public List<Plotting> selectPlots(String clintId) {
 		// TODO Auto-generated method stub
 		
-		return thePaymentdao.selectPlots();
+		return thePaymentdao.selectPlots(clintId);
 	}
 
 	@Override
 	@Transactional
-	public List<Payment> selectRemainingAmt() {
+	public List<Installment> getModes(String payId) {
 		// TODO Auto-generated method stub
-		return thePaymentdao.selectRemAmt();
+		return thePaymentdao.getModes(payId);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.vs.realestate.service.PaymentService#getServicePaymentList()
+	 */
 	@Override
 	@Transactional
-	public List<Installment> getModes() {
-		// TODO Auto-generated method stub
-		return thePaymentdao.getModes();
+	public List getServicePaymentList() {
+		
+		return thePaymentdao.getPaymentList();
 	}
 
-	@Override
-	@Transactional
-	public List<Payment> getInstallmentNo() {
-		
-		
-		return thePaymentdao.getInstallmentNo();
-	}
 
 	
 

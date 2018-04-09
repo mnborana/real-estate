@@ -9,18 +9,16 @@ import com.vs.realestate.entity.Plotting;
 
 public interface PaymentService {
 
-	List<Payment> getPaymentDetails();
 
 	void savePayments(Payment thePayment);
 
 	List<AddClient> selectClientsList();
 
-	List<Plotting> selectPlots();
+	List<Plotting> selectPlots(String clintId);
 
-	List<Payment> selectRemainingAmt();
+	public List getServicePaymentList();
 
-	List<Installment> getModes();
+	List<Installment> getModes(String payId);
 
-	List<Payment> getInstallmentNo();
 
 }

@@ -27,6 +27,9 @@ public class Payment {
 	@Column(name="date")
 	private Date requiredDate;
 	
+	@Column(name="next_install_date")
+	private Date nextInstDate;
+	
 	@Column(name="rem_amount")
 	private int remAmount;
 	
@@ -39,6 +42,9 @@ public class Payment {
 	
 	@Column(name="installment_no")
 	private int installmentNo;
+	
+	@Column(name="status")
+	private int status;
 
 	public int getId() {
 		return id;
@@ -102,6 +108,35 @@ public class Payment {
 
 	public void setInstallmentNo(int installmentNo) {
 		this.installmentNo = installmentNo;
+	}
+	
+
+	/**
+	 * @return the nextInstDate
+	 */
+	public Date getNextInstDate() {
+		return nextInstDate;
+	}
+
+	/**
+	 * @param nextInstDate the nextInstDate to set
+	 */
+	public void setNextInstDate(Date nextInstDate) {
+		this.nextInstDate = nextInstDate;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	@Override
