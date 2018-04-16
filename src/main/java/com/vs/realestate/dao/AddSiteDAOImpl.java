@@ -34,8 +34,6 @@ public class AddSiteDAOImpl implements AddSiteDAO {
 		
 		List<AddSite> addSite=theQuery.getResultList();
 		
-		//System.out.println("List "+addSite);
-		
 		return addSite;
 	}
 

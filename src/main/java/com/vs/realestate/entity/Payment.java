@@ -1,6 +1,7 @@
 package com.vs.realestate.entity;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +26,10 @@ public class Payment {
 	private int plotId;
 	
 	@Column(name="date")
-	private Date requiredDate;
+	private String requiredDate;
 	
 	@Column(name="next_install_date")
-	private Date nextInstDate;
+	private String nextInstDate;
 	
 	@Column(name="rem_amount")
 	private int remAmount;
@@ -70,12 +71,12 @@ public class Payment {
 		this.plotId = plotId;
 	}
 
-	public Date getRequiredDate() {
+	public String getRequiredDate() {
 		return requiredDate;
 	}
 
-	public void setRequiredDate(Date requiredDate) {
-		this.requiredDate = requiredDate;
+	public void setRequiredDate(String date) {
+		this.requiredDate = date;
 	}
 
 	public int getRemAmount() {
@@ -114,14 +115,14 @@ public class Payment {
 	/**
 	 * @return the nextInstDate
 	 */
-	public Date getNextInstDate() {
+	public String getNextInstDate() {
 		return nextInstDate;
 	}
 
 	/**
 	 * @param nextInstDate the nextInstDate to set
 	 */
-	public void setNextInstDate(Date nextInstDate) {
+	public void setNextInstDate(String nextInstDate) {
 		this.nextInstDate = nextInstDate;
 	}
 
@@ -145,8 +146,4 @@ public class Payment {
 				+ ", remAmount=" + remAmount + ", tokenAmount=" + tokenAmount + ", payAmount=" + payAmount + ", installmentNo=" + installmentNo + "]";
 	}
 	
-	
-	
-	
-
 }
