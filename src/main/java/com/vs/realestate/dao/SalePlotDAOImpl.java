@@ -141,6 +141,7 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 		payment.setClientId(client_id);
 		payment.setPlotId(plot_id);
 		payment.setRequiredDate(date);
+		payment.setNextInstDate("0000-00-00");
 		payment.setTokenAmount(token_amt);
 		payment.setRemAmount(price-token_amt);
 		payment.setPayAmount(0);
@@ -157,7 +158,7 @@ public class SalePlotDAOImpl implements SalePlotDAO {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		Query query = currentSession.createQuery("SELECT SalePlot.id, sale_plot.date, AddClient.name FROM SalePlot INNER JOIN AddClient ON SalePlot.client_id=AddClient.id");
+		Query query = currentSession.createQuery("SELECT S.id, S.date, A.name FROM SalePlot AS S INNER JOIN AddClient AS A ON S.client_id=A.id");
 		
 		List<Object[]> salePlotList = query.getResultList();
 		

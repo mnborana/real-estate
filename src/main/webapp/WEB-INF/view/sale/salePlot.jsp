@@ -210,6 +210,60 @@
 		          </div>
 	        	</div>
 	      	</div>
+
+	      				
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Data table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Date</th>
+                  <th>Site Name</th>
+                  <th>Address</th>
+                  <th>Sq Ft</th>
+				  <th>Price</th>
+				  <th>Seller Name</th>
+				  <th>Contact No</th>
+				  <th>Action</th>                  
+                </tr>
+              </thead>
+              <tbody>
+              	 <%int count=1; %>
+	    		 <c:forEach var="print" items="${sites}">
+	                <tr class="gradeX" style="">
+	                  <td><%=(count++) %></td>
+	                  <td>${ print.date}</td>
+	                  <td>${ print.siteName}</td>
+					  <td>${ print.address}</td>
+					  <td>${ print.sqft}</td>
+	                  <td>${ print.price}</td>
+	                  <td>${ print.sellerName}</td>
+	                  <td>${ print.contactNo}</td>
+	                  <td class="center"> &nbsp;&nbsp;
+	                  		<a href="#updateSite" onclick="updateSite(${print.id})" data-toggle="modal" title="Update">
+	                  			<i class="icon-pencil"></i>
+	                  		</a>  | 
+	                  		<a href="#deleteSite"  onclick="deleteSite(${print.id})" data-toggle="modal" title="Delete">
+	                  			<i class="icon-remove"></i>
+	                  		</a>
+	                  </td>
+	                </tr>
+
+	                <!--
+	                	private int id;
+	                  -->
+	                
+	             </c:forEach>   
+              </tbody>
+            </table>
+          </div>
+        </div>	
+	      	
+	      	
 		</div>
 	</div>
 </div>

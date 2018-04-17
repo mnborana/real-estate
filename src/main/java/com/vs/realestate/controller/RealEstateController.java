@@ -149,8 +149,8 @@ public class RealEstateController {
 		List<AddClient> selectClientList=thepaymentservice.selectClientsList();
 		model.addAttribute("listOfClientsList",selectClientList);
 		
-		/*List displayPlots = salePlotService.showSalePlots();
-		model.addAttribute("showSalePlot",displayPlots);*/
+		List displayPlots = salePlotService.showSalePlots();
+		model.addAttribute("showSalePlot",displayPlots);
 
 		return "/sale/salePlot";
 	}
@@ -208,7 +208,7 @@ public class RealEstateController {
 			@RequestParam int mode_id, @RequestParam int token_amt, @RequestParam int price, @RequestParam int sqft, 
 			@RequestParam int length, @RequestParam int width, @RequestParam String plotName, RedirectAttributes rda) {
 		
-		System.out.println("site_id :"+site_id);
+/*		System.out.println("site_id :"+site_id);
 		System.out.println("plot_id : "+plot_id);
 		System.out.println("client_id : "+client_id);
 		System.out.println("date : "+date);
@@ -218,7 +218,7 @@ public class RealEstateController {
 		System.out.println("sqft : "+sqft);
 		System.out.println("length : "+length);
 		System.out.println("width : "+width);
-		System.out.println("plotName : "+plotName);
+		System.out.println("plotName : "+plotName);*/
 		
 		
 		salePlotService.saveSalesPlot(date, site_id, plot_id, client_id, mode_id, token_amt,price,sqft,length,width,plotName);
