@@ -6,16 +6,15 @@
  */
 package com.vs.realestate.controller;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +35,7 @@ import com.vs.realestate.service.OrgService;
 import com.vs.realestate.service.PaymentService;
 import com.vs.realestate.service.PlotService;
 import com.vs.realestate.service.SalePlotService;
+import com.vs.realestate.service.UserLoginService;
 import com.google.gson.Gson;
 import com.vs.realestate.entity.AddClient;
 import com.vs.realestate.entity.AddSite;
@@ -65,6 +65,9 @@ public class RealEstateController {
 	@Autowired
 	PaymentService thepaymentservice;
 	
+	@Autowired
+	UserLoginService userLoginService;
+	
 	Gson gson=new Gson();
 	
 	@RequestMapping("/hello")
@@ -72,6 +75,35 @@ public class RealEstateController {
 	{
 		return "dashboard";
 	}
+	
+	
+	@RequestMapping("/login")
+	public String userLogin()
+	{
+		return "login";
+	}
+
+	
+	@RequestMapping("submitLogin")
+	public String checkLogin(HttpServletRequest request, Model model) {
+		
+		if(userLoginService.AuthenticateUserService(request)==1) {
+			return "dashboard";
+		}
+		
+		model.addAttribute("error", "1");
+		return "login";
+	}
+	
+	@RequestMapping("/logOut")
+	public String userLogOut(HttpServletRequest request)
+	{
+		HttpSession httpSession = request.getSession(false);
+		httpSession.invalidate(); 
+		return "login";
+	}
+	
+	
 	
 	//////////////////// ADDSITE  START ///////////////////////	
 	

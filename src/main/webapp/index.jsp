@@ -1,1 +1,1 @@
-<%response.sendRedirect("/real-estate/hello");%>
+<%response.sendRedirect("/real-estate/login");%>

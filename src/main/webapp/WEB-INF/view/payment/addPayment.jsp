@@ -43,6 +43,16 @@
 </head>
 <body onload="myFunction()">
 
+
+<%	
+	HttpSession httpSession = request.getSession(false);
+
+	if(!(httpSession!=null && !session.isNew() && httpSession.getAttribute("username")!=null)){
+		response.sendRedirect("/real-estate/logOut");
+	}
+
+%>
+
 	<!--Header-part-->
 	<jsp:include page="/WEB-INF/view/common/header.jsp"></jsp:include>
 	<!--close-Header-part-->

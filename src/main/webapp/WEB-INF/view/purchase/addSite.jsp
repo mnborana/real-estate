@@ -72,6 +72,15 @@
 </head>
 <body onload="myFunction()">
 
+<%	
+	HttpSession httpSession = request.getSession(false);
+
+	if(!(httpSession!=null && !session.isNew() && httpSession.getAttribute("username")!=null)){
+		response.sendRedirect("/real-estate/logOut");
+	}
+
+%>
+
 	 <c:if test="${status != null}">
   		<div id="snackbar">${status}</div>
 	 </c:if>

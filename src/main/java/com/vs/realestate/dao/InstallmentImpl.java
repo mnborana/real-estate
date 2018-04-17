@@ -51,7 +51,7 @@ public class InstallmentImpl implements InstallmentDao {
 		Query<Installment> query = session.createQuery("from Installment", Installment.class);
 		
 		List<Installment> installmentsList = query.getResultList();
-	System.out.println("install ment is:"+installmentsList);
+		System.out.println("install ment is:"+installmentsList);
 		return installmentsList;
 	}
 	

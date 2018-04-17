@@ -1,5 +1,9 @@
 package com.vs.realestate.dao;
 
-public interface UserLoginDAO {
+import javax.servlet.http.HttpServletRequest;
 
+public interface UserLoginDAO {
+	
+	public int AuthenticateUserDao(HttpServletRequest request);
+	
 }
