@@ -40,10 +40,21 @@ public class Plotting {
 	@Column(name="total_amount")
 	private int amt;
 	
+	@Column(name="status")
+	private int status;
+	
 	public Plotting() {
 	
 	}
 	
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
 	public int getId() {
 		return id;
 	}

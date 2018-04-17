@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/toast.css"  type='text/css'/>
 </head>
 
-<body>
+<body onload="myFunction()">
 
 <%	
 	HttpSession httpSession = request.getSession(false);
@@ -63,7 +63,7 @@
 		            <h5>Sale Plots</h5>
 		          </div>
 		          <div class="widget-content nopadding">
-		            <form:form modelAttribute="salePlot" action="salePlot"  method="Post" class="form-horizontal"> 
+		            <form:form action="saveSalePlot" modelAttribute="salePlot" method="Post" class="form-horizontal"> 
 
 
 		              <div>
@@ -85,10 +85,10 @@
 					              <label class="control-label">Select Plot</label>
 					              <div class="controls">
 					              
-					                <select id="plotInfo_1" path="plot_id" onchange="getPlotInfo(this.value)">
+					                <form:select id="plotInfo_1" path="plot_id" onchange="getPlotInfo(this.value)">
 					                  
 
-					                </select>
+					                </form:select>
 				              	</div>
 				             </div> 				             
 			              
@@ -118,28 +118,28 @@
 			          		<div class="control-group span4">
 					              <label class="control-label">Price :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" id="price" placeholder="Price" readonly/>
+					                <input type="text" class="span12" id="price" placeholder="Price" name="price" readonly/>
 					              </div>
 					         </div>
 					         
 					         <div class="control-group span4" style="margin-left: 0px;"> 
 					              <label class="control-label">Squre Foot :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" id="sqft" placeholder="Sq. Ft."  readonly/>
+					                <input type="text" class="span12" id="sqft" name="sqft" placeholder="Sq. Ft."  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4" style="margin-left: 0px;">
 					              <label class="control-label">Length :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" id="len" placeholder="Length"  readonly/>
+					                <input type="text" class="span12" id="len" name="length" placeholder="Length"  readonly/>
 					              </div>
 					         </div>
 
 			          		<div class="control-group span4">
 					              <label class="control-label">Width :</label>
 					              <div class="controls">
-					                <input type="text" class="span12" id="width" placeholder="Width" readonly/>
+					                <input type="text" class="span12" id="width" name="width" placeholder="Width" readonly/>
 					              </div>
 					         </div>
 				            
@@ -155,7 +155,8 @@
 		    			     <div class="control-group span6">
 					              <label class="control-label">Select Client</label>
 					              <div class="controls">
-					                <form:select path="client_id" id="client_id" multiple="true" onchange="getPlotInfo1()">
+					                <form:select path="client_id" id="client_id" onchange="getPlotInfo1()"><!-- for multiple select --><!--  multiple="true" -->
+					                	<form:option value="0" label="Select Client"></form:option>
 					                	<c:forEach items="${listOfClientsList}" var="clientList">
 					                		
 					                		<form:option value="${clientList.id }" label="${clientList.name }"></form:option>
@@ -168,10 +169,9 @@
   	 		    			 <div class="control-group span6" style="margin-left: -10px;">
 					              <label class="control-label">Date</label>
 					              <div class="controls">
-					                	<form:input type="date" path="date" class="span11" required="required"/>
+					                	<form:input type="date" path="date" id="todayDate" class="span11" required="required"/><!-- onchange="todayDate()" -->
 				              	  </div>
 				             </div>			             
-			              
 			              </div>
 		              </div>
 
@@ -219,6 +219,60 @@
 		          </div>
 	        	</div>
 	      	</div>
+
+	      				
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Data table</h5>
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>Sr No.</th>
+                  <th>Date</th>
+                  <th>Site Name</th>
+                  <th>Address</th>
+                  <th>Sq Ft</th>
+				  <th>Price</th>
+				  <th>Seller Name</th>
+				  <th>Contact No</th>
+				  <th>Action</th>                  
+                </tr>
+              </thead>
+              <tbody>
+              	 <%int count=1; %>
+	    		 <c:forEach var="print" items="${sites}">
+	                <tr class="gradeX" style="">
+	                  <td><%=(count++) %></td>
+	                  <td>${ print.date}</td>
+	                  <td>${ print.siteName}</td>
+					  <td>${ print.address}</td>
+					  <td>${ print.sqft}</td>
+	                  <td>${ print.price}</td>
+	                  <td>${ print.sellerName}</td>
+	                  <td>${ print.contactNo}</td>
+	                  <td class="center"> &nbsp;&nbsp;
+	                  		<a href="#updateSite" onclick="updateSite(${print.id})" data-toggle="modal" title="Update">
+	                  			<i class="icon-pencil"></i>
+	                  		</a>  | 
+	                  		<a href="#deleteSite"  onclick="deleteSite(${print.id})" data-toggle="modal" title="Delete">
+	                  			<i class="icon-remove"></i>
+	                  		</a>
+	                  </td>
+	                </tr>
+
+	                <!--
+	                	private int id;
+	                  -->
+	                
+	             </c:forEach>   
+              </tbody>
+            </table>
+          </div>
+        </div>	
+	      	
+	      	
 		</div>
 	</div>
 </div>
@@ -244,6 +298,18 @@
 
 
 <script type="text/javascript">
+
+function myFunction() {
+	
+//	todayDate();
+	
+	if(document.getElementById("snackbar")!=null)
+	{
+		var x = document.getElementById("snackbar");
+	    x.className = "show";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);	
+	}
+}
 
 /*--------------------- AJAX for getting drop down -------------------- */
 
@@ -303,7 +369,7 @@ function setInOption(obj) {
 /*--------------------- AJAX for getting plot information -------------------- */
 
 function getPlotInfo(val) {
-	
+		
 	showDiv();
 	
 	$.ajax({
@@ -333,6 +399,8 @@ function setInTextField(obj) {
 	document.getElementById("len").value		=obj[1].length;
 	
 }
+
+ 
 
 function getPlotInfo1() {
 	
@@ -370,55 +438,57 @@ function getPlotInfo1() {
     var width = document.getElementById("width").value;
     var sqft = document.getElementById("sqft").value;
     var price = document.getElementById("price").value;
-
-	$.ajax({
-
-		type: "post",
-		url: "${pageContext.request.contextPath}/modeInfo.htm",
-		cache: false,    
-		data:'modeId=1',
-		success: function(response){
-			
-			var obj = JSON.parse(response);
-			alert(obj);
-		},
-		error: function(){      
-		   alert('Error while request..');
-		}
-	});
-    
-    
-    var data="";
+    var selectOptions = "";
+    var data=""; 
+   
     
 	$("#client_id option:selected").each(function () {
 		   var $this = $(this);
+		   //alert("$this.length = "+$this.length);
 		   if ($this.length) {
-		    var selText = $this.text();
-		    
-		    
-    data+="<tr align='center'>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+selText+"' readonly='readonly'/></td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+plotName+"' readonly='readonly'/></td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+len+"' /></td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+width+"' /></td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+sqft+"' /></td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+price+"' /></td>"+
-            "<td style='text-align: center;'>"+
-            
-		         "<select style='width: 150px;'>"+
-		         	"<option> 1 </option>"+
-		         	"<option> 2 </option>"+
-		         	"<option> 3 </option>"+
-		         	"<option> 4 </option>"+
-		         "</select>"+
-            
-            " </td>"+
-            "<td style='text-align: center;'><input id='' class='form-control span12'  /></td>"+
-          "</tr>";
+			    var selText = $this.text();
+				
+				$.ajax({
+
+					type: "post",
+					url: "${pageContext.request.contextPath}/modeInfo.htm",
+					cache: false,    
+					data:'modeId=1',
+					success: function(response){
+						
+						var obj = JSON.parse(response);
+						
+						for (var i = 0; i < obj.length; i++){
+							selectOptions+="<option value='"+obj[i].id+"'>"+obj[i].modeName+"</option>";							
+						}
+						
+					    data+="<tr align='center'>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+selText+"' readonly='readonly'/></td>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+plotName+"' readonly='readonly' name='plotName' /></td>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+len+"' readonly='readonly' /></td>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+width+"' readonly='readonly' /></td>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+sqft+"' readonly='readonly' /></td>"+
+			            "<td style='text-align: center;'><input id='' class='form-control span12' value='"+price+"' readonly='readonly' /></td>"+
+			            "<td style='text-align: center;'>"+
+			            
+					         "<select style='width: 150px;' name='mode_id'>"+
+					         	selectOptions+
+					         "</select>"+
+			            
+			            " </td>"+
+			            "<td style='text-align: center;'><input id='' name='token_amt' value='0' class='form-control span12'  /></td>"+
+			          "</tr>";
+					    document.getElementById("genPlot").innerHTML=data;
+					},
+					error: function(){      
+					   alert('Error while request..');
+					}
+				});
 		    
 		   }
+		   
 		});
-	document.getElementById("genPlot").innerHTML=data;
+	
 }
 
 $("#selectClientDiv").hide();
@@ -426,6 +496,41 @@ $("#selectClientDiv").hide();
 function showDiv() {
 	$("#selectClientDiv").show();	
 }
+
+/* function todayDate(){
+
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1;
+	var yyyy = today.getFullYear();
+	
+	if(dd<10){
+	    dd='0'+dd;
+	} 
+	if(mm<10){
+	    mm='0'+mm;
+	} 
+	var today = yyyy+'-'+mm+'-'+dd;
+	alert("today : "+today);
+	//document.getElementById('todayDate').value = today;
+	
+	
+	
+	var date = new Date(new Date().setDate(new Date().getDate() + 30));
+	dd = date.getDate();
+	mm = date.getMonth()+1;
+	yyyy = date.getFullYear();
+	
+	if(dd<10){
+	    dd='0'+dd;
+	} 
+	if(mm<10){
+	    mm='0'+mm;
+	} 
+	var date = yyyy+'-'+mm+'-'+dd;
+//	document.getElementById('nextDate1').value = date;
+	alert(date)
+} */
 </script>
 
 </body>
